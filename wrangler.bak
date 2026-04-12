@@ -1,0 +1,11 @@
+# Cloudflare configuration file
+# Uncomment and configure as needed for Cloudflare-specific features
+
+# name = "my-cloudflare-app"
+# compatibility_date = "2024-01-15"
+
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[env.preview]
+vars = { ENVIRONMENT = "preview" }
