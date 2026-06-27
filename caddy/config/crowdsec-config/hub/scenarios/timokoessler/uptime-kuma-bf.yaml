@@ -1,0 +1,41 @@
+# Uptime Kuma bruteforce
+type: leaky
+name: timokoessler/uptime-kuma-bf
+description: "Detect Uptime Kuma bruteforce"
+filter: "evt.Meta.log_type in ['uptime_kuma_failed_password', 'uptime_kuma_failed_totp']"
+leakspeed: "15s"
+capacity: 5
+groupby: evt.Meta.source_ip
+blackhole: 1m
+reprocess: true
+labels:
+  service: uptime-kuma
+  classification:
+    - attack.T1110
+  behavior: "http:bruteforce"
+  label: "Uptime Kuma Bruteforce"
+  spoofable: 0
+  confidence: 3
+  remediation: true
+---
+# Uptime Kuma user enum bruteforce
+type: leaky
+name: timokoessler/uptime-kuma-bf_user-enum
+description: "Detect Uptime Kuma user enum bruteforce"
+filter: "evt.Meta.log_type in ['uptime_kuma_failed_password', 'uptime_kuma_failed_totp']"
+leakspeed: "30s"
+capacity: 5
+groupby: evt.Meta.source_ip
+distinct: evt.Meta.username
+blackhole: 1m
+reprocess: true
+labels:
+  service: uptime-kuma
+  classification:
+    - attack.T1589
+    - attack.T1110
+  behavior: "http:bruteforce"
+  label: "Uptime Kuma User Enumeration"
+  spoofable: 0
+  confidence: 3
+  remediation: true

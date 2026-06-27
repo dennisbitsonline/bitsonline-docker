@@ -1,0 +1,5 @@
+name: crowdsecurity/test-appsec
+default_remediation: ban
+#log_level: debug
+inband_rules:
+ - crowdsecurity/test-rule

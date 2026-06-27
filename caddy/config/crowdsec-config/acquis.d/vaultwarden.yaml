@@ -1,0 +1,6 @@
+---
+filenames:
+ - /var/log/caddy/app/app_vaultwarden.log
+labels:
+  type: Vaultwarden
+---

@@ -1,0 +1,6 @@
+---
+source: docker
+container_name:
+ - uptime-kuma
+labels:
+  type: uptime-kuma

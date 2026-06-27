@@ -1,0 +1,41 @@
+[2026-06-26 00:56:52 UTC] Logging started.
+[2026-06-26 00:56:52 UTC] LogManager cleanup deleted the log file: /etc/dns/logs/2026-06-18.log
+[2026-06-26 04:56:07 UTC] DNS Server has started automatic update check for DNS Apps.
+[2026-06-26 04:57:00 UTC] DNS Server is downloading allow list: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-26 04:57:00 UTC] DNS Server is downloading allow list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-26 04:57:00 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-26 04:57:00 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-26 04:57:00 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-26 04:57:00 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-26 04:57:00 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-26 04:57:00 UTC] DNS Server successfully downloaded block list (19.59 KB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-26 04:57:00 UTC] DNS Server successfully downloaded allow list (17.47 KB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-26 04:57:00 UTC] DNS Server successfully downloaded block list (5.88 KB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-26 04:57:00 UTC] DNS Server successfully downloaded block list (14 KB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-26 04:57:00 UTC] DNS Server successfully downloaded allow list (35.7 KB): https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-26 04:57:01 UTC] DNS Server successfully downloaded block list (4.11 MB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-26 04:57:02 UTC] DNS Server successfully downloaded block list (25.43 MB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-26 04:57:02 UTC] DNS Server is loading block list zone...
+[2026-06-26 04:57:02 UTC] DNS Server is reading allow list from: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-26 04:57:02 UTC] DNS Server read allow list file (0 domain(s) blocked, 1523 domain(s) allowed) from: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-26 04:57:02 UTC] DNS Server is reading allow list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-26 04:57:02 UTC] DNS Server read allow list file (0 domain(s) blocked, 992 domain(s) allowed) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-26 04:57:02 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-26 04:57:02 UTC] DNS Server read block list file (228735 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-26 04:57:02 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-26 04:57:04 UTC] DNS Server read block list file (1520145 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-26 04:57:04 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-26 04:57:04 UTC] DNS Server read block list file (1518 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-26 04:57:04 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-26 04:57:04 UTC] DNS Server read block list file (1226 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-26 04:57:04 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-26 04:57:04 UTC] DNS Server read block list file (445 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-26 04:57:06 UTC] DNS Server block list zone was loaded successfully.
+[2026-06-26 04:57:13 UTC] DNS Server block list config file was saved: /etc/dns/blocklist.config
+[2026-06-26 14:57:09 UTC] [192.168.2.23:65135] DnsServerCore.DnsWebServiceException: Invalid username or password for user: admin
+   at DnsServerCore.Auth.AuthManager.AuthenticateUserAsync(String username, String password, String totp, IPAddress remoteAddress) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Auth\AuthManager.cs:line 788
+   at DnsServerCore.Auth.AuthManager.CreateSessionAsync(UserSessionType type, String tokenName, String username, String password, String totp, IPAddress remoteAddress, String userAgent) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Auth\AuthManager.cs:line 1137
+   at DnsServerCore.DnsWebService.WebServiceAuthApi.LoginAsync(HttpContext context, UserSessionType sessionType) in Z:\Technitium\Projects\DnsServer\DnsServerCore\WebServiceAuthApi.cs:line 684
+   at DnsServerCore.DnsWebService.WebServiceApiMiddleware(HttpContext context, RequestDelegate next) in Z:\Technitium\Projects\DnsServer\DnsServerCore\DnsWebService.cs:line 2328
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+[2026-06-27 00:56:52 UTC] Logging stopped.

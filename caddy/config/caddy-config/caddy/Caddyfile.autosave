@@ -1,0 +1,251 @@
+{
+	crowdsec {
+		api_key 7Z2pbq4gu/EragIQybaU8LlnyeqslowQhNnnB/6BeLU
+		api_url http://crowdsec:8080
+		appsec_url http://crowdsec:7422
+	}
+	email caddy@indehoven.com
+	log {
+		format json
+		level INFO
+		output file /var/log/caddy/caddy.log {
+			roll_at 00:00
+			roll_keep 5
+			roll_keep_for 720h
+			roll_size 1gb
+		}
+	}
+	servers {
+		trusted_proxies static private_ranges
+		trusted_proxies cloudflare
+		client_ip_headers X-Forwarded-For X-Real-IP
+	}
+}
+(cloudflare_tls) {
+	tls {
+		dns cloudflare {env.CF_API_TOKEN}
+		resolvers 1.1.1.1
+	}
+}
+(oidc_caddy) {
+	@protected not path /oauth2/*
+	forward_auth @protected localhost:4180 {
+		@error status 401
+		handle_response @error {
+			redir * /oauth2/sign_in?rd={scheme}://{host}{uri}
+		}
+		copy_headers X-Auth-Request-User X-Auth-Request-Email
+		header_up X-Real-IP {remote_host}
+		uri /oauth2/auth
+	}
+	handle /oauth2/* {
+		reverse_proxy localhost:4180 {
+			header_up X-Forwarded-Uri {uri}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+}
+(authentik_oidc) {
+	reverse_proxy /outpost.goauthentik.io/* http://authentik-server:9000
+	forward_auth http://authentik-server:9000 {
+		uri /outpost.goauthentik.io/auth/caddy
+		copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt
+	}
+}
+(app_route) {
+	crowdsec
+	appsec
+	import authentik_oidc
+}
+(php-fpm) {
+	@dotFiles {
+		path */.*
+		not path /.well-known/*
+	}
+	php_fastcgi php-fpm:9000 {
+		try_files {path} {path}/index.php index.php
+	}
+	respond @dotFiles 404
+}
+http://213.10.233.165 {
+	redir https://indehoven.com{uri} permanent
+}
+*.bitsonline bitsonline.nl {
+	root * /data/www/bitsonline.nl
+	import php-fpm
+	import cloudflare_tls
+	file_server
+	encode zstd gzip
+	log {
+		format json
+		level INFO
+		output file /var/log/caddy/bitsonline.log {
+			roll_at 00:00
+			roll_keep 5
+			roll_keep_for 720h
+			roll_size 1gb
+		}
+	}
+}
+*.indehoven.com indehoven.com {
+	root * /data/www/indehoven.com
+	import php-fpm
+	import cloudflare_tls
+	file_server
+	encode zstd gzip
+	log {
+		format json
+		level INFO
+		output file /var/log/caddy/indehoven.log {
+			roll_at 00:00
+			roll_keep 5
+			roll_keep_for 720h
+			roll_size 1gb
+		}
+	}
+}
+aliasvault.indehoven.com {
+	log {
+		format json
+		level INFO
+		output file /var/log/caddy/aliasvault.log {
+			roll_at 00:00
+			roll_keep 5
+			roll_keep_for 720h
+			roll_size 1gb
+		}
+	}
+	route {
+		import app_route
+		reverse_proxy aliasvault:80
+	}
+}
+id.indehoven.com {
+	log {
+		format json
+		level INFO
+		output file /var/log/caddy/id.log {
+			roll_at 00:00
+			roll_keep 5
+			roll_keep_for 720h
+			roll_size 1gb
+		}
+	}
+	route {
+		crowdsec
+		appsec
+		reverse_proxy authentik-server:9000
+	}
+}
+monitor.indehoven.com {
+	log {
+		format json
+		level INFO
+		output file /var/log/caddy/uptime-kuma.log {
+			roll_at 00:00
+			roll_keep 5
+			roll_keep_for 720h
+			roll_size 1gb
+		}
+	}
+	route {
+		import app_route
+		reverse_proxy uptime-kuma:3001
+	}
+}
+dns.indehoven.com {
+	log {
+		format json
+		level INFO
+		output file /var/log/caddy/dns.log {
+			roll_at 00:00
+			roll_keep 5
+			roll_keep_for 720h
+			roll_size 1gb
+		}
+	}
+	route {
+		import app_route
+		reverse_proxy dns-server:5380
+	}
+}
+dockhand.indehoven.com {
+	log {
+		format json
+		level INFO
+		output file /var/log/caddy/dockhand.log {
+			roll_at 00:00
+			roll_keep 5
+			roll_keep_for 720h
+			roll_size 1gb
+		}
+	}
+	route {
+		import app_route
+		reverse_proxy dockhand:3000
+	}
+}
+dozzle.indehoven.com {
+	log {
+		format json
+		level INFO
+		output file /var/log/caddy/dozzle.log {
+			roll_at 00:00
+			roll_keep 5
+			roll_keep_for 720h
+			roll_size 1gb
+		}
+	}
+	route {
+		import app_route
+		reverse_proxy dozzle:8080
+	}
+}
+portainer.indehoven.com {
+	log {
+		format json
+		level INFO
+		output file /var/log/caddy/portainer.log {
+			roll_at 00:00
+			roll_keep 5
+			roll_keep_for 720h
+			roll_size 1gb
+		}
+	}
+	route {
+		import app_route
+		reverse_proxy portainer:9000
+	}
+}
+vaultwarden.indehoven.com {
+	log {
+		format json
+		level INFO
+		output file /var/log/caddy/vaultwarden.log {
+			roll_at 00:00
+			roll_keep 5
+			roll_keep_for 720h
+			roll_size 1gb
+		}
+	}
+	route {
+		import app_route
+		reverse_proxy vaultwarden:80
+	}
+}
+zerobyte.indehoven.com {
+	log {
+		format json
+		level INFO
+		output file /var/log/caddy/zerobyte.log {
+			roll_at 00:00
+			roll_keep 5
+			roll_keep_for 720h
+			roll_size 1gb
+		}
+	}
+	route {
+		import app_route
+		reverse_proxy zerobyte:4096
+	}
+}

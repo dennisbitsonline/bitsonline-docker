@@ -1,0 +1,40 @@
+name: openappsec/openappsec-logs
+description: "Parse openappsec logs"
+filter: "evt.Parsed.program == 'openappsec' && UnmarshalJSON(evt.Parsed.message, evt.Unmarshaled, 'openappsec') in ['', nil] && evt.Unmarshaled.openappsec.eventAudience == 'Security' && Lower(evt.Unmarshaled.openappsec.eventSeverity) in ['critical', 'high'] && Lower(evt.Unmarshaled.openappsec.eventData.practiceSubType) in ['web application','web api']"
+debug: false
+onsuccess: next_stage
+statics:
+  - meta: service
+    value: openappsec
+  - meta: log_type
+    value: openappsec_security_log
+  - target: evt.StrTimeFormat
+    value: "2006-01-02T15:04:05"
+  - target: evt.StrTime
+    expression: evt.Unmarshaled.openappsec.eventTime
+  - meta: event_name
+    expression: evt.Unmarshaled.openappsec.eventName
+  - meta: event_severity
+    expression: evt.Unmarshaled.openappsec.eventSeverity
+  - meta: event_priority
+    expression: evt.Unmarshaled.openappsec.eventPriority
+  - meta: event_audience
+    expression: evt.Unmarshaled.openappsec.eventAudience
+  - meta: source_ip
+    expression: evt.Unmarshaled.openappsec.eventData.httpSourceId
+  - meta: event_confidence
+    expression: evt.Unmarshaled.openappsec.eventData.eventConfidence
+  - meta: security_action
+    expression: evt.Unmarshaled.openappsec.eventData.securityAction
+  - meta: source_identifier
+    expression: evt.Unmarshaled.openappsec.eventData.httpSourceId
+  - meta: target_fqdn
+    expression: evt.Unmarshaled.openappsec.eventData.httpHostName
+  - meta: matched_sample
+    expression: evt.Unmarshaled.openappsec.eventData.matchedSample
+  - meta: matched_parameter
+    expression: evt.Unmarshaled.openappsec.eventData.matchedParameter
+  - meta: matched_location
+    expression: evt.Unmarshaled.openappsec.eventData.matchedLocation
+  - meta: incident_type
+    expression: evt.Unmarshaled.openappsec.eventData.waapIncidentType

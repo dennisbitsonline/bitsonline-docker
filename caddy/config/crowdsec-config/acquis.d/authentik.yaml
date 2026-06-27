@@ -1,0 +1,5 @@
+---
+filenames:
+ - /var/log/caddy/authentik.log
+labels:
+  type: authentik

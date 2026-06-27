@@ -1,0 +1,60 @@
+services:
+  caddy:
+    image: ghcr.io/buildplan/caddy-plus:latest
+    container_name: caddy
+    hostname: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      - CADDY_INGRESS_NETWORKS=proxy
+      - CF_API_TOKEN=cfat_2dn1elpbegl7gxOT3iL8SYfWKzSAE9dU1XqodOOL1a1310e3
+      - TZ=Europe/Amsterdam
+      - DOCKER_HOST=tcp://socket-proxy:2375
+      - CADDY_DOCKER_CADDYFILE_PATH=/config/Caddyfile
+      - CADDY_DOCKER_PROCESS_CADDYFILE=true
+
+    networks:
+      - proxy
+      - "internal network"
+
+    expose:
+      - "4180"
+
+    volumes:
+      - ./data/caddy-data:/data
+      - ./config/caddy-config:/config
+      - ./data/caddy-data/www:/data/www
+      - caddy_logs:/var/log/caddy
+
+  crowdsec:
+    image: crowdsecurity/crowdsec:latest
+    container_name: crowdsec
+    hostname: crowdsec
+    environment:
+      - COLLECTIONS=crowdsecurity/caddy crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
+      - CROWDSEC_LAPI_LISTEN_URI=0.0.0.0:8080
+      - TZ=Europe/Amsterdam
+      - DOCKER_HOST=tcp://socket-proxy:2375
+    networks:
+      - proxy
+      - "internal network"
+    volumes:
+      - ./data/crowdsec-db:/var/lib/crowdsec/data
+      - ./config/crowdsec-config:/etc/crowdsec
+      - ./config/crowdsec-config/acquis.yaml:/etc/crowdsec/acquis.yaml
+      - caddy_logs:/var/log/caddy
+
+networks:
+  proxy:
+    external: true
+  "internal network":
+    external: true
+
+volumes:
+  caddy_data:
+  crowdsec-db:
+  caddy_logs:
+    external: true

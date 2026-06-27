@@ -1,0 +1,13 @@
+name: crowdsecurity/whitelists
+description: "Whitelist events from private ipv4 addresses"
+whitelist:
+  reason: "private ipv4/ipv6 ip/ranges"
+  ip: 
+    - "::1"
+  cidr:
+    - "127.0.0.0/8"
+    - "192.168.0.0/16"
+    - "10.0.0.0/8"
+    - "172.16.0.0/12"
+    - "100.100.100.0/24"
+

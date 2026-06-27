@@ -1,0 +1,10 @@
+name: crowdsecurity/test-rule
+description: "Detect test pattern"
+rules:
+  - zones:
+    - URI
+    transform:
+    - lowercase
+    match:
+      type: contains
+      value: this-is-a-appsec-rule-test

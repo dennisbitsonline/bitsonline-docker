@@ -1,0 +1,14 @@
+services:
+  whoami:
+    image: traefik/whoami
+    container_name: whoami
+    hostname: whoami
+    networks:
+      - proxy
+    
+    expose:
+      - "80"
+
+networks:
+  proxy:
+    external: true

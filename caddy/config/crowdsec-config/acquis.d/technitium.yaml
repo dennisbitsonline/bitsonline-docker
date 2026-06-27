@@ -1,0 +1,6 @@
+---
+filenames:
+  - /var/log/caddy/app/app_dns.log
+labels:
+  type: technitium
+---

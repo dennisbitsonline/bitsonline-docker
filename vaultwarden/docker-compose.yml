@@ -1,0 +1,21 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    hostname: vaultwarden
+    restart: always 
+    volumes:
+      - ./data:/data
+      - caddy_logs:/var/log/caddy
+    ports:
+      - 4000:80
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  caddy_logs:
+    external: true

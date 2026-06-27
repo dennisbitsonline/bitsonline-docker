@@ -1,0 +1,8 @@
+# ./crowdsec-config/acquis.yaml
+---
+filenames:
+  - /var/log/caddy/*.log
+labels:
+  type: caddy
+source: file
+---

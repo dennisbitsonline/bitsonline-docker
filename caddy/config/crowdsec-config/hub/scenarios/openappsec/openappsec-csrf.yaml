@@ -1,0 +1,16 @@
+type: trigger
+#debug: true
+name: openappsec/openappsec-csrf
+description: "Detect openappsec 'prevent' securityActions on 'Cross Site Request Forgery' events (when waf blocks malicious request)"
+filter: evt.Meta.log_type == 'openappsec_security_log' and Lower(evt.Meta.security_action) in ['prevent', 'detect'] and Lower(evt.Meta.incident_type) contains 'cross site request forgery'
+groupby: evt.Meta.source_ip
+blackhole: 5m
+labels:
+  service: http
+  classification:
+    - attack.T1189
+  confidence: 2
+  spoofable: 0
+  behavior: "http:exploit"
+  label: "Openappsec 'cross site request forgery' detection"
+  remediation: true

@@ -1,0 +1,8 @@
+common:
+  log_level: "error"
+
+api:
+  cti:
+   log_level: "info"
+  server:
+     log_level: "error"

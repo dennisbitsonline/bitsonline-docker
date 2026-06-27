@@ -1,0 +1,74 @@
+---
+services:
+  socket-proxy:
+    image: lscr.io/linuxserver/socket-proxy:latest
+    container_name: socket-proxy
+    hostname: socket-proxy
+    environment:
+      - ALLOW_START=1 #optional
+      - ALLOW_STOP=1 #optional
+      - ALLOW_RESTARTS=1 #optional
+      - ALLOW_PAUSE=1 #optional
+      - ALLOW_UNPAUSE=1 #optional
+      - AUTH=1 #optional
+      - BUILD=1 #optional
+      - COMMIT=1 #optional
+      - CONFIGS=1 #optional
+      - CONTAINERS=1 #optional
+      - DISABLE_IPV6=1 #optional
+      - DISTRIBUTION=1 #optional
+      - EVENTS=1 #optional
+      - EXEC=1 #optional
+      - IMAGES=1 #optional
+      - INFO=1 #optional
+      - LOG_LEVEL=err #optional
+      - NETWORKS=1 #optional
+      - NODES=1 #optional
+      - PING=1 #optional
+      - PLUGINS=1 #optional
+      - POST=1 #optional
+      - SECRETS=1 #optional
+      - SERVICES=1 #optional
+      - SESSION=1 #optional
+      - SWARM=1 #optional
+      - SYSTEM=1 #optional
+      - TASKS=1 #optional
+      - TZ=Europe/Amsterdam #optional
+      - VERSION=1 #optional
+      - VOLUMES=1 #optional
+      - LIBPOD_ALLOW_PAUSE=0 #optional
+      - LIBPOD_ALLOW_POD_PAUSE=0 #optional
+      - LIBPOD_ALLOW_POD_RESTARTS=0 #optional
+      - LIBPOD_ALLOW_POD_START=0 #optional
+      - LIBPOD_ALLOW_POD_STOP=0 #optional
+      - LIBPOD_ALLOW_POD_UNPAUSE=0 #optional
+      - LIBPOD_ALLOW_RESTARTS=0 #optional
+      - LIBPOD_ALLOW_START=0 #optional
+      - LIBPOD_ALLOW_STOP=0 #optional
+      - LIBPOD_ALLOW_UNPAUSE=0 #optional
+      - LIBPOD_CONTAINERS=0 #optional
+      - LIBPOD_EVENTS=0 #optional
+      - LIBPOD_EXEC=0 #optional
+      - LIBPOD_GENERATE=0 #optional
+      - LIBPOD_IMAGES=0 #optional
+      - LIBPOD_INFO=0 #optional
+      - LIBPOD_MANIFESTS=0 #optional
+      - LIBPOD_NETWORKS=0 #optional
+      - LIBPOD_PING=1 #optional
+      - LIBPOD_PLAY=0 #optional
+      - LIBPOD_PODS=0 #optional
+      - LIBPOD_SECRETS=0 #optional
+      - LIBPOD_SYSTEM=0 #optional
+      - LIBPOD_VERSION=1 #optional
+      - LIBPOD_VOLUMES=0 #optional
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /run
+    networks:
+      - "internal network"
+networks:
+  "internal network":
+    external: true

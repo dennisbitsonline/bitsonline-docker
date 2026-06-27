@@ -1,0 +1,19 @@
+# bitwarden BF scan
+name: MariuszKociubinski/bitwarden-bf
+description: "Detect bitwarden bruteforce"
+filter: "evt.Meta.log_type == 'bitwarden_failed_auth'"
+#debug: false
+type: leaky
+groupby: evt.Meta.source_ip
+leakspeed: 20s
+capacity: 5
+blackhole: 1m
+labels:
+  service: bitwarden
+  behavior: "http:bruteforce"
+  spoofable: 0
+  confidence: 3
+  classification:
+    - attack.T1110
+  label: "Bitwarden Bruteforce"
+  remediation: true

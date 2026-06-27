@@ -1,0 +1,244 @@
+[2026-06-27 00:56:52 UTC] Logging started.
+[2026-06-27 00:56:52 UTC] LogManager cleanup deleted the log file: /etc/dns/logs/2026-06-19.log
+[2026-06-27 04:47:38 UTC] DNS Server failed to resolve the request 'myorder.com. HTTPS IN' using forwarders: https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.20).
+DnsServerCore.Dns.DnsServerException: All name servers failed to answer the request 'myorder.com. HTTPS IN'. Received last response with RCODE=ServerFailure from: https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.20)
+   at DnsServerCore.Dns.DnsServer.RecursiveResolverBackgroundTaskAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, Boolean advancedForwardingClientSubnet, IReadOnlyList`1 conditionalForwarders, Boolean dnssecValidation, Boolean cachePrefetchOperation, Boolean cacheRefreshOperation, Boolean skipDnsAppAuthoritativeRequestHandlers, TaskCompletionSource`1 taskCompletionSource) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 4891
+[2026-06-27 04:47:38 UTC] DNS Server failed to resolve the request 'myorder.com. A IN' using forwarders: https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.20).
+DnsServerCore.Dns.DnsServerException: All name servers failed to answer the request 'myorder.com. A IN'. Received last response with RCODE=ServerFailure from: https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.20)
+   at DnsServerCore.Dns.DnsServer.RecursiveResolverBackgroundTaskAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, Boolean advancedForwardingClientSubnet, IReadOnlyList`1 conditionalForwarders, Boolean dnssecValidation, Boolean cachePrefetchOperation, Boolean cacheRefreshOperation, Boolean skipDnsAppAuthoritativeRequestHandlers, TaskCompletionSource`1 taskCompletionSource) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 4891
+[2026-06-27 04:47:54 UTC] DNS Server failed to resolve the request 'obesitaspoli.com. HTTPS IN' using forwarders: https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.20).
+DnsServerCore.Dns.DnsServerException: All name servers failed to answer the request 'obesitaspoli.com. HTTPS IN'. Received last response with RCODE=ServerFailure from: https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.20)
+   at DnsServerCore.Dns.DnsServer.RecursiveResolverBackgroundTaskAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, Boolean advancedForwardingClientSubnet, IReadOnlyList`1 conditionalForwarders, Boolean dnssecValidation, Boolean cachePrefetchOperation, Boolean cacheRefreshOperation, Boolean skipDnsAppAuthoritativeRequestHandlers, TaskCompletionSource`1 taskCompletionSource) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 4891
+[2026-06-27 04:56:07 UTC] DNS Server has started automatic update check for DNS Apps.
+[2026-06-27 04:57:09 UTC] DNS Server is downloading allow list: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-27 04:57:09 UTC] DNS Server is downloading allow list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-27 04:57:09 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-27 04:57:09 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-27 04:57:09 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-27 04:57:09 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-27 04:57:09 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-27 04:57:09 UTC] DNS Server successfully downloaded block list (14 KB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-27 04:57:09 UTC] DNS Server successfully downloaded block list (5.88 KB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-27 04:57:09 UTC] DNS Server successfully downloaded block list (19.59 KB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-27 04:57:09 UTC] DNS Server successfully downloaded allow list (17.5 KB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-27 04:57:09 UTC] DNS Server successfully downloaded allow list (35.83 KB): https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-27 04:57:09 UTC] DNS Server successfully downloaded block list (4.11 MB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-27 04:57:10 UTC] DNS Server successfully downloaded block list (26.57 MB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-27 04:57:10 UTC] DNS Server is loading block list zone...
+[2026-06-27 04:57:10 UTC] DNS Server is reading allow list from: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-27 04:57:10 UTC] DNS Server read allow list file (0 domain(s) blocked, 1528 domain(s) allowed) from: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-27 04:57:10 UTC] DNS Server is reading allow list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-27 04:57:10 UTC] DNS Server read allow list file (0 domain(s) blocked, 994 domain(s) allowed) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-27 04:57:10 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-27 04:57:10 UTC] DNS Server read block list file (228452 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-27 04:57:10 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-27 04:57:13 UTC] DNS Server read block list file (1589335 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-27 04:57:13 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-27 04:57:13 UTC] DNS Server read block list file (1518 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-27 04:57:13 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-27 04:57:13 UTC] DNS Server read block list file (1226 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-27 04:57:13 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-27 04:57:13 UTC] DNS Server read block list file (445 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-27 04:57:15 UTC] DNS Server block list zone was loaded successfully.
+[2026-06-27 04:57:22 UTC] DNS Server block list config file was saved: /etc/dns/blocklist.config
+[2026-06-27 08:17:51 UTC] DNS Server failed to resolve the request 'api-avs67.tv.prod.itvavs.prod.aws.kpn.com. A IN' using forwarders: https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.5).
+TechnitiumLibrary.Net.Dns.DnsClientNoResponseException: DnsClient failed to resolve the request 'kpn.com. DNSKEY IN': request timed out for name server [https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.5)].
+   at TechnitiumLibrary.Net.Dns.ClientConnection.HttpsClientConnection.QueryAsync(DnsDatagram request, Int32 timeout, Int32 retries, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\ClientConnection\HttpsClientConnection.cs:line 380
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4624
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4850
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4540
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalResolveAsync(DnsDatagram request, Func`3 getValidatedResponseAsync, Boolean doNotReorderNameServers, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5012
+   at TechnitiumLibrary.Net.Dns.DnsClient.GetDnsKeyForAsync(IReadOnlyList`1 lastDSRecords, DnsClient dnsClient, IDnsCache cache, UInt16 udpPayloadSize, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 3309
+   at TechnitiumLibrary.Net.Dns.DnsClient.FindDnsKeyForAsync(String ownerName, DnsClass class, IReadOnlyList`1 currentDnsKeyRecords, DnsClient dnsClient, IDnsCache cache, UInt16 udpPayloadSize, DnsDatagram originalResponse, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 3279
+   at TechnitiumLibrary.Net.Dns.DnsClient.DnssecValidateResponseAsync(DnsDatagram response, IReadOnlyList`1 lastDSRecords, DnsClient dnsClient, IDnsCache cache, UInt16 udpPayloadSize, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 2775
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass91_0.<<InternalDnssecResolveAsync>b__0>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5108
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4681
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4850
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4540
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalResolveAsync(DnsDatagram request, Func`3 getValidatedResponseAsync, Boolean doNotReorderNameServers, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5012
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalDnssecResolveAsync(DnsQuestionRecord question, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5082
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass93_0.<<InternalCachedResolveQueryAsync>b__0>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5206
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.ResolveQueryAsync(DnsQuestionRecord question, Func`2 resolveAsync) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4343
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalCachedResolveQueryAsync(DnsQuestionRecord question, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5188
+   at DnsServerCore.Dns.DnsServer.DefaultRecursiveResolveAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, IDnsCache dnsCache, Boolean dnssecValidation, Boolean skipDnsAppAuthoritativeRequestHandlers, CancellationToken cancellationToken) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 5146
+   at DnsServerCore.Dns.DnsServer.DefaultRecursiveResolveAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, IDnsCache dnsCache, Boolean dnssecValidation, Boolean skipDnsAppAuthoritativeRequestHandlers, CancellationToken cancellationToken) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 5182
+   at DnsServerCore.Dns.DnsServer.RecursiveResolverBackgroundTaskAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, Boolean advancedForwardingClientSubnet, IReadOnlyList`1 conditionalForwarders, Boolean dnssecValidation, Boolean cachePrefetchOperation, Boolean cacheRefreshOperation, Boolean skipDnsAppAuthoritativeRequestHandlers, TaskCompletionSource`1 taskCompletionSource) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 4879
+[2026-06-27 11:30:54 UTC] [192.168.2.23:49817] DnsServerCore.DnsWebServiceException: Invalid username or password for user: admin
+   at DnsServerCore.Auth.AuthManager.AuthenticateUserAsync(String username, String password, String totp, IPAddress remoteAddress) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Auth\AuthManager.cs:line 788
+   at DnsServerCore.Auth.AuthManager.CreateSessionAsync(UserSessionType type, String tokenName, String username, String password, String totp, IPAddress remoteAddress, String userAgent) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Auth\AuthManager.cs:line 1137
+   at DnsServerCore.DnsWebService.WebServiceAuthApi.LoginAsync(HttpContext context, UserSessionType sessionType) in Z:\Technitium\Projects\DnsServer\DnsServerCore\WebServiceAuthApi.cs:line 684
+   at DnsServerCore.DnsWebService.WebServiceApiMiddleware(HttpContext context, RequestDelegate next) in Z:\Technitium\Projects\DnsServer\DnsServerCore\DnsWebService.cs:line 2328
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+[2026-06-27 14:07:38 UTC] [172.20.0.3:50072] DnsServerCore.DnsWebServiceException: Invalid username or password for user: admin
+   at DnsServerCore.Auth.AuthManager.AuthenticateUserAsync(String username, String password, String totp, IPAddress remoteAddress) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Auth\AuthManager.cs:line 788
+   at DnsServerCore.Auth.AuthManager.CreateSessionAsync(UserSessionType type, String tokenName, String username, String password, String totp, IPAddress remoteAddress, String userAgent) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Auth\AuthManager.cs:line 1137
+   at DnsServerCore.DnsWebService.WebServiceAuthApi.LoginAsync(HttpContext context, UserSessionType sessionType) in Z:\Technitium\Projects\DnsServer\DnsServerCore\WebServiceAuthApi.cs:line 684
+   at DnsServerCore.DnsWebService.WebServiceApiMiddleware(HttpContext context, RequestDelegate next) in Z:\Technitium\Projects\DnsServer\DnsServerCore\DnsWebService.cs:line 2328
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+[2026-06-27 14:07:59 UTC] [172.20.0.3:50072] [admin] User logged in.
+[2026-06-27 14:08:01 UTC] [172.20.0.3:50074] Check for update was done {updateAvailable: False; updateVersion: 15.2;}
+[2026-06-27 14:08:04 UTC] DNS Server auth config file was saved: /etc/dns/auth.config
+[2026-06-27 14:14:50 UTC] [172.20.0.3:50074] Check for update was done {updateAvailable: False; updateVersion: 15.2;}
+[2026-06-27 14:42:09 UTC] DNS Server failed to resolve the request 'account.oneplus.net. A IN' using forwarders: https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.5).
+TechnitiumLibrary.Net.Dns.DnsClientResponseDnssecValidationException: Attack detected! DNSSEC validation failed as the response was unable to prove non-existence (NX Domain) for owner name: accountnet-to-com-1501320216.us-east-1.elb.amazonaws.com
+   at TechnitiumLibrary.Net.Dns.DnsClient.DnssecValidateResponseAsync(DnsDatagram response, IReadOnlyList`1 lastDSRecords, DnsClient dnsClient, IDnsCache cache, UInt16 udpPayloadSize, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 2956
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass91_0.<<InternalDnssecResolveAsync>b__0>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5108
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4681
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4850
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4540
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalResolveAsync(DnsDatagram request, Func`3 getValidatedResponseAsync, Boolean doNotReorderNameServers, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5012
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalDnssecResolveAsync(DnsQuestionRecord question, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5082
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass93_0.<<InternalCachedResolveQueryAsync>b__0>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5206
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.ResolveQueryAsync(DnsQuestionRecord question, Func`2 resolveAsync) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4343
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalCachedResolveQueryAsync(DnsQuestionRecord question, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5188
+   at DnsServerCore.Dns.DnsServer.DefaultRecursiveResolveAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, IDnsCache dnsCache, Boolean dnssecValidation, Boolean skipDnsAppAuthoritativeRequestHandlers, CancellationToken cancellationToken) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 5146
+   at DnsServerCore.Dns.DnsServer.DefaultRecursiveResolveAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, IDnsCache dnsCache, Boolean dnssecValidation, Boolean skipDnsAppAuthoritativeRequestHandlers, CancellationToken cancellationToken) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 5182
+   at DnsServerCore.Dns.DnsServer.RecursiveResolverBackgroundTaskAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, Boolean advancedForwardingClientSubnet, IReadOnlyList`1 conditionalForwarders, Boolean dnssecValidation, Boolean cachePrefetchOperation, Boolean cacheRefreshOperation, Boolean skipDnsAppAuthoritativeRequestHandlers, TaskCompletionSource`1 taskCompletionSource) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 4879
+[2026-06-27 14:42:09 UTC] DNS Server failed to resolve the request 'account.oneplus.net. AAAA IN' using forwarders: https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.5).
+TechnitiumLibrary.Net.Dns.DnsClientResponseDnssecValidationException: Attack detected! DNSSEC validation failed as the response was unable to prove non-existence (NX Domain) for owner name: accountnet-to-com-1501320216.us-east-1.elb.amazonaws.com
+   at TechnitiumLibrary.Net.Dns.DnsClient.DnssecValidateResponseAsync(DnsDatagram response, IReadOnlyList`1 lastDSRecords, DnsClient dnsClient, IDnsCache cache, UInt16 udpPayloadSize, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 2956
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass91_0.<<InternalDnssecResolveAsync>b__0>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5108
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4681
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4850
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4540
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalResolveAsync(DnsDatagram request, Func`3 getValidatedResponseAsync, Boolean doNotReorderNameServers, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5012
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalDnssecResolveAsync(DnsQuestionRecord question, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5082
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass93_0.<<InternalCachedResolveQueryAsync>b__0>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5206
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.ResolveQueryAsync(DnsQuestionRecord question, Func`2 resolveAsync) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4343
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalCachedResolveQueryAsync(DnsQuestionRecord question, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5188
+   at DnsServerCore.Dns.DnsServer.DefaultRecursiveResolveAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, IDnsCache dnsCache, Boolean dnssecValidation, Boolean skipDnsAppAuthoritativeRequestHandlers, CancellationToken cancellationToken) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 5146
+   at DnsServerCore.Dns.DnsServer.DefaultRecursiveResolveAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, IDnsCache dnsCache, Boolean dnssecValidation, Boolean skipDnsAppAuthoritativeRequestHandlers, CancellationToken cancellationToken) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 5182
+   at DnsServerCore.Dns.DnsServer.RecursiveResolverBackgroundTaskAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, Boolean advancedForwardingClientSubnet, IReadOnlyList`1 conditionalForwarders, Boolean dnssecValidation, Boolean cachePrefetchOperation, Boolean cacheRefreshOperation, Boolean skipDnsAppAuthoritativeRequestHandlers, TaskCompletionSource`1 taskCompletionSource) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 4879
+[2026-06-27 17:24:20 UTC] DNS Server failed to resolve the request 'api-avs67.tv.prod.itvavs.prod.aws.kpn.com. A IN' using forwarders: https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.20).
+TechnitiumLibrary.Net.Dns.DnsClientNoResponseException: DnsClient failed to resolve the request 'api-avs67.tv.prod.itvavs.prod.aws.kpn.com. A IN': request timed out for name server [https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.20)].
+   at TechnitiumLibrary.Net.Dns.ClientConnection.HttpsClientConnection.QueryAsync(DnsDatagram request, Int32 timeout, Int32 retries, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\ClientConnection\HttpsClientConnection.cs:line 380
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4624
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4850
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4540
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalResolveAsync(DnsDatagram request, Func`3 getValidatedResponseAsync, Boolean doNotReorderNameServers, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5012
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalDnssecResolveAsync(DnsQuestionRecord question, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5082
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass93_0.<<InternalCachedResolveQueryAsync>b__0>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5206
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.ResolveQueryAsync(DnsQuestionRecord question, Func`2 resolveAsync) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4343
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalCachedResolveQueryAsync(DnsQuestionRecord question, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5188
+   at DnsServerCore.Dns.DnsServer.DefaultRecursiveResolveAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, IDnsCache dnsCache, Boolean dnssecValidation, Boolean skipDnsAppAuthoritativeRequestHandlers, CancellationToken cancellationToken) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 5146
+   at DnsServerCore.Dns.DnsServer.DefaultRecursiveResolveAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, IDnsCache dnsCache, Boolean dnssecValidation, Boolean skipDnsAppAuthoritativeRequestHandlers, CancellationToken cancellationToken) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 5182
+   at DnsServerCore.Dns.DnsServer.RecursiveResolverBackgroundTaskAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, Boolean advancedForwardingClientSubnet, IReadOnlyList`1 conditionalForwarders, Boolean dnssecValidation, Boolean cachePrefetchOperation, Boolean cacheRefreshOperation, Boolean skipDnsAppAuthoritativeRequestHandlers, TaskCompletionSource`1 taskCompletionSource) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 4879
+[2026-06-27 17:24:20 UTC] DNS Server failed to resolve the request 'ausar.tcloud-itv-prd1.prod.aws.kpn.com. A IN' using forwarders: https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.20).
+TechnitiumLibrary.Net.Dns.DnsClientNoResponseException: DnsClient failed to resolve the request 'ausar.tcloud-itv-prd1.prod.aws.kpn.com. A IN': request timed out for name server [https://jvqjzbzhl7.cloudflare-gateway.com/dns-query (162.159.36.20)].
+   at TechnitiumLibrary.Net.Dns.ClientConnection.HttpsClientConnection.QueryAsync(DnsDatagram request, Int32 timeout, Int32 retries, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\ClientConnection\HttpsClientConnection.cs:line 380
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4624
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4850
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass89_0.<<InternalResolveAsync>g__DoResolveAsync|1>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4540
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalResolveAsync(DnsDatagram request, Func`3 getValidatedResponseAsync, Boolean doNotReorderNameServers, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5012
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalDnssecResolveAsync(DnsQuestionRecord question, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5082
+   at TechnitiumLibrary.Net.Dns.DnsClient.<>c__DisplayClass93_0.<<InternalCachedResolveQueryAsync>b__0>d.MoveNext() in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5206
+--- End of stack trace from previous location ---
+   at TechnitiumLibrary.Net.Dns.DnsClient.ResolveQueryAsync(DnsQuestionRecord question, Func`2 resolveAsync) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 4343
+   at TechnitiumLibrary.Net.Dns.DnsClient.InternalCachedResolveQueryAsync(DnsQuestionRecord question, CancellationToken cancellationToken) in Z:\Technitium\Projects\TechnitiumLibrary\TechnitiumLibrary.Net\Dns\DnsClient.cs:line 5188
+   at DnsServerCore.Dns.DnsServer.DefaultRecursiveResolveAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, IDnsCache dnsCache, Boolean dnssecValidation, Boolean skipDnsAppAuthoritativeRequestHandlers, CancellationToken cancellationToken) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 5146
+   at DnsServerCore.Dns.DnsServer.DefaultRecursiveResolveAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, IDnsCache dnsCache, Boolean dnssecValidation, Boolean skipDnsAppAuthoritativeRequestHandlers, CancellationToken cancellationToken) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 5182
+   at DnsServerCore.Dns.DnsServer.RecursiveResolverBackgroundTaskAsync(DnsQuestionRecord question, NetworkAddress eDnsClientSubnet, Boolean advancedForwardingClientSubnet, IReadOnlyList`1 conditionalForwarders, Boolean dnssecValidation, Boolean cachePrefetchOperation, Boolean cacheRefreshOperation, Boolean skipDnsAppAuthoritativeRequestHandlers, TaskCompletionSource`1 taskCompletionSource) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Dns\DnsServer.cs:line 4879
+[2026-06-27 17:44:38 UTC] DNS Server auth config file was saved: /etc/dns/auth.config
+[2026-06-27 20:25:45 UTC] DHCP Server successfully unloaded scope: LAN
+[2026-06-27 20:25:46 UTC] Saving DNS Cache to disk...
+[2026-06-27 20:25:47 UTC] DNS Cache was saved to disk successfully.
+[2026-06-27 20:25:47 UTC] DNS Server (v15.2.0.0) was stopped successfully.
+[2026-06-27 20:25:47 UTC] DNS Server auth config file was saved: /etc/dns/auth.config
+[2026-06-27 20:25:47 UTC] Logging stopped.
+[2026-06-27 20:26:03 UTC] Logging started.
+[2026-06-27 20:26:03 UTC] DNS Server auth config file was loaded: /etc/dns/auth.config
+[2026-06-27 20:26:04 UTC] Loading DNS Cache from disk...
+[2026-06-27 20:26:04 UTC] Web Service config file was loaded: /etc/dns/webservice.config
+[2026-06-27 20:26:04 UTC] DNS Server config file was loaded: /etc/dns/dns.config
+[2026-06-27 20:26:04 UTC] DNS Server is loading DNS application: Log Exporter
+[2026-06-27 20:26:04 UTC] DNS Server is loading DNS application: Query Logs (Sqlite)
+[2026-06-27 20:26:05 UTC] DNS Cache was loaded from disk successfully.
+[2026-06-27 20:26:06 UTC] DNS Server successfully loaded DNS application: Log Exporter
+[2026-06-27 20:26:06 UTC] DNS Server successfully loaded DNS application: Query Logs (Sqlite)
+[2026-06-27 20:26:06 UTC] DNS Server successfully loaded zone file: /etc/dns/zones/2.168.192.in-addr.arpa.zone
+[2026-06-27 20:26:06 UTC] DNS Server successfully loaded zone file: /etc/dns/zones/avdvroomshoop.nl.zone
+[2026-06-27 20:26:06 UTC] DNS Server successfully loaded zone file: /etc/dns/zones/bitsonline.nl.zone
+[2026-06-27 20:26:06 UTC] DNS Server successfully loaded zone file: /etc/dns/zones/indehoven.com.zone
+[2026-06-27 20:26:06 UTC] DNS Server allowed zone file was loaded: /etc/dns/allowed.config
+[2026-06-27 20:26:06 UTC] DNS Server blocked zone file was loaded: /etc/dns/blocked.config
+[2026-06-27 20:26:06 UTC] DNS Server block list config file was loaded: /etc/dns/blocklist.config
+[2026-06-27 20:26:06 UTC] DNS Server is loading block list zone...
+[2026-06-27 20:26:06 UTC] DNS Server is reading allow list from: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-27 20:26:06 UTC] DNS Server read allow list file (0 domain(s) blocked, 1528 domain(s) allowed) from: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-27 20:26:06 UTC] DNS Server is reading allow list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-27 20:26:07 UTC] DNS Server read allow list file (0 domain(s) blocked, 994 domain(s) allowed) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-27 20:26:07 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-27 20:26:09 UTC] DNS Server read block list file (228452 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-27 20:26:09 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-27 20:26:10 UTC] [0.0.0.0:5380] [HTTP] Web Service was bound successfully.
+[2026-06-27 20:26:10 UTC] [0.0.0.0:53] [UDP] DNS Server was bound successfully.
+[2026-06-27 20:26:10 UTC] [0.0.0.0:53] [TCP] DNS Server was bound successfully.
+[2026-06-27 20:26:10 UTC] DHCP Server successfully loaded scope: LAN
+[2026-06-27 20:26:10 UTC] DNS Server (v15.2.0.0) was started successfully.
+[2026-06-27 20:26:11 UTC] [172.20.0.9:53] [UDP] DNS Server was bound successfully.
+[2026-06-27 20:26:12 UTC] DNS Server is downloading allow list: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-27 20:26:12 UTC] DNS Server auth config file was saved: /etc/dns/auth.config
+[2026-06-27 20:26:12 UTC] DNS Server is downloading allow list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-27 20:26:12 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-27 20:26:12 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-27 20:26:12 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-27 20:26:12 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-27 20:26:12 UTC] DNS Server is downloading block list: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-27 20:26:14 UTC] DNS Server has started automatic update check for DNS Apps.
+[2026-06-27 20:26:17 UTC] DNS Server successfully downloaded block list (5.88 KB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-27 20:26:17 UTC] DNS Server successfully downloaded block list (14 KB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-27 20:26:17 UTC] DNS Server successfully downloaded allow list (35.68 KB): https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-27 20:26:17 UTC] DNS Server successfully downloaded allow list (17.52 KB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-27 20:26:17 UTC] DNS Server successfully downloaded block list (19.59 KB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-27 20:26:18 UTC] DNS Server successfully downloaded block list (4.15 MB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-27 20:26:21 UTC] DNS Server successfully downloaded block list (26.8 MB): https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-27 20:26:21 UTC] DNS Server is loading block list zone...
+[2026-06-27 20:26:21 UTC] DNS Server is reading allow list from: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-27 20:26:21 UTC] DNS Server read allow list file (0 domain(s) blocked, 1522 domain(s) allowed) from: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral-native.txt
+[2026-06-27 20:26:21 UTC] DNS Server is reading allow list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-27 20:26:21 UTC] DNS Server read allow list file (0 domain(s) blocked, 995 domain(s) allowed) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-allow.txt
+[2026-06-27 20:26:21 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-27 20:26:23 UTC] DNS Server read block list file (230510 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro-onlydomains.txt
+[2026-06-27 20:26:23 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-27 20:26:24 UTC] DNS Server read block list file (1589335 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-27 20:26:24 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-27 20:26:24 UTC] DNS Server read block list file (1518 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-27 20:26:24 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-27 20:26:24 UTC] DNS Server read block list file (1226 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-27 20:26:24 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-27 20:26:24 UTC] DNS Server read block list file (445 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-27 20:26:31 UTC] DNS Server block list zone was loaded successfully.
+[2026-06-27 20:26:33 UTC] DNS Server read block list file (1601186 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif-onlydomains.txt
+[2026-06-27 20:26:33 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-27 20:26:33 UTC] DNS Server read block list file (1518 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/dyndns-onlydomains.txt
+[2026-06-27 20:26:33 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-27 20:26:33 UTC] DNS Server read block list file (1226 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/hoster-onlydomains.txt
+[2026-06-27 20:26:33 UTC] DNS Server is reading block list from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-27 20:26:33 UTC] DNS Server read block list file (445 domain(s) blocked) from: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock-aggressive.txt
+[2026-06-27 20:26:38 UTC] DNS Server block list zone was loaded successfully.
+[2026-06-27 20:26:45 UTC] DNS Server block list config file was saved: /etc/dns/blocklist.config

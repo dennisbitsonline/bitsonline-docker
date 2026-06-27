@@ -1,0 +1,17 @@
+name: crowdsecurity/iptables
+parsers:
+  - crowdsecurity/iptables-logs
+scenarios:
+  - crowdsecurity/iptables-scan-multi_ports
+contexts:
+  - crowdsecurity/firewall_base
+description: "iptables support : logs and port-scans detection scenarios"
+labels:
+  label: "Iptables - Portscan Detection"
+author: crowdsecurity
+tags:
+  - security_engine
+  - linux
+  - portscan
+  - iptables
+

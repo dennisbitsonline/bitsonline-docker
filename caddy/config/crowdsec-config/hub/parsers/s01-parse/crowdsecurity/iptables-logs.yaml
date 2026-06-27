@@ -1,0 +1,34 @@
+onsuccess: next_stage
+#debug: true
+filter: "evt.Parsed.program == 'kernel' and evt.Parsed.message contains 'IN=' and not (evt.Parsed.message contains 'ACCEPT') and not (evt.Parsed.message contains '[UFW AUDIT]' )"
+name: crowdsecurity/iptables-logs
+description: "Parse iptables drop logs"
+statics:
+  - parsed: unused #this is never used setting to random var
+    expression: ParseKV(evt.Parsed.message, evt.Unmarshaled, "iptables")
+  - meta: service
+    expression: Lower(evt.Unmarshaled.iptables.PROTO)
+  - meta: log_type
+    expression: |
+        evt.Meta.log_type != "" ? evt.Meta.log_type : evt.Meta.service in ["tcp", "udp"] && evt.Unmarshaled.iptables.OUT == "" ? "iptables_drop" : ""
+  - meta: icmp_type
+    expression: evt.Unmarshaled.iptables.TYPE
+  - meta: icmp_code
+    expression: evt.Unmarshaled.iptables.CODE
+  - meta: source_ip
+    expression: "evt.Unmarshaled.iptables.SRC"
+## For backporting reason all previous variables will be reparsed out to the parsed object
+  - parsed: dst_port
+    expression: evt.Unmarshaled.iptables.DPT
+  - parsed: int_eth
+    expression: evt.Unmarshaled.iptables.IN
+  - parsed: src_ip
+    expression: evt.Unmarshaled.iptables.SRC
+  - parsed: dst_ip
+    expression: evt.Unmarshaled.iptables.DST
+  - parsed: length
+    expression: evt.Unmarshaled.iptables.LEN
+  - parsed: proto
+    expression: evt.Unmarshaled.iptables.PROTO
+  - parsed: src_port
+    expression: evt.Unmarshaled.iptables.SPT
