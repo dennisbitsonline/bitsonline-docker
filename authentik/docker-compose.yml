@@ -93,7 +93,7 @@ services:
       - ./data/custom-templates:/templates
     networks:
       - backend
-  authentik_proxy:
+  outpost-proxy:
     container_name: authentik-outpost-proxy
     command: proxy
     image: ghcr.io/goauthentik/proxy
@@ -109,7 +109,7 @@ services:
     env_file:
        - .env
     environment:
-       AUTHENTIK_HOST: https://outpost.indehoven.com
+       AUTHENTIK_HOST: https://outpost-proxy.indehoven.com
        AUTHENTIK_INSECURE: "false"
        AUTHENTIK_TOKEN: token-generated-by-authentik      
        DOCKER_HOST: "tcp://socket-proxy:2375"

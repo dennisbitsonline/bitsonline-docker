@@ -63,6 +63,22 @@ services:
       - /dockerdata/caddy_plus/crowdsec-config/acquis.yaml:/etc/crowdsec/acquis.yaml
       - caddy_logs:/var/log/caddy
       - /dockerdata/caddy_plus/crowdsec-config:/etc/crowdsec
+  caddyui:
+    image: applegater/caddyui:v2.12.53
+    container_name: caddyui
+    restart: unless-stopped
+    depends_on:
+      - caddy
+    ports:
+      - "8081:80"
+    volumes:
+      - caddyui_data:/data
+    environment:
+      CADDYUI_DB: /data/caddyui.db
+      CADDYUI_LISTEN: :80
+      CADDY_ADMIN_URL: unix:///run/caddy/caddy-admin.sock
+    networks:
+      - backend
 networks:
   proxy:
     external: true
@@ -72,4 +88,6 @@ volumes:
   caddy_data:
   crowdsec-db:
   caddy_logs:
+    external: true
+  caddyui_data:
     external: true
