@@ -2,27 +2,28 @@ services:
   caddy:
     image: ghcr.io/buildplan/caddy-plus:latest
     container_name: caddy
-    hostname: caddy
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
       - "443:443/udp"
+    env_file:
+      - .env
     environment:
       - CADDY_ADMIN=unix//run/caddy/caddy-admin.sock
       - DOCKER_HOST=tcp://socket-proxy:2375
       - TZ=Europe/Amsterdam
-      - CF_API_TOKEN=cfut_c8yF1HQJ5a1qJKkeOXGpCcVElQL1EjJN7pwClttSb5ee6386
+      - CF_API_TOKEN=${CF_API_TOKEN}
       - CADDY_DOCKER_CADDYFILE_PATH=/config/Caddyfile
-      - CROWDSEC_API_KEY=x915gXDjtJNUMrVlhmA2Pv6JP4+ertacp92NZ4gyhNA
+      - CROWDSEC_API_KEY=${CROWDSEC_API_KEY}
       - CADDY_DOCKER_PROCESS_CADDYFILE=true
       - CADDY_INGRESS_NETWORKS=proxy
-      - CLOUDFLARE_API_TOKEN=cfut_c8yF1HQJ5a1qJKkeOXGpCcVElQL1EjJN7pwClttSb5ee6386
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
       - OAUTH2_PROXY_PROVIDER=oidc
       - OAUTH2_PROXY_OIDC_ISSUER_URL=https://auth.indehoven.com/application/o/caddy/
-      - OAUTH2_PROXY_CLIENT_ID=01Q1bXE2PbuaeU8QpshPQgWNcMnSeMQbmhpMoyye
-      - OAUTH2_PROXY_CLIENT_SECRET=jx8GpDUueYxoB6WUn4BBC8Vd8OJSzpFf933MSLiN9yD9ekPaw8m9lpVFyIwnl4pzlhDwTfxQGZIEoQPqRhqUS1JCQiy0UyBopyxGFPh2tLNwpbkds5lDkc8sSRMvqm2Q
-      - OAUTH2_PROXY_COOKIE_SECRET=at8ObJmWH8c2E5OkSGEXZo1Q-28BsWQMam5ffVDE_Ow=
+      - OAUTH2_PROXY_CLIENT_ID=${OAUTH2_PROXY_CLIENT_ID}
+      - OAUTH2_PROXY_CLIENT_SECRET=${OAUTH2_PROXY_CLIENT_SECRET}
+      - OAUTH2_PROXY_COOKIE_SECRET=${OAUTH2_PROXY_COOKIE_SECRET}
       - OAUTH2_PROXY_WHITELIST_DOMAINS=.indehoven.com
       - OAUTH2_PROXY_COOKIE_DOMAINS=.indehoven.com
       - OAUTH2_PROXY_EMAIL_DOMAINS=*
@@ -39,24 +40,30 @@ services:
       - caddy_admin:/run
       - /dockerdata/caddy_plus/data/www:/data/www
       - caddy_logs:/var/log/caddy
+    aliases: 
+      - proxy
+      - oauth2-proxy
 
   crowdsec:
     image: crowdsecurity/crowdsec:latest
     container_name: crowdsec
-    hostname: crowdsec
+    env_file:
+      - .env
     environment:
       - CROWDSEC_LAPI_LISTEN_URI=0.0.0.0:8080
-      - CROWDSEC_API_KEY=x915gXDjtJNUMrVlhmA2Pv6JP4+ertacp92NZ4gyhNA
+      - CROWDSEC_API_KEY=${CROWDSEC_API_KEY}
       - TZ=Europe/Amsterdam
       - DOCKER_HOST=tcp://socket-proxy:2375
       - COLLECTIONS=crowdsecurity/caddy crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
-      - CROWDSEC_BOUNCER_KEY=x915gXDjtJNUMrVlhmA2Pv6JP4+ertacp92NZ4gyhNA
-      - CROWDSEC_USER=crowdsec
-      - CROWDSEC_PASSWORD=1111111111Aa!
+      - CROWDSEC_BOUNCER_KEY=${CROWDSEC_BOUNCER_KEY}
+      - CROWDSEC_USER=${CROWDSEC_USER}
+      - CROWDSEC_PASSWORD=${CROWDSEC_PASSWORD}
       - CROWDSEC_LAPI_URL=http://localhost:8080
     networks:
       - proxy
       - backend
+    aliases: 
+      - appsec
     volumes:
       - /dockerdata/caddy_plus/crowdsec-db:/var/lib/crowdsec/data
       - /dockerdata/caddy_plus/crowdsec-config/acquis.yaml:/etc/crowdsec/acquis.yaml
