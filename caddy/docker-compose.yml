@@ -76,6 +76,7 @@ services:
     ports: ["8080:8080"]
     volumes:
       - caddyui_data:/data
+      - caddy_admin:/run
     environment:
       CADDYUI_DB: /data/caddyui.db
       CADDYUI_LISTEN: :80
@@ -93,4 +94,6 @@ volumes:
   caddy_logs:
     external: true
   caddyui_data:
+    external: true
+  caddy_admin:
     external: true
