@@ -9,8 +9,6 @@ services:
     env_file:
       - .env
     restart: unless-stopped
-    sysctls:
-      - net.ipv4.ip_local_port_range=1024 65535
 volumes:
   caddy_logs:
     external: true
