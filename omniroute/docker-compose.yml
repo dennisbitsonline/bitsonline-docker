@@ -102,16 +102,16 @@ services:
       - CLI_CONFIG_HOME=/host-home
       - CLI_ALLOW_CONFIG_WRITES=true
       # Uncomment per-tool overrides as needed:
-      # - CLI_CURSOR_BIN=agent
-      # - CLI_CLINE_BIN=cline
-      # - CLI_CONTINUE_BIN=cn
+CLI_CURSOR_BIN=agent
+CLI_CLINE_BIN=cline
+CLI_CONTINUE_BIN=cn
     volumes:
       - omniroute-data:/app/data
       # ── Host binary mounts (read-only) ──
       # Adjust paths below to match YOUR host system.
       - ~/.local/bin:/host-local/bin:ro
       # Node global binaries (adjust node version path)
-      # - ~/.nvm/versions/node/v22.16.0/bin:/host-node/bin:ro
+~/.nvm/versions/node/v22.16.0/bin:/host-node/bin:ro
       # ── Host config mounts (read-write) ──
       - ~/.codex:/host-home/.codex:rw
       - ~/.claude:/host-home/.claude:rw

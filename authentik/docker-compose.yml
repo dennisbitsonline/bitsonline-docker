@@ -24,7 +24,7 @@ services:
     - authentik_database:/var/lib/postgresql/data
     networks:
       - backend
-  authentik_redis:
+  redis:
     container_name: authentik-redis
     env_file:
       - .env
@@ -95,7 +95,6 @@ services:
       - backend
   outpost-proxy:
     container_name: authentik-outpost-proxy
-    command: proxy
     image: ghcr.io/goauthentik/proxy
     networks:
        - proxy
