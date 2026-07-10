@@ -21,10 +21,10 @@ services:
     image: docker.io/library/postgres:16-alpine
     restart: unless-stopped
     volumes:
-    - database:/var/lib/postgresql/data
+    - authentik_database:/var/lib/postgresql/data
     networks:
       - backend
-  redis:
+  authentik_redis:
     container_name: authentik-redis
     env_file:
       - .env
@@ -41,7 +41,7 @@ services:
       retries: 5
       timeout: 3s
     volumes:
-      - redis:/var/lib/redis/data
+      - authentik_redis:/var/lib/redis/data
     ports:
       - 6380:6379
     networks:
@@ -121,9 +121,9 @@ networks:
   backend:
     external: true
 volumes:
-  database:
-    driver: local
+  authentik_database:
+    external: true
   caddy_logs:
     external: true
-  redis:
-    driver: local
+  authentik_redis:
+    external: true
