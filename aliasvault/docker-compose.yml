@@ -19,24 +19,24 @@ services:
       - caddy_logs:/var/log/caddy
 
     environment:
-      HOSTNAME: "localhost"
-      PUBLIC_REGISTRATION_ENABLED: "true"
+      HOSTNAME: "aliasvault"
+      PUBLIC_REGISTRATION_ENABLED: "false"
       IP_LOGGING_ENABLED: "true"
       FORCE_HTTPS_REDIRECT: "false"
-      SUPPORT_EMAIL: ""
-      PRIVATE_EMAIL_DOMAINS: ""
+      SUPPORT_EMAIL: "support@bitsonline.nl"
+      PRIVATE_EMAIL_DOMAINS: "indehoven.nl, bitsonline.nl"
       HIDDEN_PRIVATE_EMAIL_DOMAINS: ""
       TZ: "Europe/Amsterdam"
       DOCKER_HOST: "tcp://socket-proxy:2375"
     
     networks:
       - proxy
-      - "internal network"
+      - backend
 
 networks:
   proxy:
     external: true
-  "internal network":
+  backend:
     external: true
 
 volumes:

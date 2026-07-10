@@ -1,13 +1,14 @@
 services:
   postgresql:
     container_name: authentik-postgresql
-    hostname: authentik-postgresql
     env_file:
       - .env
     environment:
-      POSTGRES_DB: ${PG_DB:-authentik}
-      POSTGRES_PASSWORD: ${PG_PASS:?database password required}
-      POSTGRES_USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__HOST: authentik-postgresql
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
       TZ: "Europe/Amsterdam"
     healthcheck:
       interval: 30s
@@ -22,11 +23,37 @@ services:
     volumes:
     - database:/var/lib/postgresql/data
     networks:
-      - "internal network"
-
+      - backend
+    aliases: 
+      - authentik-postgresql
+      - postgresql
+  redis:
+    container_name: authentik-redis
+    env_file:
+      - .env
+    environment:
+      TZ: "Europe/Amsterdam"
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+    image: docker.io/library/redis:alpine
+    command: --save 60 1 --loglevel warning
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    volumes:
+      - redis:/var/lib/redis/data
+    ports:
+      - 6380:6379
+    networks:
+      - backend
+    aliases: 
+      - authentik-redis
+      - redis
   server:
     container_name: authentik-server
-    hostname: authentik-server
     command: server
     depends_on:
       postgresql:
@@ -34,17 +61,13 @@ services:
     env_file:
       - .env
     environment:
-      AUTHENTIK_POSTGRESQL__HOST: authentik-postgresql
-      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
-      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
-      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
-      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
       TZ: "Europe/Amsterdam"
       DOCKER_HOST: "tcp://socket-proxy:2375"
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2026.5.2}
     ports:
-      - ${COMPOSE_PORT_HTTP:-9000}:9000
-      - ${COMPOSE_PORT_HTTPS:-9443}:9443
+      - 9001:9000
+      - 9002:9443
     restart: unless-stopped
     shm_size: 512mb
     volumes:
@@ -53,10 +76,12 @@ services:
       - caddy_logs:/var/log/caddy
     networks:
       - proxy
-      - "internal network"
+      - backend
+    aliases: 
+      - authentik-server
+      - server
   worker:
     container_name: authentik-worker
-    hostname: authentik-worker
     command: worker
     depends_on:
       postgresql:
@@ -64,13 +89,9 @@ services:
     env_file:
       - .env
     environment:
-      AUTHENTIK_POSTGRESQL__HOST: authentik-postgresql
-      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
-      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
-      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
-      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
       DOCKER_HOST: "tcp://socket-proxy:2375"
       TZ: "Europe/Amsterdam"
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2026.5.2}
     restart: unless-stopped
     shm_size: 512mb
@@ -80,15 +101,44 @@ services:
       - ./data/certs:/certs
       - ./data/custom-templates:/templates
     networks:
-      - "internal network"
+      - backend
+    aliases: 
+      - authentik-worker
+      - worker
+  authentik_proxy:
+    container_name: authentik-outpost-proxy
+    command: proxy
+    image: ghcr.io/goauthentik/proxy
+    networks:
+       - proxy
+       - backend
+    restart: unless-stopped
+    shm_size: 512mb
+    user: root
+    ports:
+       - 9003:9000
+       - 9004:9443
+    env_file:
+       - .env
+    environment:
+       AUTHENTIK_HOST: https://outpost.indehoven.com
+       AUTHENTIK_INSECURE: "false"
+       AUTHENTIK_TOKEN: token-generated-by-authentik      
+       DOCKER_HOST: "tcp://socket-proxy:2375"
+       TZ: "Europe/Amsterdam"
+       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+    aliases: 
+      - authentik-outpost
+      - outpost
 networks:
   proxy:
     external: true
-  "internal network":
+  backend:
     external: true
 volumes:
   database:
     driver: local
   caddy_logs:
     external: true
-
+  redis:
+    external: true
