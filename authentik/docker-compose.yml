@@ -126,4 +126,4 @@ volumes:
   caddy_logs:
     external: true
   redis:
-    external: true
+    driver: local
