@@ -24,9 +24,6 @@ services:
     - database:/var/lib/postgresql/data
     networks:
       - backend
-    aliases: 
-      - authentik-postgresql
-      - postgresql
   redis:
     container_name: authentik-redis
     env_file:
@@ -49,9 +46,6 @@ services:
       - 6380:6379
     networks:
       - backend
-    aliases: 
-      - authentik-redis
-      - redis
   server:
     container_name: authentik-server
     command: server
@@ -77,9 +71,6 @@ services:
     networks:
       - proxy
       - backend
-    aliases: 
-      - authentik-server
-      - server
   worker:
     container_name: authentik-worker
     command: worker
@@ -102,9 +93,6 @@ services:
       - ./data/custom-templates:/templates
     networks:
       - backend
-    aliases: 
-      - authentik-worker
-      - worker
   authentik_proxy:
     container_name: authentik-outpost-proxy
     command: proxy
@@ -127,9 +115,6 @@ services:
        DOCKER_HOST: "tcp://socket-proxy:2375"
        TZ: "Europe/Amsterdam"
        AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
-    aliases: 
-      - authentik-outpost
-      - outpost
 networks:
   proxy:
     external: true

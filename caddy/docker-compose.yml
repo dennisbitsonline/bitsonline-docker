@@ -40,10 +40,6 @@ services:
       - caddy_admin:/run
       - /dockerdata/caddy_plus/data/www:/data/www
       - caddy_logs:/var/log/caddy
-    aliases: 
-      - proxy
-      - oauth2-proxy
-
   crowdsec:
     image: crowdsecurity/crowdsec:latest
     container_name: crowdsec
@@ -62,20 +58,16 @@ services:
     networks:
       - proxy
       - backend
-    aliases: 
-      - appsec
     volumes:
       - /dockerdata/caddy_plus/crowdsec-db:/var/lib/crowdsec/data
       - /dockerdata/caddy_plus/crowdsec-config/acquis.yaml:/etc/crowdsec/acquis.yaml
       - caddy_logs:/var/log/caddy
       - /dockerdata/caddy_plus/crowdsec-config:/etc/crowdsec
-
 networks:
   proxy:
     external: true
   backend:
     external: true
-
 volumes:
   caddy_data:
   crowdsec-db:
