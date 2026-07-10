@@ -63,14 +63,17 @@ services:
       - /dockerdata/caddy_plus/crowdsec-config/acquis.yaml:/etc/crowdsec/acquis.yaml
       - caddy_logs:/var/log/caddy
       - /dockerdata/caddy_plus/crowdsec-config:/etc/crowdsec
+    command: >-
+      mkdir -p /config/caddy;
+      [ -f /config/caddy/autosave.json ] || echo '{}' > /config/caddy/autosave.json;
+      exec caddy run --config /config/caddy/autosave.json --resume --adapter json
   caddyui:
     image: applegater/caddyui:v2.12.53
     container_name: caddyui
     restart: unless-stopped
     depends_on:
       - caddy
-    ports:
-      - "8081:80"
+    ports: ["8080:8080"]
     volumes:
       - caddyui_data:/data
     environment:
