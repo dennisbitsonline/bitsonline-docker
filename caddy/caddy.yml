@@ -91,6 +91,8 @@ services:
     restart: unless-stopped
     ports:
       - "3030:3000"
+    env_file:
+      - .env
     environment:
       - CROWDSEC_LAPI_URL=http://crowdsec:8080
       - CROWDSEC_USER=${CROWDSEC_USER}
