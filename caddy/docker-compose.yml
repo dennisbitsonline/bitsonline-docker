@@ -40,6 +40,24 @@ services:
       - caddy_admin:/run
       - /dockerdata/caddy/data/www:/data/www
       - caddy_logs:/var/log/caddy
+  caddyui:
+    image: applegater/caddyui:v2.12.53
+    container_name: caddyui
+    restart: unless-stopped
+    depends_on:
+      - caddy
+    ports: ["8080:8080"]
+    volumes:
+      - caddyui_data:/data
+      - caddy_admin:/run
+      - caddy_logs:/var/log/caddy
+    environment:
+      CADDYUI_DB: /data/caddyui.db
+      CADDYUI_LISTEN: :8080
+      CADDY_ADMIN_URL: unix:///run/caddy/caddy-admin.sock
+      TZ: Europe/Amsterdam
+    networks:
+      - backend
   crowdsec:
     image: crowdsecurity/crowdsec:latest
     container_name: crowdsec
@@ -67,23 +85,36 @@ services:
       mkdir -p /config/caddy;
       [ -f /config/caddy/autosave.json ] || echo '{}' > /config/caddy/autosave.json;
       exec caddy run --config /config/caddy/autosave.json --resume --adapter json
-  caddyui:
-    image: applegater/caddyui:v2.12.53
-    container_name: caddyui
+  crowdsec-monitor-api:
+    image: ghcr.io/jgeek00/crowdsec-monitor-api:latest
+    container_name: crowdsec-monitor-api
     restart: unless-stopped
-    depends_on:
-      - caddy
-    ports: ["8080:8080"]
-    volumes:
-      - caddyui_data:/data
-      - caddy_admin:/run
-      - caddy_logs:/var/log/caddy
+    ports:
+      - "3030:3000"
     environment:
-      CADDYUI_DB: /data/caddyui.db
-      CADDYUI_LISTEN: :8080
-      CADDY_ADMIN_URL: unix:///run/caddy/caddy-admin.sock
-      TZ: Europe/Amsterdam
+      - CROWDSEC_LAPI_URL=http://crowdsec:8080
+      - CROWDSEC_USER=${CROWDSEC_USER}
+      - CROWDSEC_PASSWORD=${CROWDSEC_PASSWORD}
+      - CROWDSEC_BOUNCER_KEY=${CROWDSEC_BOUNCER_KEY}
+      - DB_MODE=sqlite # Options: sqlite, postgres
+      - DB_PATH=/app/database/crowdsec.db # Required when DB_MODE=sqlite
+      # PostgreSQL connection (required when DB_MODE=postgres)
+      # - DB_MODE=postgres
+      # - POSTGRES_HOST=crowdsec-postgres:5432
+      # - POSTGRES_USER=postgres
+      # - POSTGRES_PASSWORD=changeme
+      # - POSTGRES_DB=crowdsec-monitor
+      - SYNC_INTERVAL_SECONDS=30 # Optional, interval in seconds (default 30 seconds)
+      - DATA_RETENTION=2w # Optional, default is indefinite
+      - API_PASSWORD= # Optional, leave empty to disable authentication
+      - RATE_LIMIT= # Optional, format: <requests>/<minutes>, leave empty to disable rate limiting
+    volumes:
+      - /dockerdata/caddy/crowdsec-db:/app/database
+      - /dockerdata/caddy/crowdsec-config/acquis.yaml:/etc/crowdsec/acquis.yaml
+      - caddy_logs:/var/log/caddy
+      - /dockerdata/caddy/crowdsec-config:/etc/crowdsec
     networks:
+      - proxy
       - backend
 networks:
   proxy:
