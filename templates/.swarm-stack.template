@@ -1,0 +1,29 @@
+services:
+  web:
+    image: ${STACK_WEB_IMAGE:-nginx}:${STACK_WEB_TAG:-alpine}
+    ports:
+      - target: 80
+        published: ${STACK_WEB_PUBLISHED_PORT:-8080}
+        protocol: tcp
+        mode: ingress
+    deploy:
+      mode: replicated
+      replicas: ${STACK_WEB_REPLICAS:-2}
+      update_config:
+        parallelism: ${STACK_UPDATE_PARALLELISM:-1}
+        delay: ${STACK_UPDATE_DELAY:-10s}
+        order: start-first
+      rollback_config:
+        parallelism: ${STACK_ROLLBACK_PARALLELISM:-1}
+        delay: ${STACK_ROLLBACK_DELAY:-5s}
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        delay: ${STACK_RESTART_DELAY:-5s}
+    networks:
+      - web
+
+networks:
+  web:
+    driver: overlay
+    name: ${STACK_OVERLAY_NETWORK:-web}

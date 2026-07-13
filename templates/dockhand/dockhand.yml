@@ -1,0 +1,30 @@
+---
+services:
+  dockhand:
+    image: fnsys/dockhand:latest
+    container_name: dockhand
+    hostname: dockhand
+    environment:
+      - TZ=Europe/Amsterdam
+      - DOCKER_HOST=tcp://socket-proxy:2375
+    restart: unless-stopped
+    user: 0:0
+    ports:
+      - 127.0.0.1:3000:3000
+    volumes:
+      - dockhand_data:/app/data
+      - caddy_logs:/var/log/caddy
+      - /dockerdata:/dockerdata
+    networks:
+      - proxy
+      - "internal network"
+networks:
+  proxy:
+    external: true
+  "internal network":
+    external: true
+volumes:
+  dockhand_data: null
+  caddy_logs:
+    external: true
+

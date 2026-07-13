@@ -1,0 +1,89 @@
+services:
+  # UI dashboard
+  dashboard:
+    image: netbirdio/dashboard:latest
+    container_name: netbird-dashboard
+    restart: unless-stopped
+    networks: [netbird, proxy]
+    ports:
+      - '127.0.0.1:8080:80'
+    env_file:
+      - ./dashboard.env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "2"
+
+  # Combined server (Management + Signal + Relay + STUN)
+  netbird-server:
+    image: netbirdio/netbird-server:latest
+    container_name: netbird-server
+    restart: unless-stopped
+    networks: [netbird, proxy]
+    ports:
+      - '127.0.0.1:8081:80'
+      - '3478:3478/udp'
+    volumes:
+      - netbird_data:/var/lib/netbird
+      - ./config.yaml:/etc/netbird/config.yaml
+    command: ["--config", "/etc/netbird/config.yaml"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "2"
+
+  netbird-client:
+      container_name: netbird-client
+      hostname: netbird-client
+      cap_add:
+          - NET_ADMIN
+          - SYS_ADMIN
+          - SYS_RESOURCE
+      devices:
+          # Required when using userspace mode or when kernel module is not available
+          - /dev/net/tun
+      network_mode: host
+      volumes:
+          - netbird-client:/netbird/etc
+      image: "11notes/netbird-client:0.73.0"
+      environment:
+          TZ: "Europe/Amsterdam"
+          NETBIRD_PEER_NAME: "docker-client"
+          NETBIRD_URL: "${NETBIRD_URL}"
+          NETBIRD_SETUP_KEY: "${NETBIRD_SETUP_KEY}"
+      tmpfs:
+          - "/run:uid=1000,gid=1000"
+
+  reverse-proxy:
+      container_name: netbird-proxy
+      hostname: netbird-proxy
+      image: netbirdio/reverse-proxy:latest
+      restart: unless-stopped
+      ports:
+        - "7080:80"
+        - "7443:443"
+      environment:
+        NB_PROXY_CERTIFICATE_DIRECTORY: /certs
+        NB_PROXY_ALLOW_INSECURE: "true"
+        NB_PROXY_MANAGEMENT_ADDRESS: "https://netbird.indehoven.com"
+        NB_PROXY_ACME_CERTIFICATES: "true"
+        NB_PROXY_DOMAIN: "proxy.indehoven.com"
+        NB_PROXY_LOG_LEVEL: info
+        NB_PROXY_TOKEN: "nbx_tszYQBCJz5eEIrYj7QiSHrf1VMxuTi0aOxth"
+        NB_PROXY_PRIVATE: "true"
+        NB_PROXY_ADDRESS: ":443"
+      volumes:
+        - proxy_certs:/certs
+
+volumes:
+  proxy_certs:
+  netbird_data:
+  netbird-client:
+      name: netbird-client
+
+networks:
+  netbird:
+  proxy:
+    external: true

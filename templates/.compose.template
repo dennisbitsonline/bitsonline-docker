@@ -1,0 +1,42 @@
+# web:
+#  environment:
+#    - DEBUG=${DEBUG}
+# ------------
+# env_file:
+#  - ./a.env
+#  - ./b.env
+
+services:
+	APP:
+    container_name:
+    networks:
+      - proxy
+      - backend
+    volumes:
+      - caddy_logs:/var/log/caddy
+      - docker_shared:/docker_shared
+    env_file:
+      - .env
+    environment:
+      TZ: Europe/Amsterdam
+      DOCKER_HOST: tcp://socket-proxy:2375
+
+
+networks:
+  proxy:
+    external: true
+  backend:
+    external: true
+
+volumes:
+  caddy_logs:
+    external: true
+  docker_shared:
+    external: true
+
+
+#-------------------------------------------
+# docker-shared/caddy/config/caddy/caddy-admin.sock:/run/caddy/caddy-admin.sock:ro
+#
+# echo "PG_PASS=$(openssl rand -base64 36 | tr -d '\n')" >> .env
+# echo "AUTHENTIK_SECRET_KEY=$(openssl rand -base64 60 | tr -d '\n')" >> .env

@@ -1,0 +1,52 @@
+---
+services:
+  socket-proxy:
+    privileged: true
+    image: lscr.io/linuxserver/socket-proxy:latest
+    container_name: socket-proxy
+    hostname: socket-proxy
+    environment:
+SWARM=1
+DISABLE_IPV6=0
+DISTRIBUTION=1
+VOLUMES=1
+ALLOW_RESTARTS=1
+ALLOW_PAUSE=1
+POST=1
+PLUGINS=1
+TZ=Europe/Amsterdam
+SECRETS=1
+BUILD=1
+ALLOW_START=1
+INFO=1
+NODES=1
+ALLOW_STOP=1
+CONTAINERS=1
+CONFIGS=1
+EXEC=1
+TASKS=1
+LOG_LEVEL=err
+PING=1
+VERSION=1
+SESSION=1
+NETWORKS=1
+COMMIT=1
+AUTH=1
+EVENTS=1
+IMAGES=1
+SERVICES=1
+SYSTEM=1
+SOCKET_PATH=/var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /run
+    networks:
+      - proxy
+    security_opt:
+      - no-new-privileges:true
+networks:
+  proxy:
+    external: true

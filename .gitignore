@@ -4,6 +4,16 @@ data*
 openclaw*
 crowdsec*
 
+### Arcade ###
+buildkit*
+containers*
+image*
+network*
+overlay2*
+plugins*
+runtimes*
+### include projects - templates - shared - volumes ###
+
 # Created by https://www.gitignore.io/api/python,django
 # Edit at https://www.gitignore.io/?templates=python,django
 

@@ -1,0 +1,45 @@
+services:
+  aliasvault:
+    image: ghcr.io/aliasvault/aliasvault:latest
+    container_name: aliasvault
+    hostname: aliasvault
+    restart: unless-stopped
+
+    ports:
+      - "25:25"
+      - "587:587"
+      - "8182:80"
+      - "8183:443"
+
+    volumes:
+      - ./data/database:/database
+      - ./data/logs:/logs
+      - ./data/secrets:/secrets
+      - ./data/certificates:/certificates
+      - caddy_logs:/var/log/caddy
+
+    env_file:
+      - .env
+
+    networks:
+      - proxy
+    
+    networks:
+      - proxy
+      - backend
+
+networks:
+  proxy:
+    external: true
+  backend:
+    external: true
+
+volumes:
+  database:
+  logs:
+  secrets:
+  certificates:
+  caddy_logs:
+    external: true
+
+

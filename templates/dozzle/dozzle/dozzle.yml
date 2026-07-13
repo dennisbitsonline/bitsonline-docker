@@ -1,0 +1,28 @@
+# Dozzle - Real-time Docker Log Viewer
+services:
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    networks:
+      - backend
+    hostname: dozzle
+    env_file:
+    - .env
+    healthcheck:
+      test: ["CMD", "/dozzle", "healthcheck"]
+      interval: 5s
+      retries: 5
+      start_period: 5s
+      start_interval: 5s
+    volumes:
+        - caddy_logs:/var/log/caddy
+        - /dockerdata/dozzle/data:/data
+    ports:
+      - 8080:8080
+networks:
+  backend:
+    external: true
+
+volumes:
+  caddy_logs:
+    external: true

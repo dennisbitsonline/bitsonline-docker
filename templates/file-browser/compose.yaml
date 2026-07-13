@@ -1,0 +1,26 @@
+x-arcane:
+  icon: https://cdn.jsdelivr.net/gh/selfhst/icons@main/svg/file-browser.svg
+  urls:
+    - https://filebrowser.org/
+    - https://github.com/filebrowser/filebrowser
+
+services:
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    restart: unless-stopped
+    user: "${PUID:-1000}:${PGID:-1000}"
+    command:
+      - --address
+      - 0.0.0.0
+      - --database
+      - /database/filebrowser.db
+      - --root
+      - /srv
+    ports:
+      - "${APP_PORT:-8089}:80"
+    volumes:
+      - ${ROOT_PATH}:/srv
+      - ${BASE_PATH}/database:/database
+    labels:
+      com.getarcaneapp.arcane.icon: https://cdn.jsdelivr.net/gh/selfhst/icons@main/svg/file-browser.svg

@@ -1,0 +1,17 @@
+x-arcane:
+  icon: https://cdn.jsdelivr.net/gh/selfhst/icons@main/svg/vaultwarden.svg
+  urls:
+    - https://github.com/dani-garcia/vaultwarden
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    restart: unless-stopped
+    environment:
+      DOMAIN: "https://vw.domain.tld"
+    volumes:
+      - /path/to/vw/data:/data/
+    ports:
+      - 8113:80
+    labels:
+      com.getarcaneapp.arcane.icon: https://cdn.jsdelivr.net/gh/selfhst/icons@main/svg/vaultwarden.svg

@@ -1,0 +1,143 @@
+services:
+  caddy:
+    image: ghcr.io/buildplan/caddy-plus:latest
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    env_file:
+      - .env
+    environment:
+      - CADDY_ADMIN=unix//run/caddy/caddy-admin.sock
+      - DOCKER_HOST=tcp://socket-proxy:2375
+      - TZ=Europe/Amsterdam
+      - CF_API_TOKEN=${CF_API_TOKEN}
+      - CADDY_DOCKER_CADDYFILE_PATH=/config/Caddyfile
+      - CROWDSEC_API_KEY=${CROWDSEC_API_KEY}
+      - CADDY_DOCKER_PROCESS_CADDYFILE=true
+      - CADDY_INGRESS_NETWORKS=proxy
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      - OAUTH2_PROXY_PROVIDER=oidc
+      - OAUTH2_PROXY_OIDC_ISSUER_URL=https://auth.indehoven.com/application/o/caddy/
+      - OAUTH2_PROXY_CLIENT_ID=${OAUTH2_PROXY_CLIENT_ID}
+      - OAUTH2_PROXY_CLIENT_SECRET=${OAUTH2_PROXY_CLIENT_SECRET}
+      - OAUTH2_PROXY_COOKIE_SECRET=${OAUTH2_PROXY_COOKIE_SECRET}
+      - OAUTH2_PROXY_WHITELIST_DOMAINS=.indehoven.com
+      - OAUTH2_PROXY_COOKIE_DOMAINS=.indehoven.com
+      - OAUTH2_PROXY_EMAIL_DOMAINS=*
+      - OAUTH2_PROXY_INSECURE_OIDC_ALLOW_UNVERIFIED_EMAIL=true
+      - OAUTH2_PROXY_SKIP_PROVIDER_BUTTON=true
+    networks:
+      - proxy
+      - backend
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    expose:
+      - "4180"
+    volumes:
+      - /dockerdata/caddy/config:/config
+      - /dockerdata/caddy/data:/data
+      - /dockerdata/caddy/data/www:/data/www
+      - docker-shared/caddy/config/caddy/caddy-admin.sock:/run/caddy/caddy-admin.sock:ro
+      - caddy_logs:/var/log/caddy
+      - docker_shared:/docker_shared
+
+  caddyui:
+    image: applegater/caddyui:v2.12.53
+    container_name: caddyui
+    restart: unless-stopped
+    depends_on:
+      - caddy
+    ports: ["8080:8080"]
+    volumes:
+      - caddyui_data:/data
+      - docker-shared/caddy/config/caddy/caddy-admin.sock:/run/caddy/caddy-admin.sock:ro
+      - caddy_logs:/var/log/caddy
+      - docker_shared:/docker_shared
+    environment:
+      CADDYUI_DB: /data/caddyui.db
+      CADDYUI_LISTEN: :8080
+      CADDY_ADMIN_URL: unix:///run/caddy/caddy-admin.sock
+      TZ: Europe/Amsterdam
+    networks:
+      - backend
+
+  crowdsec:
+    image: crowdsecurity/crowdsec:latest
+    container_name: crowdsec
+    env_file:
+      - .env
+    environment:
+      - CROWDSEC_LAPI_LISTEN_URI=0.0.0.0:8080
+      - CROWDSEC_API_KEY=${CROWDSEC_API_KEY}
+      - TZ=Europe/Amsterdam
+      - DOCKER_HOST=tcp://socket-proxy:2375
+      - COLLECTIONS=crowdsecurity/caddy crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
+      - CROWDSEC_BOUNCER_KEY=${CROWDSEC_BOUNCER_KEY}
+      - CROWDSEC_USER=${CROWDSEC_USER}
+      - CROWDSEC_PASSWORD=${CROWDSEC_PASSWORD}
+      - CROWDSEC_LAPI_URL=http://localhost:8080
+    networks:
+      - proxy
+      - backend
+    volumes:
+      - /dockerdata/caddy/crowdsec-db:/var/lib/crowdsec/data
+      - /dockerdata/caddy/crowdsec-config/acquis.yaml:/etc/crowdsec/acquis.yaml
+      - /dockerdata/caddy/crowdsec-config:/etc/crowdsec
+      - caddy_logs:/var/log/caddy
+      - docker_shared:/docker_shared
+    command: >-
+      mkdir -p /config/caddy;
+      [ -f /config/caddy/autosave.json ] || echo '{}' > /config/caddy/autosave.json;
+      exec caddy run --config /config/caddy/autosave.json --resume --adapter json
+  
+  monitor-api:
+    image: ghcr.io/jgeek00/crowdsec-monitor-api:latest
+    container_name: crowdsec-monitor-api
+    restart: unless-stopped
+    ports:
+      - "3030:3000"
+    environment:
+      - TZ=Europe/Amsterdam
+      - DOCKER_HOST=tcp://socket-proxy:2375
+      - CROWDSEC_LAPI_URL=http://localhost:8080
+      - CROWDSEC_USER=${CROWDSEC_USER}
+      - CROWDSEC_PASSWORD=${CROWDSEC_PASSWORD}
+      - CROWDSEC_BOUNCER_KEY=${CROWDSEC_BOUNCER_KEY}
+      - DB_MODE=sqlite # Options: sqlite, postgres
+      - DB_PATH=/app/database/crowdsec.db # Required when DB_MODE=sqlite
+      # PostgreSQL connection (required when DB_MODE=postgres)
+      # - DB_MODE=postgres
+      # - POSTGRES_HOST=crowdsec-postgres:5432
+      # - POSTGRES_USER=postgres
+      # - POSTGRES_PASSWORD=changeme
+      # - POSTGRES_DB=crowdsec-monitor
+      - SYNC_INTERVAL_SECONDS=30 # Optional, interval in seconds (default 30 seconds)
+      - DATA_RETENTION=2w # Optional, default is indefinite
+      - API_PASSWORD= # Optional, leave empty to disable authentication
+      - RATE_LIMIT= # Optional, format: <requests>/<minutes>, leave empty to disable rate limiting
+    volumes:
+      - /dockerdata/caddy/crowdsec-db:/app/database
+      - /dockerdata/caddy/crowdsec-config/acquis.yaml:/etc/crowdsec/acquis.yaml
+      - /dockerdata/caddy/crowdsec-config:/etc/crowdsec
+      - docker-shared/caddy/config/caddy/caddy-admin.sock:/run/caddy/caddy-admin.sock:ro
+      - caddy_logs:/var/log/caddy
+      - docker_shared:/docker_shared
+    networks:
+      - proxy
+      - backend
+
+networks:
+  proxy:
+    external: true
+  backend:
+    external: true
+volumes:
+  caddy_data:
+  crowdsec-db:
+  caddy_logs:
+    external: true
+  caddyui_data:
+    external: true

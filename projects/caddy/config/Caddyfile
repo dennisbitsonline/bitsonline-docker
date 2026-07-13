@@ -1,0 +1,225 @@
+{
+        debug
+        admin unix//run/caddy/caddy-admin.sock|0777
+        metrics
+        order crowdsec first
+        order appsec after crowdsec
+
+        crowdsec {
+		api_key 7Z2pbq4gu/EragIQybaU8LlnyeqslowQhNnnB/6BeLU
+		api_url http://crowdsec:8080
+		appsec_url http://crowdsec:7422
+		ticker_interval 15s
+	}
+
+	email caddy@indehoven.com
+
+	log {
+		format json
+		level INFO
+		output file /var/log/caddy/caddy.log {
+			roll_at 00:00
+			roll_keep 5
+			roll_keep_for 720h
+			roll_size 1gb
+ 		}
+	}
+}
+
+(cloudflare_tls) {
+	tls {
+		dns cloudflare {env.CF_API_TOKEN}
+		resolvers 1.1.1.1
+	}
+}
+
+(oidc_caddy) {
+	@protected not path /oauth2/*
+	forward_auth @protected localhost:4180 {
+		@error status 401
+		handle_response @error {
+			redir * /oauth2/sign_in?rd={scheme}://{host}{uri}
+		}
+		copy_headers X-Auth-Request-User X-Auth-Request-Email
+		header_up X-Real-IP {remote_host}
+		uri /oauth2/auth
+	}
+	handle /oauth2/* {
+		reverse_proxy localhost:4180 {
+			header_up X-Forwarded-Uri {uri}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+}
+
+(authentik_oidc) {
+	reverse_proxy /outpost.goauthentik.io/* http://authentik-server:9000
+	forward_auth http://authentik-server:9000 {
+		uri /outpost.goauthentik.io/auth/caddy
+		copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt
+	}
+}
+
+(app_route) {
+	crowdsec
+	appsec
+	import authentik_oidc
+}
+
+(php-fpm) {
+    php_fastcgi php-fpm:9000 {
+        try_files {path} {path}/index.php index.php
+    }
+
+    @dotFiles {
+        path */.*
+        not path /.well-known/*
+    }
+    respond @dotFiles 404
+}
+
+http://213.10.233.165 {
+    redir https://indehoven.com{uri} permanent
+}
+
+*.bitsonline bitsonline.nl {
+    root * /data/www/bitsonline.nl
+    import php-fpm
+    import cloudflare_tls
+    file_server
+    encode zstd gzip
+	log {
+		output file /var/log/caddy/bitsonline.log
+               }
+}
+
+*.indehoven.com indehoven.com {
+    root * /data/www/indehoven.com    
+    import php-fpm
+    import cloudflare_tls
+    file_server
+    encode zstd gzip
+	log {
+		output file /var/log/caddy/indehoven.log
+               }
+}
+
+
+netdata.indehoven.com {
+	reverse_proxy host.docker.internal:19999
+     tls admin@indehoven.com
+}
+
+aliasvault.indehoven.com {
+	log {
+	    output file /var/log/caddy/aliasvault.log
+               }
+	reverse_proxy aliasvault:80
+}
+arcane.indehoven.com {
+	log {
+	    output file /var/log/caddy/arcane.log
+               }
+	reverse_proxy arcane:80
+}
+
+auth.indehoven.com authentik.indehoven.com {
+	log {
+	    output file /var/log/caddy/auth.log
+               }
+	reverse_proxy authentik-server:9000
+}
+outpost-proxy.indehoven.com {
+	log {
+	    output file /var/log/caddy/outpost-proxy.log
+               }
+	reverse_proxy authentik-outpost-proxy:9000
+}
+
+caddyui.indehoven.com {
+	log {
+	    output file /var/log/caddy/caddyui.log
+               }
+	reverse_proxy caddyui:8585
+}
+
+caddygen.indehoven.com {
+	log {
+	    output file /var/log/caddy/caddygen.log
+               }
+	reverse_proxy caddygen:80
+}
+
+crowdsec.indehoven.com {
+	log {
+	    output file /var/log/caddy/crowdsec.log
+               }
+	reverse_proxy crowdsec:8585
+}
+
+ns.indehoven.com dns.indehoven.com {
+	log {
+	    output file /var/log/caddy/ns.log
+               }
+	reverse_proxy ns:5380
+}
+
+dockhand.indehoven.com {
+	log {
+	    output file /var/log/caddy/dockhand.log
+               }
+	reverse_proxy dockhand:80
+}
+dozzle.indehoven.com {
+	log {
+	    output file /var/log/caddy/dozzle.log
+               }
+	reverse_proxy dozzle:8080
+}
+netalertx.indehoven.com {
+	log {
+	    output file /var/log/caddy/netalertx.log
+               }
+	reverse_proxy netalertx:20120
+}
+
+portainer.indehoven.com {
+	log {
+	    output file /var/log/caddy/portainer.log
+               }
+	reverse_proxy portainer:9000
+}
+
+prometheus.indehoven.com {
+	log {
+	    output file /var/log/caddy/prometheus.log
+               }
+	reverse_proxy prometheus:9090
+}
+
+grafana.indehoven.com {
+	log {
+	    output file /var/log/caddy/grafana.log
+               }
+	reverse_proxy grafana:3000
+}
+
+ssh-manager.indehoven.com {
+	log {
+	    output file /var/log/caddy/ssh-manager.log
+               }
+	reverse_proxy ssh-manager:80
+}
+vaultwarden.indehoven.com {
+	log {
+	    output file /var/log/caddy/vaultwarden.log
+               }
+	reverse_proxy vaultwarden:80
+}
+
+zerobyte.indehoven.com {
+	log {
+	    output file /var/log/caddy/zerobyte.log
+               }
+	reverse_proxy zerobyte:80
+}

@@ -1,0 +1,27 @@
+---
+services:
+  portainer:
+    container_name: portainer
+    hostname: portainer
+    image: portainer/portainer-ee
+    networks:
+      - proxy
+    restart: always
+    volumes:
+      - ./data:/data
+      - caddy_logs:/var/log/caddy
+    ports:
+      - 127.0.0.1:9443:9443
+      - 9000:9000
+    environment:
+      - CADDY_INGRESS_NETWORKS= proxy
+      - DOCKER_HOST=tcp://socket-proxy:2375
+      - TZ=Europe/Amsterdam
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  caddy_logs:
+    external: true

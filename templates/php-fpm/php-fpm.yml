@@ -1,0 +1,15 @@
+services:
+  php-fpm:
+    container_name: php-fpm
+    hostname: php-fpm
+    image: serversideup/php:8.5-fpm-alpine
+    volumes:
+      - /dockerdata/caddy/data/caddy-data/www:/data/www
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+
+

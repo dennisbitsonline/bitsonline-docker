@@ -1,0 +1,131 @@
+# ──────────────────────────────────────────────────────────────────────
+#  OmniRoute — Docker Compose
+# ──────────────────────────────────────────────────────────────────────
+#
+#  Profiles:
+#    base  → minimal image, no CLI tools
+#    cli   → CLIs installed inside the container (portable)
+#    host  → runner-base + host-mounted CLI binaries (Linux-first)
+#
+#  Usage:
+#    docker compose --profile base up -d
+#    docker compose --profile cli up -d
+#    docker compose --profile host up -d
+#
+#  Before first run, copy .env.example → .env and edit your secrets.
+# ──────────────────────────────────────────────────────────────────────
+
+x-common: &common
+  restart: unless-stopped
+  env_file: .env
+  environment:
+    - DATA_DIR=/app/data # Must match the volume mount below
+    - PORT=${PORT:-20128}
+    - DASHBOARD_PORT=${DASHBOARD_PORT:-${PORT:-20128}}
+    - API_PORT=${API_PORT:-20129}
+    - API_HOST=${API_HOST:-0.0.0.0}
+  volumes:
+    - omniroute-data:/app/data
+  healthcheck:
+    test: ["CMD", "node", "healthcheck.mjs"]
+    interval: 30s
+    timeout: 5s
+    retries: 3
+    start_period: 15s
+    labels:
+      caddy: omniroute.indehoven.com
+      caddy.import_0: "cloudflare_tls"
+      caddy.log.output: "file /var/log/caddy/access.log"
+      caddy.log.format: "json"
+      caddy.route.0_crowdsec: "" 
+      caddy.route.1_appsec: ""
+      caddy.header.Strict-Transport-Security: "max-age=31536000; includeSubDomains"
+      caddy.header.X-Frame-Options: "SAMEORIGIN"
+      caddy.header.X-Content-Type-Options: "nosniff"
+      caddy.route.2_reverse_proxy: "{{upstreams 20128}}"
+    networks:
+      - proxy
+
+services:
+  # ── Profile: base (minimal, no CLI tools) ──────────────────────────
+  omniroute-base:
+    <<: *common
+    container_name: omniroute
+    build:
+      context: .
+      target: runner-base
+    image: omniroute:base
+    ports:
+      - "${DASHBOARD_PORT:-${PORT:-20128}}:${DASHBOARD_PORT:-${PORT:-20128}}"
+      - "${API_PORT:-20129}:${API_PORT:-20129}"
+    profiles:
+      - base
+
+  # ── Profile: cli (CLIs installed inside container) ─────────────────
+  omniroute-cli:
+    <<: *common
+    container_name: omniroute
+    build:
+      context: .
+      target: runner-cli
+    image: omniroute:cli
+    ports:
+      - "${DASHBOARD_PORT:-${PORT:-20128}}:${DASHBOARD_PORT:-${PORT:-20128}}"
+      - "${API_PORT:-20129}:${API_PORT:-20129}"
+    volumes:
+      - omniroute-data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/libexec/docker/cli-plugins:/usr/libexec/docker/cli-plugins:ro
+      - ${AUTO_UPDATE_HOST_REPO_DIR:-.}:/workspace/omniroute:rw
+    profiles:
+      - cli
+
+  # ── Profile: host (host-mounted CLI binaries, Linux-first) ────────
+  omniroute-host:
+    <<: *common
+    container_name: omniroute
+    build:
+      context: .
+      target: runner-base
+    image: omniroute:base
+    ports:
+      - "${DASHBOARD_PORT:-${PORT:-20128}}:${DASHBOARD_PORT:-${PORT:-20128}}"
+      - "${API_PORT:-20129}:${API_PORT:-20129}"
+    environment:
+      - DATA_DIR=/app/data
+      - PORT=${PORT:-20128}
+      - DASHBOARD_PORT=${DASHBOARD_PORT:-${PORT:-20128}}
+      - API_PORT=${API_PORT:-20129}
+      - API_HOST=${API_HOST:-0.0.0.0}
+      - CLI_MODE=host
+      - CLI_EXTRA_PATHS=/host-local/bin:/host-node/bin
+      - CLI_CONFIG_HOME=/host-home
+      - CLI_ALLOW_CONFIG_WRITES=true
+      # Uncomment per-tool overrides as needed:
+CLI_CURSOR_BIN=agent
+CLI_CLINE_BIN=cline
+CLI_CONTINUE_BIN=cn
+    volumes:
+      - omniroute-data:/app/data
+      # ── Host binary mounts (read-only) ──
+      # Adjust paths below to match YOUR host system.
+      - ~/.local/bin:/host-local/bin:ro
+      # Node global binaries (adjust node version path)
+~/.nvm/versions/node/v22.16.0/bin:/host-node/bin:ro
+      # ── Host config mounts (read-write) ──
+      - ~/.codex:/host-home/.codex:rw
+      - ~/.claude:/host-home/.claude:rw
+      - ~/.factory:/host-home/.factory:rw
+      - ~/.openclaw:/host-home/.openclaw:rw
+      - ~/.cursor:/host-home/.cursor:rw
+      - ~/.config/cursor:/host-home/.config/cursor:rw
+    profiles:
+      - host
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  omniroute-data:
+    name: omniroute-data

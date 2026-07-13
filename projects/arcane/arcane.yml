@@ -1,0 +1,90 @@
+services:
+  # Docker Socket Proxy - see https://github.com/Tecnativa/docker-socket-proxy for official documentation
+  socket-proxy:
+    image: tecnativa/docker-socket-proxy:latest
+    container_name: socket-proxy
+    environment:
+      - EVENTS=1
+      - PING=1
+      - VERSION=1
+      # Security critical
+      - AUTH=0
+      - SECRETS=0
+      - POST=1
+      # Not always needed
+      - BUILD=0
+      - COMMIT=0
+      - CONFIGS=0
+      - CONTAINERS=1
+      - DISTRIBUTION=0
+      - EXEC=1
+      - IMAGES=1
+      - INFO=1
+      - NETWORKS=1
+      - NODES=0
+      - PLUGINS=0
+      - SERVICES=0
+      - SESSION=0
+      - SWARM=0
+      - SYSTEM=0
+      - TASKS=0
+      - VOLUMES=1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Read-only access to host socket
+    networks:
+      - backend
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+  arcane:
+    image: ghcr.io/getarcaneapp/arcane:latest
+    container_name: arcane
+    ports:
+      - "3552:3552"
+    volumes:
+      - arcane-data:/app/data
+      - caddy_logs:/var/log/caddy
+      - docker_shared:/docker_shared
+    env_file:
+      - .env
+    environment:
+      - TZ=Europe/Amsterdam
+      - DOCKER_HOST=tcp://socket-proxy:2375
+      - PROJECTS_DIRECTORY=/dockerdata/projects
+      - TEMPLATES_DIRECTORY=/dockerdata/templates
+      - BUILDS_DIRECTORY=/dockerdata/builds
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - TRUSTED_PROXIES=${TRUSTED_PROXIES}
+      # Optional: run Arcane as a specific host UID/GID instead of the default runtime user.
+      # With DOCKER_HOST over TCP, no Unix socket group mapping is needed.
+      # - PUID=1000
+      # - PGID=1000
+    networks:
+      - proxy
+    depends_on:
+      - socket-proxy
+    healthcheck:
+      test: curl localhost:3552/api/health | grep \"status\":\"UP\"
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s    # Use host cgroup namespace for better container self-detection
+    # This allows Arcane to detect its own container ID more reliably
+    cgroup: host
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+  backend:
+    external: true
+
+volumes:
+  arcane-data:
+    name: arcane-data
+  caddy_logs:
+    external: true
+  docker_shared:
+    external: true
