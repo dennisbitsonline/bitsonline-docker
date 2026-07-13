@@ -126,7 +126,6 @@ ipython_config.py
 *.sage.py
 
 # Environments
-.env
 .venv
 env/
 venv/
