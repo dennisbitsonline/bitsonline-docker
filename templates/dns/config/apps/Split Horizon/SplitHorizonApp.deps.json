@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "SplitHorizonApp/11.0": {
+        "runtime": {
+          "SplitHorizonApp.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SplitHorizonApp/11.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
