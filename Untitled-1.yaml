@@ -1,0 +1,70 @@
+services:
+  crowdsec:
+    container_name: crowdsec
+    image: crowdsecurity/crowdsec:v1.7.8
+    restart: always
+    environment:
+      TZ: Europe/Amsterdam
+      DOCKER_HOST: tcp://socket-proxy:2375
+      COLLECTIONS: crowdsecurity/traefik crowdsecurity/base-http-scenarios
+        crowdsecurity/http-dos crowdsecurity/http-cve
+        crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
+        crowdsecurity/linux crowdsecurity/sshd
+        crowdsecurity/whitelist-good-actors LePresidente/authelia
+        Dominic-Wagner/vaultwarden/ Jgigantino31/ntfy
+      GID: ${GID-1000}
+      TRUSTED_IPS: 127.0.0.1,::1,172.39.0.0/24,192.168.1.0/24
+    volumes:
+      - path/to/traefik/logs:/var/log/traefik:ro
+      - crowdsec_data:/var/lib/crowdsec/data/
+      - caddy_logs:/var/log/caddy
+      - docker_shared:/docker_shared
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - wget --spider --quiet --tries=1 --timeout=5
+          http://localhost:8080/health > /dev/null 2>&1 || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+  traefik:
+    image: traefik:v3.7.1
+    container_name: traefik_proxy
+    restart: unless-stopped -
+      "path/to/dynamic-config.yml:/etc/traefik/dynamic-config.yml:ro" -
+      "path/to/traefik.yml:/etc/traefik/traefik.yml:ro" -
+      caddy_logs:/var/log/traefik
+    depends_on:
+      - crowdsec
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - proxy
+      - backend
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      TZ: Europe/Amsterdam
+      DOCKER_HOST: tcp://socket-proxy:2375
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - ./data/dynamic-config.yml:/etc/traefik/dynamic-config.yml:ro
+      - ./data/traefik.yml:/etc/traefik/traefik.yml:ro
+      - caddy_logs:/var/log/traefik
+      - caddy_logs:/var/log/caddy
+      - docker_shared:/docker_shared
+volumes:
+  crowdsec_data:
+    name: crowdsec_data
+  proxy:
+    external: true
+  backend:
+    external: true
+networks:
+  proxy:
+    external: true
+  backend:
+    external: true
