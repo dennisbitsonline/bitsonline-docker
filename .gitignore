@@ -49,6 +49,12 @@ cspell-report.*
 # C extensions
 *.so
 
+#DNS-server
+dns/data/
+
+#Crowdsec
+ /crowdec/data/
+
 # Distribution / packaging
 .Python
 build/
