@@ -1,0 +1,10 @@
+http:
+  middlewares:
+    default-secured:
+      chain:
+        middlewares:
+          - autodetectContenttype
+          - default-ipallowlist
+          - secHeaders
+#          - crowdsec-bouncer
+#          - forwardAuth-authentik
