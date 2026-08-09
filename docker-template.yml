@@ -1,0 +1,24 @@
+  build:
+  context: .
+  dockerfile: Dockerfile
+  args:
+# Build-time variables (for frontend builds)
+    - VITE_API_URL=${VITE_API_URL}
+  restart: unless-stopped
+  environment:
+# Runtime variables (for backend)
+    - DATABASE_URL=${DATABASE_URL}
+    - API_KEY=${API_KEY}
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.myapp.entrypoints=https"
+    - "traefik.http.routers.myapp.rule=Host(myapp.yourdomain.com)"
+    - "traefik.http.routers.myapp.tls=true"
+    - "traefik.http.routers.myapp.tls.certresolver=cloudflare"
+    - "traefik.http.services.myapp.loadbalancer.server.port=8080"
+  networks:
+    - traefik
+
+networks:
+  proxy:
+    name: true
