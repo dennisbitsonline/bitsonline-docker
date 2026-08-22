@@ -47,7 +47,7 @@ services:
       network_mode: host
       volumes:
           - netbird-client:/netbird/etc
-      image: "11notes/netbird-client:0.76.3"
+      image: "11notes/netbird-client:0.77.1"
       environment:
           TZ: "Europe/Amsterdam"
           NETBIRD_PEER_NAME: "docker-client"
