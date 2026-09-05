@@ -41,7 +41,7 @@ services:
       - /dockerdata/caddy/data/www:/data/www
       - caddy_logs:/var/log/caddy
   caddyui:
-    image: applegater/caddyui:v2.21.1
+    image: applegater/caddyui:v2.38.0
     container_name: caddyui
     restart: unless-stopped
     depends_on:
