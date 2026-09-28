@@ -2,7 +2,7 @@ experimental:
   plugins:
     crowdsec-bouncer-traefik-plugin:
       moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
-      version: latest
+      version: 1.8.0-alpha available
     badger:
       moduleName: github.com/fosrl/badger
       version: latest
