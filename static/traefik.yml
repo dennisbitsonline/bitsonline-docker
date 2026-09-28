@@ -167,3 +167,8 @@ accessLog:
       defaultMode: keep # Start with dropping all headers
 serversTransport:
   insecureSkipVerify: true
+metrics:
+  prometheus:
+    addRoutersLabels: true
+global:
+  checkNewVersion: false
