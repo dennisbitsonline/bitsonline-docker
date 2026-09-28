@@ -1,0 +1,19 @@
+http:
+  routers:
+    webapps:
+      rule: Host(`webapps.lan.bitsonline.nl`) || Host(`webapps.bitsonline.nl`) || Host(`webapps.8it5.nl`) || Host(`webapps.indehoven.com`)
+      entryPoints:
+        - websecure
+      service: svc-webapps
+      middlewares:
+        - security-headers@file
+        - crowdsec@file
+        - gk-access@file
+      tls:
+        certResolver: cloudflare
+        options: tls-opts
+  services:
+    svc-webapps:
+      loadBalancer:
+        servers:
+          - url: http://192.168.2.1:80

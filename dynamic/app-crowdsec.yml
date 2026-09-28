@@ -1,6 +1,6 @@
 http:
   middlewares:
-    crowdsec-bouncer:
+    crowdsec:
       plugin:
         crowdsec-bouncer-traefik-plugin:
           enabled: true # Enable CrowdSec plugin
