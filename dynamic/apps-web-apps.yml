@@ -1,0 +1,19 @@
+http:
+  routers:
+    webapps:
+      rule: Host(`webapps.lan.bitsonline.nl`)
+      entryPoints:
+        - websecure
+        - webauth
+      service: svc-webapps
+      middlewares:
+        - security-headers@file
+        - gk-auth@file
+      tls:
+        certResolver: cloudflare
+        options: tls-opts@file
+  services:
+    svc-webapps:
+      loadBalancer:
+        servers:
+          - url: http://192.168.2.1:80

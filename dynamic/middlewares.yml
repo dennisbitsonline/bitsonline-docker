@@ -1,0 +1,76 @@
+http:
+  middlewares:
+    https-redirectscheme:
+      redirectScheme:
+        scheme: https
+        permanent: true
+    default-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 15552000
+        customFrameOptionsValue: SAMEORIGIN
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+    default-whitelist:
+      ipAllowList:
+        sourceRange:
+          - "10.0.0.0/8"
+          - "192.168.0.0/16"
+          - "172.16.0.0/12"
+          - "100.64.0.0/10"
+    secured:
+      chain:
+        middlewares:
+#          - default-whitelist
+          - default-headers
+          - gk-auth
+
+    # Only allow local networks
+    local-ipallowlist:
+      ipAllowList:
+        sourceRange:
+          - '127.0.0.1/32'
+          - '10.0.0.0/8'
+          - '172.16.0.0/12'
+          - '192.168.0.0/16'
+
+    security-headers:
+      headers:
+        customResponseHeaders:
+          Server: ''
+          X-Powered-By: ''
+          X-Forwarded-Proto: 'https'
+        sslProxyHeaders:
+          X-Forwarded-Proto: 'https'
+        hostsProxyHeaders:
+          - 'X-Forwarded-Host'
+        contentTypeNosniff: true
+        customFrameOptionsValue: 'SAMEORIGIN'
+        browserXssFilter: false
+        referrerPolicy: 'strict-origin-when-cross-origin'
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsSeconds: 63072000
+        stsPreload: true
+
+## -- End http --
+
+tcp:
+  ## MIDDLEWARES ##
+  middlewares:
+    # Only allow local networks
+    local-ipallowlist:
+      ipAllowList:
+        sourceRange:
+          - '127.0.0.1/32'
+          - '10.0.0.0/8'
+          - '172.16.0.0/12'
+          - '192.168.0.0/16'
+
+## -- End tcp --
+
