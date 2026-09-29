@@ -15,8 +15,16 @@ entryPoints:
     address: ":53/tcp"
   dns-udp:
     address: ":53/udp"
+    http:
+      middlewares:
+      - local-ipallowlist@file
+      - default-headers@file
   dns-tls:
     address: ":853"
+    http:
+      middlewares:
+      - local-ipallowlist@file
+      - default-headers@file
   webauth:
     address: ":8282"
     http:
@@ -98,29 +106,14 @@ entryPoints:
       - '10.0.0.0/8'
       - '172.16.0.0/12'
       - '192.168.0.0/16'
-  vps:
-    address: "207.180.228.187"
-    forwardedHeaders:
-      trustedIPs:
-      - 207.180.228.187
-      - 213.10.233.165
-      - 192.168.2.0/24
-      - 172.16.0.0/12
-    proxyProtocol:
-      trustedIPs:
-      - 207.180.228.187
-      - 213.10.233.165
-      - 192.168.2.0/24
-      - 172.16.0.0/12
 providers:
   docker:
-   # endpoint: tcp://socket-proxy:2375
+    endpoint: tcp:///socket-proxy:2375
     defaultRule: Host(`{{ index .Labels 
       "com.docker.compose.service"}}.lan.bitsonline.nl`) || Host(`{{ index 
       .Labels "com.docker.compose.service"}}.bitsonline.nl`) || Host(`{{ index 
       .Labels "com.docker.compose.service"}}.8it5.nl`) || Host(`{{ index .Labels
       "com.docker.compose.service"}}.indehoven.com`)
-
     exposedByDefault: false
     network: proxy
   file:
