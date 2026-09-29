@@ -38,15 +38,6 @@ http:
           - gk-auth
 
     # Only allow local networks
-    local-ipallowlist:
-      ipAllowList:
-        sourceRange:
-          - '127.0.0.1/32'
-          - '10.0.0.0/8'
-          - '172.16.0.0/12'
-          - '192.168.0.0/16'
-
-    # Only Allow Local networks
     local-ipwhitelist:
       ipAllowList:
         sourceRange:
