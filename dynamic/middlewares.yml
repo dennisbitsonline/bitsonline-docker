@@ -1,9 +1,15 @@
 http:
   middlewares:
-    https-redirectscheme:
-      redirectScheme:
-        scheme: https
-        permanent: true
+    # rate limiting
+    rate-limit:
+      rateLimit:
+        average: 50
+        period: 1s
+        burst: 100
+        # uncomment the next lines if behind cloudflare
+        #sourceCriterion:
+        #  requestHeaderName: CF-Connecting-IP        
+
     default-headers:
       headers:
         frameDeny: true
@@ -16,6 +22,7 @@ http:
         customFrameOptionsValue: SAMEORIGIN
         customRequestHeaders:
           X-Forwarded-Proto: https
+
     default-whitelist:
       ipAllowList:
         sourceRange:
@@ -26,7 +33,7 @@ http:
     secured:
       chain:
         middlewares:
-#          - default-whitelist
+          - default-whitelist
           - default-headers
           - gk-auth
 
@@ -39,24 +46,100 @@ http:
           - '172.16.0.0/12'
           - '192.168.0.0/16'
 
+    # Only Allow Local networks
+    local-ipwhitelist:
+      ipAllowList:
+        sourceRange:
+          - 127.0.0.1/32 # localhost
+          - 10.0.0.0/8 # private class A
+          - 172.16.0.0/12 # private class B
+          - 192.168.0.0/16 # private class C
+        #ipstrategy: # enable this when cloudflare proxy in use
+        #  depth: 1 # enable this when cloudflare proxy in use
+
+    # Security headers
     security-headers:
       headers:
-        customResponseHeaders:
-          Server: ''
-          X-Powered-By: ''
-          X-Forwarded-Proto: 'https'
+        customResponseHeaders: # field names are case-insensitive
+          #X-Robots-Tag: "all,noarchive,nosnippet,notranslate,noimageindex"
+          Server: "" # prevent version disclosure
+          X-Powered-By: "" # prevent version disclosure
+          X-Forwarded-Proto: "https"
+          #Permissions-Policy: "accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), identity-credentials-get=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), storage-access=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=()"
+          #Cross-Origin-Embedder-Policy: "unsafe-none"
+          #Cross-Origin-Opener-Policy: "same-origin"
+          #Cross-Origin-Resource-Policy: "same-site"
+          #X-Permitted-Cross-Domain-Policies: "none"
         sslProxyHeaders:
-          X-Forwarded-Proto: 'https'
+          X-Forwarded-Proto: "https"
         hostsProxyHeaders:
-          - 'X-Forwarded-Host'
-        contentTypeNosniff: true
-        customFrameOptionsValue: 'SAMEORIGIN'
-        browserXssFilter: false
-        referrerPolicy: 'strict-origin-when-cross-origin'
-        forceSTSHeader: true
-        stsIncludeSubdomains: true
-        stsSeconds: 63072000
-        stsPreload: true
+          - "X-Forwarded-Host"
+        #customRequestHeaders:
+        #  X-Forwarded-Proto: "https"
+        contentTypeNosniff: true # X-Content-Type-Options
+        customFrameOptionsValue: "SAMEORIGIN" # X-Frame-Options
+        browserXssFilter: false # X-XSS-Protection; deprecated
+        referrerPolicy: "strict-origin-when-cross-origin" # Referrer-Policy
+        forceSTSHeader: true # HTTP-Strict-Transport-Security (HSTS)
+        stsIncludeSubdomains: true # HTTP-Strict-Transport-Security (HSTS)
+        stsSeconds: 63072000 # HTTP-Strict-Transport-Security (HSTS)
+        stsPreload: true # HTTP-Strict-Transport-Security (HSTS)
+        #contentSecurityPolicy: "default-src 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content" # Content-Security-Policy (CSP)
+
+    #crowdsec:
+    #  plugin:
+    #    bouncer:
+    #      enabled: true
+    #      defaultDecisionSeconds: 60
+    #      crowdsecMode: live
+    #      crowdsecAppsecEnabled: false
+    #      crowdsecAppsecHost: crowdsec:7422
+    #      crowdsecAppsecFailureBlock: true
+    #      crowdsecAppsecUnreachableBlock: true
+    #      crowdsecLapiKey: FIXME-LAPI-KEY # <--- replace this later
+    #      crowdsecLapiHost: crowdsec:8080
+    #      crowdsecLapiScheme: http
+    #      crowdsecLapiTLSInsecureVerify: false
+    #      banFilePath: /ban.html
+    #      captchaProvider: hcaptcha
+    #      captchaSiteKey: YourSiteKey
+    #      captchaSecretKey: YourSecretKey
+    #      captchaGracePeriodSeconds: 1800
+    #      captchaFilePath: /captcha.html    
+    #      forwardedHeadersTrustedIPs:
+    #        # private class ranges
+    #        - 10.0.0.0/8
+    #        - 172.16.0.0/12
+    #        - 192.168.0.0/16
+    #        ## cloudflare ipv4
+    #        #- 103.21.244.0/22
+    #        #- 103.22.200.0/22
+    #        #- 103.31.4.0/22
+    #        #- 104.16.0.0/13
+    #        #- 104.24.0.0/14
+    #        #- 108.162.192.0/18
+    #        #- 131.0.72.0/22
+    #        #- 141.101.64.0/18
+    #        #- 162.158.0.0/15
+    #        #- 172.64.0.0/13
+    #        #- 173.245.48.0/20
+    #        #- 188.114.96.0/20
+    #        #- 190.93.240.0/20
+    #        #- 197.234.240.0/22
+    #        #- 198.41.128.0/17
+    #        ## cloudflare ipv6
+    #        #- 2400:cb00::/32
+    #        #- 2606:4700::/32
+    #        #- 2803:f800::/32
+    #        #- 2405:b500::/32
+    #        #- 2405:8100::/32
+    #        #- 2a06:98c0::/29
+    #        #- 2c0f:f248::/32
+    #      clientTrustedIPs:
+    #        # private class ranges
+    #        - 10.0.0.0/8
+    #        - 172.16.0.0/12
+    #        - 192.168.0.0/16
 
 ## -- End http --
 

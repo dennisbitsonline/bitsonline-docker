@@ -1,0 +1,29 @@
+http:
+  routers:
+    catchall-router:
+      rule: "HostRegexp(`{catchall:.*}`)"
+      priority: 1
+      service: unavailable-service
+      entryPoints:
+        - web
+        - websecure
+      tls: {}
+
+    http-challenge:
+      rule: PathPrefix(`/.well-known/acme-challenge/`)
+      entryPoints:
+        - web
+      priority: 100
+      service: noop
+      middlewares: []
+
+  services:
+    noop:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1"
+
+    unavailable-service:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1"

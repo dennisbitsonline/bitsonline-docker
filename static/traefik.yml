@@ -3,7 +3,7 @@ api:
   insecure: true
   debug: true
 log:
-  level: "DEBUG"
+  level: "INFO"
   format: "json"
   filePath: /logs/traefik.log
   maxSize: 10
@@ -13,6 +13,10 @@ log:
 entryPoints:
   dns-tcp:
     address: ":53/tcp"
+    http:
+      middlewares:
+      - local-ipallowlist@file
+      - default-headers@file
   dns-udp:
     address: ":53/udp"
     http:
@@ -35,6 +39,10 @@ entryPoints:
           permanent: true
   socket:
     address: ":2375/tcp"
+    http:
+      middlewares:
+      - local-ipallowlist@file
+      - default-headers@file
   web:
     address: ":80"
     http:
@@ -99,13 +107,10 @@ entryPoints:
     asDefault: true
   traefik:
     address: ":8080"
-    forwardedHeaders:
-      insecure: true
-      trustedIPs:
-      - '127.0.0.0/8'
-      - '10.0.0.0/8'
-      - '172.16.0.0/12'
-      - '192.168.0.0/16'
+    http:
+      middlewares:
+      - local-ipallowlist@file
+      - default-headers@file
 providers:
   docker:
     endpoint: tcp:///socket-proxy:2375
@@ -113,13 +118,16 @@ providers:
       "com.docker.compose.service"}}.lan.bitsonline.nl`) || Host(`{{ index 
       .Labels "com.docker.compose.service"}}.bitsonline.nl`) || Host(`{{ index 
       .Labels "com.docker.compose.service"}}.8it5.nl`) || Host(`{{ index .Labels
-      "com.docker.compose.service"}}.indehoven.com`)
+      "com.docker.compose.service"}}.indehoven.com`) || Host(`{{ index .Labels
+      "com.docker.compose.service"}}.remote.8it5.nl`) || Host(`{{ index .Labels
+      "com.docker.compose.service"}}.remote.bitsonline.nl`)
     exposedByDefault: false
     network: proxy
   file:
     directory: /dynamic
   http:
-    endpoint: http://pangolin-idh:3001/api/v1/traefik-config
+    #endpoint: http://pangolin-idh:3001/api/v1/traefik-config
+    endpoint: http://127.0.0.1/api
     pollInterval: 5s
     pollTimeout: 30s
 certificatesResolvers:
@@ -127,7 +135,7 @@ certificatesResolvers:
     acme:
       email: dennisbitsonline@gmail.com
       storage: /certs/acme.json
-      # caServer: https://acme-v02.api.letsencrypt.org/directory # prod (default)
+      caServer: https://acme-v02.api.letsencrypt.org/directory # prod (default)
       # caServer: https://acme-staging-v02.api.letsencrypt.org/directory # staging
       dnsChallenge:
         provider: cloudflare
