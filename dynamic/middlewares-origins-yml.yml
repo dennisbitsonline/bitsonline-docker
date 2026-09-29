@@ -1,0 +1,16 @@
+http:
+  middlewares:
+    origins:
+      headers:
+        accessControlAllowMethods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+          - OPTIONS
+        accessControlAllowOriginList:
+          - https://proxy.lan.bitsline.nl
+          - https://proxy.bitsline.nl
+        accessControlMaxAge: 30
+        addVaryHeader: true
