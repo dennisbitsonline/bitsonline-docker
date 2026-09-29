@@ -1,11 +1,11 @@
 http:
   routers:
-    openwrt:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`openwrt.lan.bitsonline.nl`)"
-      service: svc-openwrt
-      tls: {}
+#    openwrt:
+#      entryPoints:
+#        - "websecure"
+#      rule: "Host(`openwrt.lan.bitsonline.nl`)"
+#      service: svc-openwrt
+#      tls: {}
     gateway:
       entryPoints:
         - "websecure"
@@ -19,10 +19,10 @@ http:
       service: svc-proxy
       tls: {}
   services:
-    svc-openwrt:
-      loadBalancer:
-        servers:
-          - url: "http://192.168.2.253:80"
+#    svc-openwrt:
+#      loadBalancer:
+#        servers:
+#          - url: "http://192.168.2.253:80"
     svc-gateway:
       loadBalancer:
         servers:

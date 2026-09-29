@@ -22,14 +22,14 @@ http:
         servers:
           - url: http://gatekeeper:8283
   middlewares:
-    gk-access:
+    gk-auth:
       forwardAuth:
         address: "http://gatekeeper:8282/auth/verify"
         authResponseHeaders:
           - X-Auth-User
           - X-Auth-Email
           - X-Auth-Groups
-    gk-auth:
+    gk-access:
       forwardAuth:
         address: "http://gatekeeper:8282/auth/verify?policy=gk-forwardAuth-access"
         trustForwardHeader: true

@@ -15,23 +15,26 @@ entryPoints:
     address: ":53/tcp"
     http:
       middlewares:
-      - local-ipallowlist@file
+#      - local-ipallowlist@file
       - default-headers@file
   dns-udp:
     address: ":53/udp"
     http:
       middlewares:
-      - local-ipallowlist@file
+#      - local-ipallowlist@file
       - default-headers@file
   dns-tls:
     address: ":853"
     http:
       middlewares:
-      - local-ipallowlist@file
+#      - local-ipallowlist@file
       - default-headers@file
   webauth:
     address: ":8282"
     http:
+      middlewares:
+#      - local-ipallowlist@file
+      - default-headers@file
       redirections:
         entryPoint:
           to: websecure
@@ -41,11 +44,14 @@ entryPoints:
     address: ":2375/tcp"
     http:
       middlewares:
-      - local-ipallowlist@file
+#      - local-ipallowlist@file
       - default-headers@file
   web:
     address: ":80"
     http:
+      middlewares:
+#      - local-ipallowlist@file
+      - default-headers@file
       redirections:
         entryPoint:
           to: websecure
@@ -78,6 +84,9 @@ entryPoints:
     http3:
       advertisedPort: 443
     http:
+      middlewares:
+#      - local-ipallowlist@file
+      - default-headers@file
       tls:
         certResolver: "cloudflare"
         #options: tls-opts@file
@@ -109,7 +118,7 @@ entryPoints:
     address: ":8080"
     http:
       middlewares:
-      - local-ipallowlist@file
+#      - local-ipallowlist@file
       - default-headers@file
 providers:
   docker:
@@ -118,16 +127,17 @@ providers:
       "com.docker.compose.service"}}.lan.bitsonline.nl`) || Host(`{{ index 
       .Labels "com.docker.compose.service"}}.bitsonline.nl`) || Host(`{{ index 
       .Labels "com.docker.compose.service"}}.8it5.nl`) || Host(`{{ index .Labels
-      "com.docker.compose.service"}}.indehoven.com`) || Host(`{{ index .Labels
-      "com.docker.compose.service"}}.remote.8it5.nl`) || Host(`{{ index .Labels
+      "com.docker.compose.service"}}.indehoven.com`) || Host(`{{ index .Labels 
+      "com.docker.compose.service"}}.remote.8it5.nl`) || Host(`{{ index .Labels 
       "com.docker.compose.service"}}.remote.bitsonline.nl`)
     exposedByDefault: false
     network: proxy
+    watch: true
   file:
     directory: /dynamic
+    watch: true
   http:
-    #endpoint: http://pangolin-idh:3001/api/v1/traefik-config
-    endpoint: http://127.0.0.1/api
+    endpoint: http://pangolin-idh:3001/api/v1/traefik-config
     pollInterval: 5s
     pollTimeout: 30s
 certificatesResolvers:
@@ -142,8 +152,10 @@ certificatesResolvers:
         disablePropagationCheck: true # uncomment this if you have issues pulling certificates through cloudflare, By setting this flag to true disables the need to wait for the propagation of the TXT record to all authoritative name servers.
         delayBeforeCheck: 60s # uncomment along with disablePropagationCheck if needed to ensure the TXT record is ready before verification is attempted 
         resolvers:
-        - "1.1.1.1:53"
-        - "1.0.0.1:53"
+        - 1.1.1.1:53
+        - 1.0.0.1:53
+        propagation:
+          delayBeforeChecks: 45s
   local-tls:
     acme:
       email: local@8it5.nl
@@ -175,7 +187,8 @@ accessLog:
 serversTransport:
   insecureSkipVerify: true
 metrics:
-  prometheus: {}
+  prometheus:
+    addRoutersLabels: true
 experimental:
   plugins:
     crowdsec-bouncer-traefik-plugin:
@@ -184,3 +197,5 @@ experimental:
     badger:
       moduleName: github.com/fosrl/badger
       version: v1.7.0
+global:
+  checkNewVersion: false
