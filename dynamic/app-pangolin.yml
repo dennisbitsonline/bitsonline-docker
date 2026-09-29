@@ -1,0 +1,9 @@
+http:
+  middlewares:
+    pangolin-badger:
+      plugin:
+        badger:
+          apiBaseUrl: http://localhost:3001/api/v1
+          resourceSessionRequestParam: p_session_request
+          userSessionCookieName: p_session_token
+

@@ -15,7 +15,7 @@ http:
           crowdsecAppsecFailureBlock: true # Block on failure
           crowdsecAppsecUnreachableBlock: true # Block on unreachable
           crowdsecAppsecBodyLimit: 10485760
-          crowdsecLapiKey: "40796d93c2958f9e58345514e67740e5" # CrowdSec API key which you noted down later
+          crowdsecLapiKey: "70m/NIGatV7XMJSdFONx0IGHNqI1RvlLcHug0HFlicc" # CrowdSec API key which you noted down later
           crowdsecLapiHost: crowdsec:8080 # CrowdSec
           crowdsecLapiScheme: http # CrowdSec API scheme
           forwardedHeadersTrustedIPs: # Forwarded headers trusted IPs

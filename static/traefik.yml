@@ -1,11 +1,3 @@
-experimental:
-  plugins:
-    crowdsec-bouncer-traefik-plugin:
-      moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
-      version: 1.8.0-alpha
-    badger:
-      moduleName: github.com/fosrl/badger
-      version: v1.7.0
 api:
   dashboard: true
   insecure: true
@@ -106,6 +98,20 @@ entryPoints:
       - '10.0.0.0/8'
       - '172.16.0.0/12'
       - '192.168.0.0/16'
+  vps:
+    address: "207.180.228.187"
+    forwardedHeaders:
+      trustedIPs:
+      - 207.180.228.187
+      - 213.10.233.165
+      - 192.168.2.0/24
+      - 172.16.0.0/12
+    proxyProtocol:
+      trustedIPs:
+      - 207.180.228.187
+      - 213.10.233.165
+      - 192.168.2.0/24
+      - 172.16.0.0/12
 providers:
   docker:
    # endpoint: tcp://socket-proxy:2375
@@ -151,7 +157,7 @@ certificatesResolvers:
 ping:
   entrypoint: "web"
 accessLog:
-  filePath: /traefik-access.log
+  filePath: /logs/traefik-access.log
   format: json
   filters:
     statusCodes:
@@ -168,7 +174,12 @@ accessLog:
 serversTransport:
   insecureSkipVerify: true
 metrics:
-  prometheus:
-    addRoutersLabels: true
-global:
-  checkNewVersion: false
+  prometheus: {}
+experimental:
+  plugins:
+    crowdsec-bouncer-traefik-plugin:
+      moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
+      version: v1.8.0-alpha
+    badger:
+      moduleName: github.com/fosrl/badger
+      version: v1.7.0
