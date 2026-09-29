@@ -23,6 +23,7 @@ entryPoints:
       middlewares:
 #      - local-ipallowlist@file
       - default-headers@file
+      - origins@file
   dns-tls:
     address: ":853"
     http:
