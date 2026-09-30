@@ -6,11 +6,7 @@ http:
         - websecure
       service: svc-webapps
       middlewares:
-        - origins@file
-        - security-headers@file
-        - pangolin-badger@file
-        - crowdsec@file
-        - gk-access@file
+        - secure-chain@file
       tls:
         certResolver: local-http
         options: tls-opts
@@ -18,4 +14,4 @@ http:
     svc-webapps:
       loadBalancer:
         servers:
-          - url: http://localhost
+          - url: http://localhost:8280

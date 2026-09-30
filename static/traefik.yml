@@ -6,7 +6,7 @@ api:
   insecure: true
   debug: true
 log:
-  level: "INFO"
+  level: "DEBUG"
   format: "json"
   filePath: /logs/traefik.log
   maxSize: 10

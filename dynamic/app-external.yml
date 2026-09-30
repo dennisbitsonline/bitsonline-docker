@@ -44,7 +44,7 @@ http:
       tls: {}
     win-rdp:
       entryPoints:
-        - "websecure"
+        - websecure
       rule: "Host(`win-rdp.lan.bitsonline.nl`)"
       service: svc-win-rdp
       tls: {}
@@ -97,7 +97,7 @@ http:
     svc-win-rdp:
       loadBalancer:
         servers:
-          - url: "http://192.168.2.22:3389"
+          - url: h2c://192.168.2.22:3389
     svc-win-ssh:
       loadBalancer:
         servers:

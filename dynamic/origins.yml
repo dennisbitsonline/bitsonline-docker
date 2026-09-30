@@ -12,5 +12,9 @@ http:
         accessControlAllowOriginList:
           - https://proxy.lan.bitsline.nl
           - https://proxy.bitsline.nl
+          - https://proxy.remote.bitsline.nl
+          - https://proxy.8it5.nl
+          - https://proxy.remote.8it5.nl
+          - https://proxy.indehoven.com
         accessControlMaxAge: 30
         addVaryHeader: true
