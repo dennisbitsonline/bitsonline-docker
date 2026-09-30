@@ -18,6 +18,49 @@ http:
       rule: "Host(`proxy.lan.bitsonline.nl`)"
       service: svc-proxy
       tls: {}
+    androidtv:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`androidtv.lan.bitsonline.nl`)"
+      service: svc-androidtv
+      tls: {}
+    wifi-ap:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`wifi-ap.lan.bitsonline.nl`)"
+      service: svc-wifi
+      tls: {}
+    hue:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`hue.lan.bitsonline.nl`)"
+      service: svc-hue
+      tls: {}
+    avr:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`avr.lan.bitsonline.nl`)"
+      service: svc-avr
+      tls: {}
+    win-rdp:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`win-rdp.lan.bitsonline.nl`)"
+      service: svc-win-rdp
+      tls: {}
+    win-ssh:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`win-ssh.lan.bitsonline.nl`)"
+      service: svc-win-ssh
+      tls: {}
+    ios:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`ios.lan.bitsonline.nl`)"
+      service: svc-ios
+      tls: {}
+
   services:
 #    svc-openwrt:
 #      loadBalancer:
@@ -31,3 +74,35 @@ http:
       loadBalancer:
         servers:
           - url: "http://192.168.2.1:80"
+    svc-androidtv:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.11:80"
+          - url: "http://192.168.2.12:80"
+    svc-wifi:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.14:80"
+          - url: "http://192.168.2.20:80"
+    svc-hue:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.15:80"
+    svc-avr:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.16:80"
+          - url: "https://192.168.2.16:443"
+          - url: "http://192.168.2.16:8080"
+    svc-win-rdp:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.22:3389"
+    svc-win-ssh:
+      loadBalancer:
+        servers:
+          - url: "ssh://192.168.2.22:22"
+    svc-ios:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.38:80"

@@ -1,7 +1,7 @@
 http:
   routers:
     webapps:
-      rule: Host(`webapps.lan.bitsonline.nl`)
+      rule: Host(`webapps.remote.bitsonline.nl`)
       entryPoints:
         - websecure
       service: svc-webapps
@@ -12,7 +12,7 @@ http:
         - crowdsec@file
         - gk-access@file
       tls:
-        certResolver: cloudflare
+        certResolver: local-http
         options: tls-opts
   services:
     svc-webapps:
