@@ -14,3 +14,17 @@ http:
       tls: {}
       entryPoints:
         - ping
+tcp:
+  routers:
+    technitium-tls-pass:
+      rule: HostSNI(`*`)
+      service: technitium-tls-pass-service
+      entryPoints:
+        - dns-tcp-proxy
+      tls:
+        passthrough: true
+  services:
+    technitium-tls-pass-service:
+      loadBalancer:
+        servers:
+          - address: 192.168.2.1:53443

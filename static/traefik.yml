@@ -7,27 +7,6 @@ api:
   debug: true
 log:
   level: "DEBUG"
-  format: "json"
-  filePath: /logs/traefik.log
-  maxSize: 10
-  maxBackups: 3
-  maxAge: 3
-  compress: true
-accessLog:
-  filePath: /logs/traefik-access.log
-  format: json
-  filters:
-    statusCodes:
-    - "200-299"    # Success codes
-    - "400-499"    # Client errors
-    - "500-599"    # Server errors
-    retryAttempts: true
-    minDuration: "100ms"  # Increased to focus on slower requests
-  bufferingSize: 100      # Add buffering for better performance
-  fields:
-    defaultMode: drop # Start with dropping all fields
-    headers:
-      defaultMode: keep # Start with dropping all headers
 metrics:
   prometheus:
    entrypoint: "metrics"
@@ -35,8 +14,24 @@ ping:
   entryPoint: ping
   manualRouting: true
 entryPoints:
+  technitium:
+    address: ":53443/tcp"
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      trustedIPs:
+        - "192.168.2.0/24"
+        - "172.16.0.0/12"
+        - "127.0.0.0/8"
   traefik:
     address: ":8080"
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      trustedIPs:
+        - "192.168.2.0/24"
+        - "172.16.0.0/12"
+        - "127.0.0.0/8"
   metrics:
     address: ":6060/tcp"
   ping:
@@ -49,90 +44,56 @@ entryPoints:
     address: ":21820/udp"
   socket:
     address: ":2375/tcp"
-
-  dns-tcp:
-    address: ":53/tcp"
-
-  dns-udp:
-    address: ":53/udp"
-
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      trustedIPs:
+        - "192.168.2.0/24"
+        - "172.16.0.0/12"
+        - "127.0.0.0/8"
   dns-tcp-proxy:
     address: ":538/tcp"
-
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      trustedIPs:
+        - "192.168.2.0/24"
+        - "172.16.0.0/12"
+        - "127.0.0.0/8"
   dns-udp-proxy:
     address: ":538/udp"
-
-  dns-tls:
-    address: ":853"
-
-  webauth:
-    address: ":8282"
-    http:
-      redirections:
-        entryPoint:
-          to: websecure
-          scheme: https
-          permanent: true
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      trustedIPs:
+        - "192.168.2.0/24"
+        - "172.16.0.0/12"
+        - "127.0.0.0/8"
   web:
     address: ":80"
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+        - "192.168.2.0/24"
+        - "172.16.0.0/12"
+        - "127.0.0.0/8"
     http:
-      tls: {}
       redirections:
         entryPoint:
           to: websecure
           scheme: https
           permanent: true
-    forwardedHeaders:
-      trustedIPs:
-      - "173.245.48.0/20"
-      - "103.21.244.0/22"
-      - "103.22.200.0/22"
-      - "103.31.4.0/22"
-      - "141.101.64.0/18"
-      - "108.162.192.0/18"
-      - "190.93.240.0/20"
-      - "188.114.96.0/20"
-      - "197.234.240.0/22"
-      - "198.41.128.0/17"
-      - "162.158.0.0/15"
-      - "104.16.0.0/13"
-      - "104.24.0.0/14"
-      - "172.64.0.0/13"
-      - "131.0.72.0/22"
-      - "172.16.0.0/12"
-      - "192.168.0.0/16"
   websecure:
     address: ":443"
-    transport:
-      respondingTimeouts:
-        readTimeout: "30m"
-    http:
-      tls:
-        certResolver: "cloudflare"
-        options: tls-modern@file
-      encodedCharacters:
-        allowEncodedSlash: true
-        allowEncodedQuestionMark: true
     forwardedHeaders:
+      insecure: true
+    proxyProtocol:
       trustedIPs:
-      - 173.245.48.0/20
-      - 103.21.244.0/22
-      - 103.22.200.0/22
-      - 103.31.4.0/22
-      - 141.101.64.0/18
-      - 108.162.192.0/18
-      - 190.93.240.0/20
-      - 188.114.96.0/20
-      - 197.234.240.0/22
-      - 198.41.128.0/17
-      - 162.158.0.0/15
-      - 104.16.0.0/13
-      - 104.24.0.0/14
-      - 172.64.0.0/13
-      - 131.0.72.0/22
-      - 10.0.0.0/8
-      - 172.16.0.0/12
-      - 192.168.0.0/16
+        - "192.168.2.0/24"
+        - "172.16.0.0/12"
+        - "127.0.0.0/8"
+    http:
+      tls: {}
     asDefault: true
 
 providers:
@@ -151,10 +112,6 @@ providers:
   file:
     directory: /dynamic
     watch: true
-  http:
-    endpoint: http://app.pangolin.net/api/v1/auth/newt/get-token
-    pollInterval: 5s
-    pollTimeout: 30s
 certificatesResolvers:
   cloudflare:
     acme:
@@ -164,7 +121,7 @@ certificatesResolvers:
       # caServer: https://acme-staging-v02.api.letsencrypt.org/directory # staging
       dnsChallenge:
         provider: cloudflare
-        disablePropagationCheck: true # uncomment this if you have issues pulling certificates through cloudflare, By setting this flag to true disables the need to wait for the propagation of the TXT record to all authoritative name servers.
+        disablePropagationCheck: false # uncomment this if you have issues pulling certificates through cloudflare, By setting this flag to true disables the need to wait for the propagation of the TXT record to all authoritative name servers.
         delayBeforeCheck: 60s # uncomment along with disablePropagationCheck if needed to ensure the TXT record is ready before verification is attempted 
         resolvers:
           - 1.1.1.1:53
