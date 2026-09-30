@@ -1,0 +1,14 @@
+tcp:
+  routers:
+    dns-tcp-proxy:
+      rule: HostSNI(`*`)
+      service: dns-udp-proxy-service
+      entryPoints:
+        - dns-tcp-proxy
+      tls:
+        passthrough: true
+  services:
+    dns-udp-proxy-service:
+      loadBalancer:
+        servers:
+          - address: 192.168.2.1:538
