@@ -1,11 +1,22 @@
 tls:
-  certificates:
-    - certFile: /certs/lan.wildcard.ec.pem
-      keyFile: /certs/lan.wildcard.ec.key
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /certs/lan.wildcard.ec.pem
+        keyFile: /certs/lan.wildcard.ec.key
 
-# Only use secure ciphers
   options:
     tls-opts:
+      minVersion: VersionTLS12
+      sniStrict: false
+      cipherSuites:
+        - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+    tls-intermediate:
       minVersion: VersionTLS12
       sniStrict: true
       cipherSuites:
@@ -15,6 +26,6 @@ tls:
         - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
         - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
-      curvePreferences:
-        - CurveP521
-        - CurveP384
+    tls-modern:
+      minVersion: VersionTLS13
+      sniStrict: true

@@ -3,7 +3,7 @@ http:
     pangolin-badger:
       plugin:
         badger:
-          apiBaseUrl: http://localhost:3001/api/v1
+          apiBaseUrl: https://app.pangolin.net/api/v1/auth/newt/get-token
           resourceSessionRequestParam: p_session_request
           userSessionCookieName: p_session_token
 

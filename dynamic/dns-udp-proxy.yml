@@ -1,0 +1,11 @@
+udp:
+  routers:
+    dns-udp-proxy:
+      entryPoints:
+        - dns-udp-proxy
+      service: dns-udp-proxy-service
+  services:
+    dns-udp-proxy-service:
+      loadBalancer:
+        servers:
+          - address: 192.168.2.1:538

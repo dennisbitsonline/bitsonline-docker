@@ -1,0 +1,16 @@
+http:
+    routers:
+        traefik:
+            rule: (Host(`localhost`) || Host(`traefik.lan.bitsonline.nl`)) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+            service: api@internal
+            tls: {} # Enables TLS
+ #           middlewares:
+ #               - auth
+
+        # Expose a ping endpoint, for healthcheck services to check traefik is still up.
+        ping:
+            rule: "(Host(`localhost`) || Host(`traefik.lan.bitsonline.nl`)) && PathPrefix(`/ping`)"
+            service: "ping@internal"
+            tls: {}
+            entryPoints:
+                - ping

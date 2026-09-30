@@ -7,8 +7,8 @@ http:
         period: 1s
         burst: 100
         # uncomment the next lines if behind cloudflare
-        #sourceCriterion:
-        #  requestHeaderName: CF-Connecting-IP        
+        sourceCriterion:
+          requestHeaderName: CF-Connecting-IP        
 
     default-headers:
       headers:
@@ -30,13 +30,32 @@ http:
           - "192.168.0.0/16"
           - "172.16.0.0/12"
           - "100.64.0.0/10"
-    secured:
+
+    secure-chain:
       chain:
         middlewares:
+          - origins
           - rate-limit
           - default-whitelist
           - default-headers
           - gk-access
+
+    secured:
+      chain:
+        middlewares:
+          - origins
+          - rate-limit
+          - default-whitelist
+          - default-headers
+          - gk-access
+
+
+    service-chain:
+      chain:
+        middlewares:
+          - rate-limit
+          - default-whitelist
+
 
     # Only allow local networks
     security-headers:
