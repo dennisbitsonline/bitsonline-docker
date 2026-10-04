@@ -29,7 +29,6 @@ http:
         - secure-chain@file
       tls:
         certResolver: cloudflare
-        options: tls-modern
   services:
     svc-dokploy:
       loadBalancer:
@@ -43,3 +42,8 @@ http:
       loadBalancer:
         servers:
           - url: http://my-first-project-openclaw-ab997d-207-180-228-187.sslip.io:80
+        passHostHeader: false
+        serversTransport: openclaw-transport
+  serversTransports:
+    openclaw-transport:
+      insecureSkipVerify: true
