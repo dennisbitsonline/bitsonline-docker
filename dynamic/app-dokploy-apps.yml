@@ -20,6 +20,16 @@ http:
       tls:
         certResolver: cloudflare
         options: tls-opts
+    openclaw:
+      rule: Host(`openclaw.remote.bitsonline.nl`)
+      entryPoints:
+        - websecure
+      service: openclaw-service
+      middlewares:
+        - secure-chain@file
+      tls:
+        certResolver: cloudflare
+        options: tls-modern
   services:
     svc-dokploy:
       loadBalancer:
@@ -29,3 +39,7 @@ http:
       loadBalancer:
         servers:
           - url: http://207.180.228.187:8080
+    openclaw-service:
+      loadBalancer:
+        servers:
+          - url: http://my-first-project-openclaw-ab997d-207-180-228-187.sslip.io:80
