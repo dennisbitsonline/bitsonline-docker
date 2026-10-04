@@ -1,7 +1,7 @@
 http:
   routers:
     traefik:
-      rule: (Host(`traefik.lan.bitsonline.nl`)) && (PathPrefix(`/api`)) || PathPrefix(`/dashboard`))
+      rule: (Host(`traefik.lan.bitsonline.nl`)) && (PathPrefix(`/api`)) || PathPrefix(`/dashboard`)
       entryPoints:
         - traefik
       service: api@internal
