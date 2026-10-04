@@ -1,30 +1,28 @@
 http:
   routers:
     traefik:
-      rule: (Host(`localhost`) || Host(`traefik.lan.bitsonline.nl`)) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      rule: (Host(`localhost`) || Host(`traefik.remote.bitsonline.nl`)) && (PathPrefix(`/api`) || Host(`traefik.lan.bitsonline.nl`)) && (PathPrefix(`/api`)|| PathPrefix(`/dashboard`))
+      entryPoints:
+        - traefik
       service: api@internal
-      tls: {}       # Enables TLS
- #           middlewares:
- #               - aut
-
-        # Expose a ping endpoint, for healthcheck services to check traefik is still up.
+      middlewares:
+        - service-chain@file
+      tls:
+        certResolver: letsencrypt
+        domains:
+          - main: remote.bitsonline.nl
+            sans:
+              - '*.remote.bitsonline.nl'
+        options: tls-modern
     ping:
-      rule: "(Host(`localhost`) || Host(`traefik.lan.bitsonline.nl`)) && PathPrefix(`/ping`)"
-      service: "ping@internal"
-      tls: {}
+      rule: "(Host(`localhost`) || Host(`traefik.remote.bitsonline.nl`)) && PathPrefix(`/ping`)"
       entryPoints:
         - ping
-tcp:
-  routers:
-    technitium-tls-pass:
-      rule: HostSNI(`*`)
-      service: technitium-tls-pass-service
-      entryPoints:
-        - dns-tcp-proxy
+      service: "ping@internal"
       tls:
-        passthrough: true
-  services:
-    technitium-tls-pass-service:
-      loadBalancer:
-        servers:
-          - address: 192.168.2.1:53443
+        certResolver: letsencrypt
+        domains:
+          - main: "remote.bitsonline.nl"
+            sans:
+              - "*.remote.bitsonline.nl"
+

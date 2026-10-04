@@ -1,0 +1,33 @@
+http:
+  routers:
+    dokploy:
+      rule: Host(`dokploy.lan.bitsonline.nl`)
+      entryPoints:
+        - websecure
+      service: svc-dokploy
+      middlewares:
+        - secure-chain@file
+      tls:
+        certResolver: cloudflare
+        options: tls-opts
+    openclaw:
+      rule: Host(`openclaw.lan.bitsonline.nl`)
+      entryPoints:
+        - websecure
+      service: svc-openclaw
+      middlewares:
+        - secure-chain@file
+      tls:
+        certResolver: cloudflare
+        options: tls-opts
+
+  services:
+    svc-dokploy:
+      loadBalancer:
+        servers:
+          - url: https://vmi3600752.contaboserver.net
+    svc-openclaw:
+      loadBalancer:
+        servers:
+          - url: http://my-first-project-openclaw-ab997d-207-180-228-187.sslip.io
+

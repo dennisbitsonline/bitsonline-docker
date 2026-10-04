@@ -14,15 +14,6 @@ ping:
   entryPoint: ping
   manualRouting: true
 entryPoints:
-  technitium:
-    address: ":53443/tcp"
-    forwardedHeaders:
-      insecure: true
-    proxyProtocol:
-      trustedIPs:
-        - "192.168.2.0/24"
-        - "172.16.0.0/12"
-        - "127.0.0.0/8"
   traefik:
     address: ":8080"
     forwardedHeaders:
@@ -78,6 +69,7 @@ entryPoints:
         - "172.16.0.0/12"
         - "127.0.0.0/8"
     http:
+      aliasHeadersStrategy: delete
       redirections:
         entryPoint:
           to: websecure
@@ -93,18 +85,16 @@ entryPoints:
         - "172.16.0.0/12"
         - "127.0.0.0/8"
     http:
+      aliasHeadersStrategy: delete
       tls: {}
     asDefault: true
+
 
 providers:
   docker:
     endpoint: tcp:///socket-proxy:2375
     defaultRule: Host(`{{ index .Labels 
-      "com.docker.compose.service"}}.lan.bitsonline.nl`) || Host(`{{ index 
-      .Labels "com.docker.compose.service"}}.bitsonline.nl`) || Host(`{{ index 
-      .Labels "com.docker.compose.service"}}.8it5.nl`) || Host(`{{ index .Labels
-      "com.docker.compose.service"}}.indehoven.com`) || Host(`{{ index .Labels 
-      "com.docker.compose.service"}}.remote.8it5.nl`) || Host(`{{ index .Labels 
+      "com.docker.compose.service"}}.lan.bitsonline.nl`) || Host(`{{ index .Labels 
       "com.docker.compose.service"}}.remote.bitsonline.nl`)
     exposedByDefault: false
     network: proxy
@@ -115,28 +105,30 @@ providers:
 certificatesResolvers:
   cloudflare:
     acme:
-      email: dennisbitsonline@gmail.com
-      storage: /certs/acme.json
-      caServer: https://acme-v02.api.letsencrypt.org/directory # prod (default)
+      email: "dennisbitsonline@gmail.com"
+      storage: "/certs/acme.json"
+      caServer: "https://acme-v02.api.letsencrypt.org/directory" # prod (default)
       # caServer: https://acme-staging-v02.api.letsencrypt.org/directory # staging
       dnsChallenge:
         provider: cloudflare
-        disablePropagationCheck: false # uncomment this if you have issues pulling certificates through cloudflare, By setting this flag to true disables the need to wait for the propagation of the TXT record to all authoritative name servers.
+        disablePropagationCheck: true # uncomment this if you have issues pulling certificates through cloudflare, By setting this flag to true disables the need to wait for the propagation of the TXT record to all authoritative name servers.
         delayBeforeCheck: 60s # uncomment along with disablePropagationCheck if needed to ensure the TXT record is ready before verification is attempted 
         resolvers:
           - 1.1.1.1:53
           - 1.0.0.1:53
   local-tls:
     acme:
-      email: local-tls@8it5.nl
-      storage: /certs/local-tls.json
+      email: "local-tls@8it5.nl"
+      storage: "/certs/local-tls.json"
       tlsChallenge: {}
-  local-http:
+  letsencrypt:
     acme:
-      email: local-http@8it5.nl
-      storage: /certs/local-http.json
       httpChallenge:
-        entrypoint: "web"
+        entryPoint: web
+      email: "local-http@8it5.nl"
+      storage: "/certs/local-http.json"
+      caServer: "https://acme-v02.api.letsencrypt.org/directory"
+
 serversTransport:
   insecureSkipVerify: true
 experimental:
