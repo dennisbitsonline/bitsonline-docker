@@ -1,7 +1,7 @@
 http:
   routers:
     dokploy:
-      rule: Host(`dokploy.lan.bitsonline.nl`)
+      rule: Host(`dokploy.lan.bitsonline.nl`) || Host(`dokploy.remote.bitsonline.nl`)
       entryPoints:
         - websecure
       service: svc-dokploy
@@ -25,7 +25,7 @@ http:
     svc-dokploy:
       loadBalancer:
         servers:
-          - url: https://vmi3600752.contaboserver.net:443
+          - url: http://207.180.228.187:3000
     svc-openclaw:
       loadBalancer:
         servers:
