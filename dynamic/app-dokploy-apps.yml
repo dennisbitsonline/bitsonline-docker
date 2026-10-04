@@ -41,8 +41,7 @@ http:
     openclaw-service:
       loadBalancer:
         servers:
-          - url: http://my-first-project-openclaw-ab997d-207-180-228-187.sslip.io:8080
-        passHostHeader: false
+          - url: http://my-first-project-openclaw-ab997d-207-180-228-187.sslip.io:80
         serversTransport: openclaw-transport
   serversTransports:
     openclaw-transport:
