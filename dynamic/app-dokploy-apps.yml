@@ -1,5 +1,13 @@
 http:
   routers:
+    host:
+      rule: Host(`host.remote.bitsonline.nl`)
+      entryPoints:
+        - websecure
+      service: svc-host
+      middlewares:
+        - secure-chain@file
+      tls: {}
     dokploy:
       rule: Host(`dokploy.remote.bitsonline.nl`)
       entryPoints:
@@ -7,40 +15,45 @@ http:
       service: svc-dokploy
       middlewares:
         - secure-chain@file
-      tls:
-        certResolver: cloudflare
-        options: tls-opts
+      tls: {}
     dokploy-traefik:
       rule: Host(`dokploy-traefik.remote.bitsonline.nl`)
       entryPoints:
         - websecure
-      service: svc-openclaw
+      service: svc-dokploy-traefik
       middlewares:
         - secure-chain@file
-      tls:
-        certResolver: cloudflare
-        options: tls-opts
+      tls: {}
     openclaw:
       rule: Host(`openclaw.remote.bitsonline.nl`)
       entryPoints:
         - websecure
-      service: openclaw-service
+      service: svc-openclaw
       tls: {}
   services:
     svc-dokploy:
       loadBalancer:
         servers:
           - url: http://207.180.228.187:3000
-    svc-openclaw:
+    svc-dokploy-traefik:
       loadBalancer:
         servers:
           - url: http://207.180.228.187:8080
-    openclaw-service:
+    svc-openclaw:
       loadBalancer:
         servers:
           - url: http://my-first-project-openclaw-ab997d-207-180-228-187.sslip.io:80
         serversTransport: openclaw-transport
         passHostHeader: false
+    svc-host:
+      loadBalancer:
+        servers:
+          - url: https://new.contabo.com
+        serversTransport: openclaw-transport
+        passHostHeader: false
+
   serversTransports:
     openclaw-transport:
       insecureSkipVerify: true
+
+

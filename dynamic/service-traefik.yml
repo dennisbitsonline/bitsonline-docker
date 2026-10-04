@@ -1,28 +1,18 @@
 http:
   routers:
     traefik:
-      rule: (Host(`localhost`) || Host(`traefik.remote.bitsonline.nl`)) && (PathPrefix(`/api`) || Host(`traefik.lan.bitsonline.nl`)) && (PathPrefix(`/api`)|| PathPrefix(`/dashboard`))
+      rule: (Host(`traefik.lan.bitsonline.nl`)) && (PathPrefix(`/api`)) || PathPrefix(`/dashboard`))
       entryPoints:
         - traefik
       service: api@internal
       middlewares:
         - service-chain@file
-      tls:
-        certResolver: letsencrypt
-        domains:
-          - main: remote.bitsonline.nl
-            sans:
-              - '*.remote.bitsonline.nl'
-        options: tls-modern
+      tls: {}
     ping:
-      rule: "(Host(`localhost`) || Host(`traefik.remote.bitsonline.nl`)) && PathPrefix(`/ping`)"
+      rule: "Host(`traefik.lan.bitsonline.nl`) && PathPrefix(`/ping`)"
       entryPoints:
         - ping
       service: "ping@internal"
-      tls:
-        certResolver: letsencrypt
-        domains:
-          - main: "remote.bitsonline.nl"
-            sans:
-              - "*.remote.bitsonline.nl"
-
+      tls: {}
+      middlewares:
+        - service-chain@file

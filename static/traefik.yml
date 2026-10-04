@@ -27,12 +27,8 @@ entryPoints:
     address: ":6060/tcp"
   ping:
     address: ":81/tcp"
-  tunnel:
-    address: ":2112/tcp"
   wireguard:
     address: ":51820/udp"
-  client-tunnel:
-    address: ":21820/udp"
   socket:
     address: ":2375/tcp"
     forwardedHeaders:
@@ -89,13 +85,10 @@ entryPoints:
       tls: {}
     asDefault: true
 
-
 providers:
   docker:
     endpoint: tcp:///socket-proxy:2375
-    defaultRule: Host(`{{ index .Labels 
-      "com.docker.compose.service"}}.lan.bitsonline.nl`) || Host(`{{ index .Labels 
-      "com.docker.compose.service"}}.remote.bitsonline.nl`)
+    defaultRule: Host(`{{ index .Labels "com.docker.compose.service"}}.lan.bitsonline.nl`)
     exposedByDefault: false
     network: proxy
     watch: true
