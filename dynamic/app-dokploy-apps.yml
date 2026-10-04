@@ -1,7 +1,7 @@
 http:
   routers:
     dokploy:
-      rule: Host(`dokploy.lan.bitsonline.nl`) || Host(`dokploy.remote.bitsonline.nl`)
+      rule: Host(`dokploy.remote.bitsonline.nl`)
       entryPoints:
         - websecure
       service: svc-dokploy
