@@ -10,8 +10,8 @@ http:
       tls:
         certResolver: cloudflare
         options: tls-opts
-    openclaw:
-      rule: Host(`openclaw.lan.bitsonline.nl`) || Host(`openclaw.remote.bitsonline.nl`)
+    dokploy-traefik:
+      rule: Host(`dokploy-traefik.remote.bitsonline.nl`)
       entryPoints:
         - websecure
       service: svc-openclaw
