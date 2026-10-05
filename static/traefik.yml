@@ -96,6 +96,8 @@ providers:
     endpoint: tcp:///socket-proxy:2375
     exposedByDefault: false
     watch: true
+    network: traefik_swarm_proxy
+
 certificatesResolvers:
   cloudflare:
     acme:
