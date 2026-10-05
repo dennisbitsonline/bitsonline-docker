@@ -27,8 +27,6 @@ entryPoints:
     address: ":6060/tcp"
   ping:
     address: ":81/tcp"
-  wireguard:
-    address: ":51820/udp"
   socket:
     address: ":2375/tcp"
     forwardedHeaders:
@@ -91,6 +89,9 @@ providers:
     defaultRule: Host(`{{ index .Labels "com.docker.compose.service"}}.lan.bitsonline.nl`)
     exposedByDefault: false
     network: proxy
+    watch: true
+  swarm:
+    endpoint: tcp:///socket-proxy:2375
     watch: true
   file:
     directory: /dynamic

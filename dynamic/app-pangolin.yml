@@ -1,4 +1,21 @@
 http:
+  routers:
+    pangolin-idh:
+      entryPoints:
+        - websecure
+      rule: "Host(`pangolin.lan.bitsonline.nl`)"
+      service: svc-pangolin-idh
+      tls: {}
+      middlewares:
+        - pangolin-badger@file
+  services:
+    svc-pangolin-idh:
+      loadBalancer:
+        servers:
+          - url: http://pangolin-idh:2110
+      middlewares:
+        - pangolin-badger@file
+
   middlewares:
     pangolin-badger:
       plugin:
