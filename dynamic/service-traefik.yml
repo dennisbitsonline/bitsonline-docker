@@ -13,6 +13,5 @@ http:
       entryPoints:
         - ping
       service: "ping@internal"
-      tls: {}
       middlewares:
         - service-chain@file
