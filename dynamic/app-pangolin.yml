@@ -5,12 +5,15 @@ http:
         - websecure
       rule: "Host(`pangolin.lan.bitsonline.nl`)"
       service: svc-pangolin-idh
-      tls: {}
+      middlewares:
+        - service-chain@file
+        - pangolin-badger@file
   services:
     svc-pangolin-idh:
       loadBalancer:
         servers:
           - url: http://pangolin-idh:2110
+        serversTransport: pangolin-idh-transport
       middlewares:
         - pangolin-badger@file
 
@@ -22,3 +25,6 @@ http:
           resourceSessionRequestParam: p_session_request
           userSessionCookieName: p_session_token
 
+  serversTransports:
+    pangolin-idh-transport:
+      insecureSkipVerify: true
