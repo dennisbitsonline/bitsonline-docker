@@ -23,6 +23,7 @@ entryPoints:
       - "192.168.2.0/24"
       - "172.16.0.0/12"
       - "127.0.0.0/8"
+      - "10.0.0.0/8"
   metrics:
     address: ":6060/tcp"
   ping:
@@ -36,6 +37,7 @@ entryPoints:
       - "192.168.2.0/24"
       - "172.16.0.0/12"
       - "127.0.0.0/8"
+      - "10.0.0.0/8"
   dns-tcp-proxy:
     address: ":538/tcp"
     forwardedHeaders:
@@ -45,6 +47,7 @@ entryPoints:
       - "192.168.2.0/24"
       - "172.16.0.0/12"
       - "127.0.0.0/8"
+      - "10.0.0.0/8"
   dns-udp-proxy:
     address: ":538/udp"
     forwardedHeaders:
@@ -54,6 +57,7 @@ entryPoints:
       - "192.168.2.0/24"
       - "172.16.0.0/12"
       - "127.0.0.0/8"
+      - "10.0.0.0/8"
   web:
     address: ":80"
     forwardedHeaders:
@@ -62,6 +66,7 @@ entryPoints:
     - "192.168.2.0/24"
     - "172.16.0.0/12"
     - "127.0.0.0/8"
+    - "10.0.0.0/8"
     http:
       aliasHeadersStrategy: delete
       redirections:
@@ -72,17 +77,26 @@ entryPoints:
   websecure:
     address: ":443"
     forwardedHeaders:
-      insecure: true
+      trustedIPs:
+      - 192.168.2.0/24
+      - 172.16.0.0/12
+      - 127.0.0.0/8
+      - 10.0.0.0/8
     proxyProtocol:
       trustedIPs:
-      - "192.168.2.0/24"
-      - "172.16.0.0/12"
-      - "127.0.0.0/8"
+      - 192.168.2.0/24
+      - 172.16.0.0/12
+      - 127.0.0.0/8
+      - 10.0.0.0/8
     http:
-      aliasHeadersStrategy: delete
-      tls: {}
+      tls:
+        certResolver: cloudflare
+        options: tls-modern@file
+      middlewares:
+      - secure-chain@file
     asDefault: true
 
+    http3: {}
 providers:
   docker:
     endpoint: tcp:///socket-proxy:2375
@@ -94,6 +108,8 @@ providers:
     directory: /dynamic
   swarm:
     endpoint: tcp:///socket-proxy:2375
+    defaultRule: Host(`{{ index .Labels 
+      "com.docker.compose.service"}}.swarm.bitsonline.nl`)
     exposedByDefault: false
     watch: true
     network: traefik_swarm_proxy
