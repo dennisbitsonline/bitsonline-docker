@@ -9,7 +9,7 @@ log:
   level: "DEBUG"
 metrics:
   prometheus:
-   entrypoint: "metrics"
+    entrypoint: "metrics"
 ping:
   entryPoint: ping
   manualRouting: true
@@ -20,9 +20,9 @@ entryPoints:
       insecure: true
     proxyProtocol:
       trustedIPs:
-        - "192.168.2.0/24"
-        - "172.16.0.0/12"
-        - "127.0.0.0/8"
+      - "192.168.2.0/24"
+      - "172.16.0.0/12"
+      - "127.0.0.0/8"
   metrics:
     address: ":6060/tcp"
   ping:
@@ -33,35 +33,35 @@ entryPoints:
       insecure: true
     proxyProtocol:
       trustedIPs:
-        - "192.168.2.0/24"
-        - "172.16.0.0/12"
-        - "127.0.0.0/8"
+      - "192.168.2.0/24"
+      - "172.16.0.0/12"
+      - "127.0.0.0/8"
   dns-tcp-proxy:
     address: ":538/tcp"
     forwardedHeaders:
       insecure: true
     proxyProtocol:
       trustedIPs:
-        - "192.168.2.0/24"
-        - "172.16.0.0/12"
-        - "127.0.0.0/8"
+      - "192.168.2.0/24"
+      - "172.16.0.0/12"
+      - "127.0.0.0/8"
   dns-udp-proxy:
     address: ":538/udp"
     forwardedHeaders:
       insecure: true
     proxyProtocol:
       trustedIPs:
-        - "192.168.2.0/24"
-        - "172.16.0.0/12"
-        - "127.0.0.0/8"
+      - "192.168.2.0/24"
+      - "172.16.0.0/12"
+      - "127.0.0.0/8"
   web:
     address: ":80"
     forwardedHeaders:
       insecure: true
     proxyProtocol:
-        - "192.168.2.0/24"
-        - "172.16.0.0/12"
-        - "127.0.0.0/8"
+    - "192.168.2.0/24"
+    - "172.16.0.0/12"
+    - "127.0.0.0/8"
     http:
       aliasHeadersStrategy: delete
       redirections:
@@ -75,9 +75,9 @@ entryPoints:
       insecure: true
     proxyProtocol:
       trustedIPs:
-        - "192.168.2.0/24"
-        - "172.16.0.0/12"
-        - "127.0.0.0/8"
+      - "192.168.2.0/24"
+      - "172.16.0.0/12"
+      - "127.0.0.0/8"
     http:
       aliasHeadersStrategy: delete
       tls: {}
@@ -86,15 +86,15 @@ entryPoints:
 providers:
   docker:
     endpoint: tcp:///socket-proxy:2375
-    defaultRule: Host(`{{ index .Labels "com.docker.compose.service"}}.lan.bitsonline.nl`)
+    defaultRule: Host(`{{ index .Labels 
+      "com.docker.compose.service"}}.lan.bitsonline.nl`)
     exposedByDefault: false
     network: proxy
-    watch: true
-  swarm:
-    endpoint: tcp:///socket-proxy:2375
-    watch: true
   file:
     directory: /dynamic
+  swarm:
+    endpoint: tcp:///socket-proxy:2375
+    exposedByDefault: false
     watch: true
 certificatesResolvers:
   cloudflare:
@@ -108,8 +108,8 @@ certificatesResolvers:
         disablePropagationCheck: true # uncomment this if you have issues pulling certificates through cloudflare, By setting this flag to true disables the need to wait for the propagation of the TXT record to all authoritative name servers.
         delayBeforeCheck: 60s # uncomment along with disablePropagationCheck if needed to ensure the TXT record is ready before verification is attempted 
         resolvers:
-          - 1.1.1.1:53
-          - 1.0.0.1:53
+        - 1.1.1.1:53
+        - 1.0.0.1:53
   local-tls:
     acme:
       email: "local-tls@8it5.nl"

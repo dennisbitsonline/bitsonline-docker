@@ -79,7 +79,6 @@ http:
         servers:
           - url: http://192.168.2.11:80
           - url: http://192.168.2.12:80
-        healthCheck: {}
     svc-wifi:
       loadBalancer:
         servers:
