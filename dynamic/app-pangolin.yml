@@ -6,8 +6,6 @@ http:
       rule: "Host(`pangolin.lan.bitsonline.nl`)"
       service: svc-pangolin-idh
       tls: {}
-      middlewares:
-        - pangolin-badger@file
   services:
     svc-pangolin-idh:
       loadBalancer:
