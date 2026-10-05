@@ -1,17 +1,18 @@
 http:
   routers:
-    ping:
-      rule: "(Host(`traefik.lan.bitsonline.nl`) && PathPrefix(`/ping`))"
-      entryPoints:
-        - ping
-      service: "ping@internal"
-      middlewares:
-        - service-chain@file
     traefik-api:
       rule: (Host(`traefik.lan.bitsonline.nl`) && PathPrefix(`/api`)) || PathPrefix(`/dashboard`)
       entryPoints:
         - traefik
       service: api@internal
+      middlewares:
+        - service-chain@file
+      tls: {}
+    traefik-ping:
+      rule: (Host(`traefik.lan.bitsonline.nl`) && PathPrefix(`/ping`))
+      entryPoints:
+        - ping
+      service: ping@internal
       middlewares:
         - service-chain@file
       tls: {}
