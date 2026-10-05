@@ -9,7 +9,7 @@ http:
         - service-chain@file
       tls: {}
     ping:
-      rule: "Host(`traefik.lan.bitsonline.nl`) && PathPrefix(`/ping`)"
+      rule: "(Host(`traefik.lan.bitsonline.nl`) && PathPrefix(`/ping`))"
       entryPoints:
         - ping
       service: "ping@internal"
