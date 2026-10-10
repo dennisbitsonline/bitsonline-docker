@@ -12,12 +12,6 @@ http:
       rule: "Host(`gateway.lan.bitsonline.nl`)"
       service: svc-gateway
       tls: {}
-    androidtv:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`androidtv.lan.bitsonline.nl`)"
-      service: svc-androidtv
-      tls: {}
     wifi-ap:
       entryPoints:
         - "websecure"
@@ -58,11 +52,6 @@ http:
       loadBalancer:
         servers:
           - url: "http://192.168.2.254:80"
-    svc-androidtv:
-      loadBalancer:
-        servers:
-          - url: http://192.168.2.11:80
-          - url: http://192.168.2.12:80
     svc-wifi:
       loadBalancer:
         servers:
