@@ -9,10 +9,6 @@ http:
       priority: 100
 
 # Backend router (relay, WebSocket, API, OAuth2)
-      entryPoints:
-        - websecure
-      middlewares:
-        - service-chain@file
     proxy-backend:
       rule: Host(`proxy.bitsonline.nl`) && (PathPrefix(`/relay`) || PathPrefix(`/ws-proxy/`) || PathPrefix(`/api`) || PathPrefix(`/oauth2`))
       entrypoints: websecure
@@ -20,10 +16,6 @@ http:
       service: svc-proxy-backend
       priority: 100
 
-      entryPoints:
-        - websecure
-      middlewares:
-        - service-chain@file
   services:
     svc-proxy-backend:
       loadBalancer:

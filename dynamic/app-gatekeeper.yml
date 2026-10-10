@@ -3,13 +3,13 @@ http:
     gk-id:
       entryPoints:
         - websecure
-      rule: "Host(`id.lan.bitsonline.nl`) || Host(`id.auth.bitsonline.nl`)"
+      rule: "Host(`id.auth.bitsonline.nl`)"
       service: svc-gk-id
       tls: {}
     gk-admin:
       entryPoints:
         - websecure
-      rule: "Host(`admin-id.lan.bitsonline.nl`) || Host(`admin.auth.bitsonline.nl`)"
+      rule: "Host(`admin.auth.bitsonline.nl`)"
       service: svc-gk-admin
       tls: {}
   services:

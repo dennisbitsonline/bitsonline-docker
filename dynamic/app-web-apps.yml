@@ -1,7 +1,7 @@
 http:
   routers:
     webapps:
-      rule: Host(`webapps.service.bitsonline.nl`)
+      rule: Host(`webapps.app.bitsonline.nl`)
       entryPoints:
         - websecure
       service: svc-webapps
@@ -12,4 +12,4 @@ http:
     svc-webapps:
       loadBalancer:
         servers:
-          - url: https://lan.bitsonline.nl:443
+          - url: https://app.bitsonline.nl:443

@@ -9,6 +9,10 @@ log:
   filePath: "/logs/traefik.log"
   format: json
   level: DEBUG
+  maxSize: 10
+  maxBackups: 3
+  maxAge: 1
+  compress: true
 accessLog:
   filePath: "/logs/traefik-access.log"
   # JSON format
@@ -16,8 +20,8 @@ accessLog:
   # Filter on status codes, retry attempts and minimal duration
   filters:
     statusCodes:
-      - "200"
-      - "300-302"
+    - '200'
+    - 300-302
     retryAttempts: true
     minDuration: "10ms"
   fields:
@@ -41,33 +45,18 @@ metrics:
   prometheus:
     entrypoint: "metrics"
 ping:
-  entryPoint: ping
+  entryPoint: "ping"
   manualRouting: true
+  terminatingStatusCode: 204
 entryPoints:
   traefik:
     address: ":8080"
-    forwardedHeaders:
-      insecure: true
-    proxyProtocol:
-      trustedIPs:
-      - "192.168.2.0/24"
-      - "172.16.0.0/12"
-      - "127.0.0.0/8"
-      - "10.0.0.0/8"
   metrics:
-    address: ":6060/tcp"
+    address: ":6060"
   ping:
-    address: ":81/tcp"
+    address: ":8082"
   socket:
     address: ":2375/tcp"
-    forwardedHeaders:
-      insecure: true
-    proxyProtocol:
-      trustedIPs:
-      - "192.168.2.0/24"
-      - "172.16.0.0/12"
-      - "127.0.0.0/8"
-      - "10.0.0.0/8"
   dns-tcp-proxy:
     address: ":538/tcp"
     forwardedHeaders:
@@ -127,7 +116,7 @@ providers:
   docker:
     endpoint: tcp:///socket-proxy:2375
     defaultRule: Host(`{{ index .Labels 
-      "com.docker.compose.service"}}.lan.bitsonline.nl`)
+      "com.docker.compose.service"}}.app.bitsonline.nl`)
     exposedByDefault: false
     network: proxy
   file:
