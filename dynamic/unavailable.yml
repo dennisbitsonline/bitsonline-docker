@@ -6,8 +6,7 @@ http:
       service: unavailable-service
       entryPoints:
         - web
-        - websecure
-      tls: {}
+      tls: false
 
     http-challenge:
       rule: PathPrefix(`/.well-known/acme-challenge/`)

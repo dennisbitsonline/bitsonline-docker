@@ -39,7 +39,7 @@ http:
           - default-whitelist
           - default-headers
           - gk-access
-
+          - crowdsec
     secured:
       chain:
         middlewares:

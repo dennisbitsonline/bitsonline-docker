@@ -3,13 +3,13 @@ http:
     gk-id:
       entryPoints:
         - websecure
-      rule: "Host(`id.auth.bitsonline.nl`)"
+      rule: "Host(`id.auth.bitsonline.nl`) || Host(`id.lan.bitsonline.nl`)"
       service: svc-gk-id
       tls: {}
     gk-admin:
       entryPoints:
         - websecure
-      rule: "Host(`admin.auth.bitsonline.nl`)"
+      rule: "Host(`admin.app.bitsonline.nl`)"
       service: svc-gk-admin
       tls: {}
   services:
@@ -29,13 +29,3 @@ http:
           - X-Auth-User
           - X-Auth-Email
           - X-Auth-Groups
-#    gk-access:
-#      forwardAuth:
-#        address: "http://gatekeeper:8282/auth/verify?policy=gk-forwardAuth-access"
-#        trustForwardHeader: true
-#        authResponseHeaders:
-#          - "Authorization"
-#          - "X-Auth-User"
-#          - "X-Auth-Email"
-#          - "X-Auth-Groups"
-#        maxResponseBodySize: 4096
