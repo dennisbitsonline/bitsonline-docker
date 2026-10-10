@@ -1,17 +1,1 @@
-http:
-  routers:
-# gRPC router (needs h2c backend for HTTP/2 cleartext)
-    proxy-grpc:
-      rule: Host(`proxy.bitsonline.nl`) && (PathPrefix(`/signalexchange.SignalExchange/`) || PathPrefix(`/management.ManagementService/`) || PathPrefix(`/management.ProxyService/`))
-      entrypoints: websecure
-      tls: {}
-      service: svc-proxy-h2c
-      priority: 100
-
-# Backend router (relay, WebSocket, API, OAuth2)
-  services:
-    svc-proxy-h2c:
-      loadbalancer:
-        servers:
-          - port: 80
-          - scheme: h2c
+{}
