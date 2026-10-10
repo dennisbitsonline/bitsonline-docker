@@ -1,7 +1,7 @@
 http:
   routers:
     ping:
-      rule: Host(`ping.service.bitsonline.nl`)
+      rule: PathPrefix(`/ping`)
       entryPoints:
         - web
       service: ping@internal
