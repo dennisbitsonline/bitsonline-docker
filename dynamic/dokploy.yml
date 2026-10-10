@@ -1,14 +1,5 @@
 http:
   routers:
-    dokploy:
-      rule: Host(`dokploy.remote.bitsonline.nl`)
-      entryPoints:
-        - websecure
-      service: dokploy-service
-      middlewares:
-        - secure-chain@file
-      tls:
-        certResolver: cloudflare
     dashboard:
       rule: Host(`dashboard.remote.bitsonline.nl`)
       entryPoints:
@@ -16,6 +7,15 @@ http:
       service: dashboard-service
       middlewares:
         - secure-chain@file
+      tls:
+        certResolver: cloudflare
+    remote-dokploy:
+      rule: Host(`dokploy.remote.bitsonline.nl`)
+      entryPoints:
+        - websecure
+      service: dokploy-service
+      middlewares:
+        - secure-chain
       tls:
         certResolver: cloudflare
   services:
