@@ -34,12 +34,11 @@ http:
     secure-chain:
       chain:
         middlewares:
-          - origins
           - rate-limit
           - default-whitelist
-          - default-headers
-          - gk-access
           - crowdsec
+          - gk-access
+          - security-headers
     service-chain:
       chain:
         middlewares:
