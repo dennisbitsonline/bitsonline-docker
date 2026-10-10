@@ -1,15 +1,1 @@
-http:
-  routers:
-    webapps:
-      rule: Host(`webapps.app.bitsonline.nl`)
-      entryPoints:
-        - websecure
-      service: svc-webapps
-      middlewares:
-        - secure-chain@file
-      tls: {}
-  services:
-    svc-webapps:
-      loadBalancer:
-        servers:
-          - url: https://app.bitsonline.nl:443
+{}
