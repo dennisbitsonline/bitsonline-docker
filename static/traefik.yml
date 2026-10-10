@@ -133,13 +133,14 @@ entryPoints:
         certResolver: cloudflare
         options: tls-modern@file
       middlewares:
-        - default-whitelist@file
+      - default-whitelist@file
     asDefault: true
 providers:
   docker:
     endpoint: tcp:///socket-proxy:2375
     #defaultRule: Host(`{{ index .Labels "com.docker.compose.service"}}.app.bitsonline.nl`) && ( ClientIP(`192.168.2.0/24`) || ClientIP(`172.16.0.0/12`) || ClientIP(`207.180.228.187/32`) || ClientIP(`10.0.0.0/8`) || ClientIP(`127.0.0.0/8`) )
-    defaultRule: Host(`{{ index .Labels "com.docker.compose.service"}}.app.bitsonline.nl`)
+    defaultRule: Host(`{{ index .Labels 
+      "com.docker.compose.service"}}.app.bitsonline.nl`)
     exposedByDefault: false
     network: proxy
   file:
@@ -178,6 +179,3 @@ experimental:
     bouncer:
       moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
       version: v1.8.0-alpha
-    badger:
-      moduleName: github.com/fosrl/badger
-      version: v1.7.0
