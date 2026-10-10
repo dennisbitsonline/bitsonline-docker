@@ -3,10 +3,7 @@ http:
     ping:
       rule: Host(`ping.service.bitsonline.nl`)
       entryPoints:
-        - websecure
-        - ping
+        - web
       service: ping@internal
       middlewares:
-        - service-chain@file
-      tls:
-        certResolver: cloudflare
+        - service-chain
