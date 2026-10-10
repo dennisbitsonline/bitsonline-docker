@@ -1,31 +1,26 @@
 http:
- 
   middlewares:
-  
     crowdsec:
       plugin:
         bouncer:
           enabled: true
           defaultDecisionSeconds: 60
           crowdsecMode: live
-          crowdsecAppsecEnabled: false # <--- here you can enable appsec waf
+          crowdsecAppsecEnabled: true
           crowdsecAppsecHost: appsec.service.bitsonline.nl
           crowssecAppsecScheme: https
           crowdsecAppsecFailureBlock: true
           crowdsecAppsecUnreachableBlock: true
           crowdsecLapiUser: traefik
-          #crowdsecLapiKey: jtCuLMIbuYKAgil6zFJWPN4xgykUTmMuHSq0rdVgHsUgpaH7ns42QYG5pqTNo90g
           crowdsecLapiKey: sOFfrizPWFWD1gkoco9EoeqA7Rb7WbiTKlnNzydX7bc
           crowdsecLapiHost: crowdsec.service.bitsonline.nl
           crowdsecLapiScheme: https
           crowdsecLapiTLSInsecureVerify: true
           forwardedHeadersTrustedIPs:
-            # private class ranges
             - 10.0.0.0/8
             - 172.16.0.0/12
             - 192.168.0.0/16
           clientTrustedIPs:
-            # private class ranges
             - 10.0.0.0/8
             - 172.16.0.0/12
             - 192.168.0.0/16
