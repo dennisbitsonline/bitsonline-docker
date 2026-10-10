@@ -7,14 +7,14 @@ http:
           defaultDecisionSeconds: 60
           crowdsecMode: live
           crowdsecAppsecEnabled: true
-          crowdsecAppsecHost: appsec.service.bitsonline.nl
-          crowssecAppsecScheme: https
+          crowdsecAppsecHost: crowdsec:7422
+          crowssecAppsecScheme: http
           crowdsecAppsecFailureBlock: true
           crowdsecAppsecUnreachableBlock: true
-          crowdsecLapiUser: traefik
-          crowdsecLapiKey: sOFfrizPWFWD1gkoco9EoeqA7Rb7WbiTKlnNzydX7bc
-          crowdsecLapiHost: crowdsec.service.bitsonline.nl
-          crowdsecLapiScheme: https
+          crowdsecLapiUser: appsec_traefik
+          crowdsecLapiKey: 1111111111Aa!
+          crowdsecLapiHost: crowdsec:8080
+          crowdsecLapiScheme: http
           crowdsecLapiTLSInsecureVerify: true
           forwardedHeadersTrustedIPs:
             - 10.0.0.0/8
