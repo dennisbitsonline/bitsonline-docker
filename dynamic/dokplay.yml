@@ -9,8 +9,21 @@ http:
         - secure-chain@file
       tls:
         certResolver: cloudflare
+    dashboard:
+      rule: Host(`remote.bitsonline.nl`)
+      entryPoints:
+        - websecure
+      service: dashboard-service
+      middlewares:
+        - secure-chain@file
+      tls:
+        certResolver: cloudflare
   services:
     dokploy-service:
       loadBalancer:
         servers:
           - url: http://207.180.228.187:3000
+    dashboard-service:
+      loadBalancer:
+        servers:
+          - url: http://207.180.228.187:8080
