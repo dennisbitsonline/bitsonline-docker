@@ -9,18 +9,7 @@ http:
       priority: 100
 
 # Backend router (relay, WebSocket, API, OAuth2)
-    proxy-backend:
-      rule: Host(`proxy.bitsonline.nl`) && (PathPrefix(`/relay`) || PathPrefix(`/ws-proxy/`) || PathPrefix(`/api`) || PathPrefix(`/oauth2`))
-      entrypoints: websecure
-      tls: {}
-      service: svc-proxy-backend
-      priority: 100
-
   services:
-    svc-proxy-backend:
-      loadBalancer:
-        servers:
-          - url: http://traefik:80
     svc-proxy-h2c:
       loadbalancer:
         servers:
