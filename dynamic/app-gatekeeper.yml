@@ -9,7 +9,7 @@ http:
     gk-admin:
       entryPoints:
         - websecure
-      rule: "Host(`admin.app.bitsonline.nl`)"
+      rule: "Host(`admin.auth.bitsonline.nl`)"
       service: svc-gk-admin
       tls: {}
   services:
