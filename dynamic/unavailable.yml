@@ -1,17 +1,1 @@
-http:
-  routers:
-    http-challenge:
-      rule: PathPrefix(`/.well-known/acme-challenge/`)
-      entryPoints:
-        - web
-      priority: 100
-      service: noop
-      middlewares: []
-      tls: false
-
-  services:
-    noop:
-      loadBalancer:
-        servers:
-          - url: "http://127.0.0.1"
-
+{}
