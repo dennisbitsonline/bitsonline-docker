@@ -1,0 +1,16 @@
+http:
+  routers:
+    dokploy:
+      rule: Host(`dokploy.remote.bitsonline.nl`) || Host(`dokploy.lan.bitsonline.nl`)
+      entryPoints:
+        - websecure
+      service: dokploy-service
+      middlewares:
+        - secure-chain@file
+      tls:
+        certResolver: cloudflare
+  services:
+    dokploy-service:
+      loadBalancer:
+        servers:
+          - url: http://207.180.228.187:3000
