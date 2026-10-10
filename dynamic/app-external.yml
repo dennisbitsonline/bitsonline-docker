@@ -24,12 +24,6 @@ http:
       rule: "Host(`hue.lan.bitsonline.nl`)"
       service: svc-hue
       tls: {}
-    win-ssh:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`win-ssh.lan.bitsonline.nl`)"
-      service: svc-win-ssh
-      tls: {}
 
   services:
     svc-openwrt:
@@ -49,7 +43,3 @@ http:
       loadBalancer:
         servers:
           - url: "http://192.168.2.15:80"
-    svc-win-ssh:
-      loadBalancer:
-        servers:
-          - url: "ssh://192.168.2.22:22"
