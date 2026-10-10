@@ -24,12 +24,6 @@ http:
       rule: "Host(`hue.lan.bitsonline.nl`)"
       service: svc-hue
       tls: {}
-    avr:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`avr.lan.bitsonline.nl`)"
-      service: svc-avr
-      tls: {}
     win-ssh:
       entryPoints:
         - "websecure"
@@ -55,12 +49,6 @@ http:
       loadBalancer:
         servers:
           - url: "http://192.168.2.15:80"
-    svc-avr:
-      loadBalancer:
-        servers:
-          - url: "http://192.168.2.16:80"
-          - url: "https://192.168.2.16:443"
-          - url: "http://192.168.2.16:8080"
     svc-win-ssh:
       loadBalancer:
         servers:
