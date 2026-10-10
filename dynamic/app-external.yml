@@ -30,12 +30,6 @@ http:
       rule: "Host(`avr.lan.bitsonline.nl`)"
       service: svc-avr
       tls: {}
-    win-rdp:
-      entryPoints:
-        - websecure
-      rule: "Host(`win-rdp.lan.bitsonline.nl`)"
-      service: svc-win-rdp
-      tls: {}
     win-ssh:
       entryPoints:
         - "websecure"
@@ -67,10 +61,6 @@ http:
           - url: "http://192.168.2.16:80"
           - url: "https://192.168.2.16:443"
           - url: "http://192.168.2.16:8080"
-    svc-win-rdp:
-      loadBalancer:
-        servers:
-          - url: h2c://192.168.2.22:3389
     svc-win-ssh:
       loadBalancer:
         servers:
