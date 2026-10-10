@@ -12,12 +12,6 @@ http:
       rule: "Host(`gateway.lan.bitsonline.nl`)"
       service: svc-gateway
       tls: {}
-    hue:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`hue.lan.bitsonline.nl`)"
-      service: svc-hue
-      tls: {}
 
   services:
     svc-openwrt:
@@ -28,7 +22,3 @@ http:
       loadBalancer:
         servers:
           - url: "http://192.168.2.254:80"
-    svc-hue:
-      loadBalancer:
-        servers:
-          - url: "http://192.168.2.15:80"
