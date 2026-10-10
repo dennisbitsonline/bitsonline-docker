@@ -1,9 +1,1 @@
-http:
-  routers:
-    ping:
-      rule: PathPrefix(`/ping`)
-      entryPoints:
-        - web
-      service: ping@internal
-      middlewares:
-        - service-chain
+{}
