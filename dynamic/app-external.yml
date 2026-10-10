@@ -48,12 +48,6 @@ http:
       rule: "Host(`win-ssh.lan.bitsonline.nl`)"
       service: svc-win-ssh
       tls: {}
-    ios:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`ios.lan.bitsonline.nl`)"
-      service: svc-ios
-      tls: {}
 
   services:
     svc-openwrt:
@@ -92,7 +86,3 @@ http:
       loadBalancer:
         servers:
           - url: "ssh://192.168.2.22:22"
-    svc-ios:
-      loadBalancer:
-        servers:
-          - url: "http://192.168.2.38:80"
