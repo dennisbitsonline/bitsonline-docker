@@ -18,3 +18,19 @@ http:
           - https://proxy.indehoven.com
         accessControlMaxAge: 30
         addVaryHeader: true
+    origin:
+      headers:
+        accessControlAllowMethods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+          - OPTIONS
+          - HEAD
+        accessControlAllowHeaders:
+          - '*'
+        accessControlAllowOriginList:
+          - '*'
+        accessControlMaxAge: 100
+        addVaryHeader: true
