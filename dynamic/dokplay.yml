@@ -10,7 +10,7 @@ http:
       tls:
         certResolver: cloudflare
     dashboard:
-      rule: Host(`remote.bitsonline.nl`)
+      rule: Host(`dashboard.remote.bitsonline.nl`)
       entryPoints:
         - websecure
       service: dashboard-service
