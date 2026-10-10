@@ -1,7 +1,7 @@
 http:
   routers:
     webapps:
-      rule: Host(`webapps.lan.bitsonline.nl`)
+      rule: Host(`webapps.service.bitsonline.nl`)
       entryPoints:
         - websecure
       service: svc-webapps

@@ -16,6 +16,7 @@ http:
       priority: 100
       service: noop
       middlewares: []
+      tls: false
 
   services:
     noop:
@@ -26,4 +27,5 @@ http:
     unavailable-service:
       loadBalancer:
         servers:
-          - url: "http://127.0.0.1"
+          - url: http://127.0.0.1
+        healthCheck: {}
