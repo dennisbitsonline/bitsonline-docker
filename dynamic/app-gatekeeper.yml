@@ -3,13 +3,13 @@ http:
     gk-id:
       entryPoints:
         - websecure
-      rule: "Host(`id.lan.bitsonline.nl`)"
+      rule: "Host(`id.lan.bitsonline.nl`) || Host(`id.auth.bitsonline.nl`)"
       service: svc-gk-id
       tls: {}
     gk-admin:
       entryPoints:
         - websecure
-      rule: "Host(`admin-id.lan.bitsonline.nl`)"
+      rule: "Host(`admin-id.lan.bitsonline.nl`) || Host(`admin.auth.bitsonline.nl`)"
       service: svc-gk-admin
       tls: {}
   services:
@@ -22,20 +22,20 @@ http:
         servers:
           - url: http://gatekeeper:8283
   middlewares:
-    gk-auth:
+    gk-access:
       forwardAuth:
         address: "http://gatekeeper:8282/auth/verify"
         authResponseHeaders:
           - X-Auth-User
           - X-Auth-Email
           - X-Auth-Groups
-    gk-access:
-      forwardAuth:
-        address: "http://gatekeeper:8282/auth/verify?policy=gk-forwardAuth-access"
-        trustForwardHeader: true
-        authResponseHeaders:
-          - "Authorization"
-          - "X-Auth-User"
-          - "X-Auth-Email"
-          - "X-Auth-Groups"
-        maxResponseBodySize: 4096
+#    gk-access:
+#      forwardAuth:
+#        address: "http://gatekeeper:8282/auth/verify?policy=gk-forwardAuth-access"
+#        trustForwardHeader: true
+#        authResponseHeaders:
+#          - "Authorization"
+#          - "X-Auth-User"
+#          - "X-Auth-Email"
+#          - "X-Auth-Groups"
+#        maxResponseBodySize: 4096

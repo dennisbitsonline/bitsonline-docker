@@ -8,7 +8,7 @@ http:
         burst: 100
         # uncomment the next lines if behind cloudflare
         sourceCriterion:
-          requestHeaderName: CF-Connecting-IP        
+          requestHeaderName: CF-Connecting-IP
 
     default-headers:
       headers:
@@ -48,8 +48,6 @@ http:
           - default-whitelist
           - default-headers
           - gk-access
-
-
     service-chain:
       chain:
         middlewares:

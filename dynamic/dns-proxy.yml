@@ -2,26 +2,24 @@ tcp:
   routers:
     dns-tcp-proxy:
       rule: HostSNI(`*`)
-      service: dns-udp-proxy-service
+      service: svc-dns-tcp-proxy
       entryPoints:
         - dns-tcp-proxy
       tls:
         passthrough: true
   services:
-    dns-udp-proxy-service:
+    svc-dns-tcp-proxy:
       loadBalancer:
         servers:
-          - address: 192.168.2.1:538
-
+          - address: dns-server:538
 udp:
   routers:
     dns-udp-proxy:
       entryPoints:
         - dns-udp-proxy
-      service: dns-udp-proxy-service
+      service: svc-dns-udp-proxy
   services:
-    dns-udp-proxy-service:
+    svc-dns-udp-proxy:
       loadBalancer:
         servers:
-          - address: 192.168.2.1:538
-
+          - address: dns-server:538
