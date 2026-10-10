@@ -1,17 +1,3 @@
-tcp:
-  routers:
-    dns-tcp-proxy:
-      rule: HostSNI(`*`)
-      service: svc-dns-tcp-proxy
-      entryPoints:
-        - dns-tcp-proxy
-      tls:
-        passthrough: true
-  services:
-    svc-dns-tcp-proxy:
-      loadBalancer:
-        servers:
-          - address: dns-server:538
 udp:
   routers:
     dns-udp-proxy:
