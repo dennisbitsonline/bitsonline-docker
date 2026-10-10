@@ -24,7 +24,9 @@ http:
   middlewares:
     gk-access:
       forwardAuth:
+        trustForwardHeader: true
         address: "http://gatekeeper:8282/auth/verify"
+        maxResponseBodySize: "1048576"
         authResponseHeaders:
           - X-Auth-User
           - X-Auth-Email

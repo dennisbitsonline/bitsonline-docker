@@ -40,14 +40,6 @@ http:
           - default-headers
           - gk-access
           - crowdsec
-    secured:
-      chain:
-        middlewares:
-          - origins
-          - rate-limit
-          - default-whitelist
-          - default-headers
-          - gk-access
     service-chain:
       chain:
         middlewares:

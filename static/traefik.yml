@@ -3,8 +3,8 @@ global:
   sendAnonymousUsage: false
 api:
   dashboard: true
-  insecure: false
-  debug: false
+  insecure: true
+  debug: true
 log:
   filePath: "/logs/traefik.log"
   format: json
@@ -51,24 +51,12 @@ ping:
 entryPoints:
   traefik:
     address: ":8080"
-    http:
-      middlewares:
-        - default-whitelist@file
   metrics:
     address: ":6060"
-    http:
-      middlewares:
-        - default-whitelist@file
   ping:
     address: ":8082"
-    http:
-      middlewares:
-        - default-whitelist@file
   socket:
     address: ":2375/tcp"
-    http:
-      middlewares:
-        - default-whitelist@file
   dns-tcp-proxy:
     address: ":538/tcp"
     forwardedHeaders:
@@ -150,7 +138,8 @@ entryPoints:
 providers:
   docker:
     endpoint: tcp:///socket-proxy:2375
-    defaultRule: Host(`{{ index .Labels "com.docker.compose.service"}}.app.bitsonline.nl`) && ( ClientIP(`192.168.2.0/24`) || ClientIP(`172.16.0.0/12`) || ClientIP(`207.180.228.187/32`) || ClientIP(`10.0.0.0/8`) || ClientIP(`127.0.0.0/8`) )
+    #defaultRule: Host(`{{ index .Labels "com.docker.compose.service"}}.app.bitsonline.nl`) && ( ClientIP(`192.168.2.0/24`) || ClientIP(`172.16.0.0/12`) || ClientIP(`207.180.228.187/32`) || ClientIP(`10.0.0.0/8`) || ClientIP(`127.0.0.0/8`) )
+    defaultRule: Host(`{{ index .Labels "com.docker.compose.service"}}.app.bitsonline.nl`)
     exposedByDefault: false
     network: proxy
   file:
