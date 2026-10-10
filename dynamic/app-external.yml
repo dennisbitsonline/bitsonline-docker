@@ -12,12 +12,6 @@ http:
       rule: "Host(`gateway.lan.bitsonline.nl`)"
       service: svc-gateway
       tls: {}
-    wifi-ap:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`wifi-ap.lan.bitsonline.nl`)"
-      service: svc-wifi
-      tls: {}
     hue:
       entryPoints:
         - "websecure"
@@ -34,11 +28,6 @@ http:
       loadBalancer:
         servers:
           - url: "http://192.168.2.254:80"
-    svc-wifi:
-      loadBalancer:
-        servers:
-          - url: "http://192.168.2.14:80"
-          - url: "http://192.168.2.20:80"
     svc-hue:
       loadBalancer:
         servers:
