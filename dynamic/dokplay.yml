@@ -1,7 +1,7 @@
 http:
   routers:
     dokploy:
-      rule: Host(`dokploy.remote.bitsonline.nl`)
+      rule: Host(`remote.bitsonline.nl`)
       entryPoints:
         - websecure
       service: dokploy-service
