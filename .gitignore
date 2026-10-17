@@ -239,6 +239,7 @@ target/
 
 /static/
 local.env.yml
+/arcane/.env
 
 media/
 *mmdb
