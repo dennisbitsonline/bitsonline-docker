@@ -1,0 +1,77 @@
+services:
+  docker-socket-proxy:
+    image: tecnativa/docker-socket-proxy:latest
+    container_name: arcane-docker-proxy
+    environment:
+      AUTH: "0"
+      BUILD: "0"
+      COMMIT: "0"
+      CONFIGS: "0"
+      CONTAINERS: "1"
+      DISTRIBUTION: "1"
+      EVENTS: "1"
+      EXEC: "1"
+      IMAGES: "1"
+      INFO: "1"
+      NETWORKS: "1"
+      NODES: "0"
+      PLUGINS: "0"
+      POST: "1"
+      SECRETS: "0"
+      SERVICES: "0"
+      SESSION: "0"
+      SWARM: "0"
+      SYSTEM: "0"
+      TASKS: "0"
+      VERSION: "1"
+      VOLUMES: "1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - backend
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+  arcane:
+    image: ghcr.io/getarcaneapp/manager:${ARCANE_VERSION:-latest}
+    container_name: arcane
+    ports:
+      - "${ARCANE_BIND_ADDRESS:-127.0.0.1}:${ARCANE_PORT:-3552}:3552"
+    volumes:
+      - arcane-data:/app/data
+      - ${DOCKERDATA_ROOT:-/dockerdata}/projects:/dockerdata/projects
+      - ${DOCKERDATA_ROOT:-/dockerdata}/builds:/dockerdata/builds
+    environment:
+      APP_URL: ${APP_URL:-http://localhost:3552}
+      BUILDS_DIRECTORY: /dockerdata/builds
+      DOCKER_HOST: tcp://docker-socket-proxy:2375
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:?Set ENCRYPTION_KEY in arcane/.env}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in arcane/.env}
+      PROJECTS_DIRECTORY: /dockerdata/projects
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,::1/128}
+      TZ: ${TZ:-Europe/Amsterdam}
+    networks:
+      - backend
+      - proxy
+    depends_on:
+      - docker-socket-proxy
+    healthcheck:
+      test: ["CMD", "./arcane", "health", "--timeout", "2s"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 15s
+    cgroup: host
+    restart: unless-stopped
+
+networks:
+  backend:
+    name: arcane-backend
+    internal: true
+  proxy:
+    external: true
+
+volumes:
+  arcane-data:
+    name: arcane-data
