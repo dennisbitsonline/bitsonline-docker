@@ -1,0 +1,79 @@
+services:
+  # Docker Socket Proxy - see https://github.com/Tecnativa/docker-socket-proxy for official documentation
+  socket-proxy:
+    image: tecnativa/docker-socket-proxy:latest
+    container_name: socket-proxy
+    environment:
+      - EVENTS=1
+      - PING=1
+      - VERSION=1
+      # Security critical
+      - AUTH=0
+      - SECRETS=0
+      - POST=1
+      # Not always needed
+      - BUILD=0
+      - COMMIT=0
+      - CONFIGS=0
+      - CONTAINERS=1
+      - DISTRIBUTION=0
+      - EXEC=1
+      - IMAGES=1
+      - INFO=1
+      - NETWORKS=1
+      - NODES=0
+      - PLUGINS=0
+      - SERVICES=0
+      - SESSION=0
+      - SWARM=0
+      - SYSTEM=0
+      - TASKS=0
+      - VOLUMES=1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Read-only access to host socket
+    networks:
+      - internal
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+  arcane:
+    image: ghcr.io/getarcaneapp/arcane:latest
+    container_name: arcane
+    ports:
+      - "3552:3552"
+    volumes:
+      - arcane-data:/app/data
+    environment:
+      - ENCRYPTION_KEY=1abdb52666d95f3aad392f9eb004a370e799f746c8d44d399e57eae51286d8ac
+      - JWT_SECRET=c7036e8435224d90bee571c75ed3669cd752ef26a472d6f977215c96effbad06
+      # Optional: run Arcane as a specific host UID/GID instead of the default runtime user.
+      # With DOCKER_HOST over TCP, no Unix socket group mapping is needed.
+      # - PUID=1000
+      # - PGID=1000
+      - DOCKER_HOST=tcp://socket-proxy:2375 # Use the proxy instead of direct socket
+    networks:
+      - internal
+      - idh-proxy
+    depends_on:
+      - socket-proxy
+    healthcheck:
+      test:
+        ["CMD", "./arcane", "health", "--timeout", "2s"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 15s
+    # Use host cgroup namespace for better container self-detection
+    # This allows Arcane to detect its own container ID more reliably
+    cgroup: host
+    restart: unless-stopped
+
+networks:
+  internal:
+    external: true
+  idh-proxy:
+    external: true
+
+volumes:
+  arcane-data:
+    name: arcane-data
