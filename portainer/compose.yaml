@@ -1,0 +1,46 @@
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ee:latest
+    restart: always
+    networks:
+      default:
+        aliases:
+          - 8it5.nl
+          - proxy.8it5.nl
+      internal:
+        aliases:
+          - api-internal
+          - backend
+    extra_hosts:
+      - "auth.provider:${AUTH_SERVER:-host-gateway}"
+      - "payment.gateway:${PAYMENT_HOST:-sandbox.8it5.nl}"
+      - "host.docker.internal:host-gateway"
+      - "host.machine:host-gateway"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - portainer-data:/data
+      - /var/log/portainer.log:/var/log/portainer.log
+    ports:
+      - 9443:9443
+      - 8000:8000
+    command:
+      - "--http-enabled"
+      - "--trusted-origins=https://portainer.8it5.nl"
+    labels:
+      traefik.http.routers.portainer.entrypoints: websecure
+      traefik.http.routers.portainer.tls: true
+      traefik.enable: true
+      traefik.http.routers.portainer.service: svc-portainer
+      traefik.http.routers.portainer.rule: Host(`portainer.8it5.nl`)
+      traefik.http.services.svc-portainer.loadbalancer.server.url: http://portainer:9000
+
+networks:
+  default:
+    name: idh-proxy
+  internal:
+    name: internal
+
+volumes:
+  portainer-data:
+    name: portainer-data
