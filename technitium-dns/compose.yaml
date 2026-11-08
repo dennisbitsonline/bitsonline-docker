@@ -1,0 +1,43 @@
+services:
+  technitium-dns:
+    container_name: technitium-dns
+    hostname: ns1
+    image: docker.io/technitium/dns-server:latest
+    network_mode: "host"
+    restart: unless-stopped
+    ports:
+      - "5380:5380/tcp"
+      - "53443:53443/tcp"
+      - "67:67/udp"
+      - "53:53/udp"
+      - "53:53/tcp"
+      - "538:538/tcp"
+      - "538:538/udp"
+      - "8053:8053/tcp"
+      - "853:853/tcp"
+    environment:
+      - DNS_SERVER_DOMAIN=ns1.8it5.nl
+      - DNS_SERVER_PREFER_IPV6=false
+      - DNS_SERVER_WEB_SERVICE_HTTP_PORT=5380
+      - DNS_SERVER_WEB_SERVICE_HTTPS_PORT=53443
+      - DNS_SERVER_OPTIONAL_PROTOCOL_DNS_OVER_HTTP=true
+      - DNS_SERVER_RECURSION=AllowOnlyForPrivateNetworks
+      - DNS_SERVER_FORWARDERS=1.1.1.1,1.0.0.1
+      - DNS_SERVER_FORWARDER_PROTOCOL=HTTPS
+      - DNS_SERVER_LOG_USING_LOCAL_TIME=true
+      - DNS_SERVER_WEB_SERVICE_WWW_FOLDER_PATH=/opt/technitium-console
+      - TZ=Europe/Amsterdam
+    volumes:
+      - /etc/dns:/etc/dns
+      - /var/log:/var/log
+      - /cert:/cert
+      - technitium-console:/opt/technitium-console:ro
+
+  technitium-console:         
+    image: ghcr.io/bygarcia/technitium-console:latest
+    volumes:
+      - technitium-console:/target
+    restart: "no"
+
+volumes:
+  technitium-console:
